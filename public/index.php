@@ -15,6 +15,12 @@ $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = str_replace('/public', '', $path);
 $path = str_replace('/index.php', '', $path);
 
+// Servir frontend para rutas no-API
+if (!str_starts_with($path, '/api') && !in_array($path, ['/sitemap.xml', '/robots.txt'])) {
+    readfile(__DIR__ . '/index.html');
+    exit;
+}
+
 // Rutas de la API
 $routes = [
     // Autenticación

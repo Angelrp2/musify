@@ -93,10 +93,10 @@ CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
 -- Usuarios de prueba (contraseña: "password" — hash bcrypt estándar)
 INSERT OR IGNORE INTO users (username, email, password_hash, bio, role, is_public) VALUES
-('admin',   'admin@musify.local',   '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uXzi58C2K', 'Administrador de Musify', 'admin',   1),
-('editor',  'editor@musify.local',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uXzi58C2K', 'Editor de contenidos',   'editor',  1),
-('premium', 'premium@musify.local', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uXzi58C2K', 'Usuario premium',        'premium', 1),
-('demo',    'demo@musify.local',    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uXzi58C2K', 'Usuario de demo',        'user',    1);
+('admin',   'admin@musify.local',   '$2y$10$IoVbGBV7uxhywVoukra5Ze4qCjwD8nIcEqwfkghS7rKmonAaKlmr.', 'Administrador de Musify', 'admin',   1),
+('editor',  'editor@musify.local',  '$2y$10$IoVbGBV7uxhywVoukra5Ze4qCjwD8nIcEqwfkghS7rKmonAaKlmr.', 'Editor de contenidos',   'editor',  1),
+('premium', 'premium@musify.local', '$2y$10$IoVbGBV7uxhywVoukra5Ze4qCjwD8nIcEqwfkghS7rKmonAaKlmr.', 'Usuario premium',        'premium', 1),
+('demo',    'demo@musify.local',    '$2y$10$IoVbGBV7uxhywVoukra5Ze4qCjwD8nIcEqwfkghS7rKmonAaKlmr.', 'Usuario de demo',        'user',    1);
 
 -- Canciones de ejemplo
 INSERT OR IGNORE INTO songs (user_id, title, description, lyrics, genre, mood, is_public) VALUES
