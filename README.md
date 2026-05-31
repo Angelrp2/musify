@@ -1,291 +1,130 @@
-# Musify - Plataforma de Creación Musical con IA
+# 🎵 Musify — Plataforma de Creación Musical con IA
 
-**TFG DAW - Proyecto de Creación Musical Asistida por Inteligencia Artificial**
+[![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?logo=php&logoColor=white)](https://php.net)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://sqlite.org)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org)
+[![JWT](https://img.shields.io/badge/JWT-Auth-000000?logo=jsonwebtokens)](https://jwt.io)
+[![Ollama](https://img.shields.io/badge/IA-Ollama_Llama_3.2-FF6B35)](https://ollama.ai)
+[![License](https://img.shields.io/badge/License-MIT-22c55e)](LICENSE)
 
-## Descripción
+> **TFG — Desarrollo de Aplicaciones Web (DAW 2) · DIGITECH · 2026**
 
-Musify es una plataforma web que permite a los usuarios crear música de forma asistida por IA. El flujo es simple:
+Musify es una plataforma web que permite crear canciones completas de forma asistida por inteligencia artificial. Los usuarios pueden generar letras con **Ollama (IA local)**, diseñar portadas con **Canvas API** y explorar canciones de la comunidad.
 
-1. **Generar Letra**: El usuario ingresa un tema y la IA genera letras originales
-2. **Componer Música**: Se genera automáticamente la música basada en el género y mood
-3. **Diseñar Portada**: Se crea una portada de álbum personalizable
-4. **Compartir**: Las canciones se publican en la comunidad
+---
 
 ## Stack Tecnológico
 
-- **Backend**: PHP 8.2 + SQLite
-- **Frontend**: HTML5 + CSS3 + JavaScript Vanilla
-- **API**: REST con autenticación JWT
-- **Base de Datos**: SQLite con 6 tablas relacionadas
-- **IA**: Ollama (Llama 3.2 3B) + MusicBrainz API
+| Capa | Tecnología |
+|------|-----------|
+| Frontend | HTML5 + CSS3 + JavaScript Vanilla (ES6+) |
+| Backend | PHP 8.2 — API REST |
+| Base de datos | SQLite 3 (6 tablas relacionadas) |
+| Autenticación | JWT + bcrypt |
+| IA | Ollama (Llama 3.2 3B) — local, sin coste |
+| API externa | MusicBrainz (búsqueda de artistas) |
+| Portadas | Canvas API (diseñador en navegador) |
 
-## Estructura del Proyecto
-
-```
-musify/
-├── api/                    # Endpoints de la API REST
-│   ├── auth/              # Autenticación (register, login, me)
-│   ├── songs/             # CRUD de canciones
-│   ├── playlists/         # CRUD de playlists
-│   ├── favorites/         # Gestión de favoritos
-│   └── ai/                # Generación de IA
-├── config/                # Configuración
-│   ├── config.php         # Variables globales
-│   ├── Database.php       # Conexión SQLite
-│   └── JWT.php            # Autenticación JWT
-├── database/              # Base de datos
-│   ├── init.sql           # Schema SQL
-│   ├── init.php           # Script de inicialización
-│   └── musify.db          # Archivo SQLite
-├── public/                # Archivos públicos
-│   ├── index.php          # Router principal
-│   ├── index.html         # Frontend
-│   └── uploads/           # Archivos subidos
-├── assets/                # Recursos estáticos
-│   ├── css/               # Estilos
-│   ├── js/                # JavaScript
-│   └── images/            # Imágenes
-└── logs/                  # Archivos de log
-```
+---
 
 ## Instalación
 
 ### Requisitos
-- PHP 8.2+
-- SQLite3
+
+- PHP 8.2+ con SQLite3
+- Ollama (para IA): https://ollama.ai
 - Navegador moderno
 
 ### Pasos
 
-1. **Clonar el proyecto**
 ```bash
-git clone <repo>
-cd musify
-```
+# 1. Clonar
+git clone https://github.com/Angelrp2/musify.git && cd musify
 
-2. **Inicializar base de datos**
-```bash
+# 2. Configurar
+cp config/config.example.php config/config.php
+# Edita config/config.php con tus valores
+
+# 3. Inicializar base de datos
 php database/init.php
+
+# 4. Instalar modelo IA (opcional)
+ollama pull llama3.2
+
+# 5. Arrancar servidor
+cd public && php -S localhost:8000
 ```
 
-3. **Iniciar servidor PHP**
-```bash
-cd public
-php -S localhost:8000
-```
+Abre `http://localhost:8000`
 
-4. **Acceder a la aplicación**
-```
-http://localhost:8000
-```
-
-## Documentación de API
-
-### Autenticación
-
-#### Registro
-```
-POST /api/auth/register
-Content-Type: application/json
-
-{
-  "username": "usuario",
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-#### Login
-```
-POST /api/auth/login
-Content-Type: application/json
-
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-Respuesta:
-```json
-{
-  "success": true,
-  "data": {
-    "id": 1,
-    "username": "usuario",
-    "email": "user@example.com",
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGc..."
-  }
-}
-```
-
-#### Perfil actual
-```
-GET /api/auth/me
-Authorization: Bearer <token>
-```
-
-### Canciones
-
-#### Listar canciones
-```
-GET /api/songs?page=1&limit=20&genre=Pop&search=query
-```
-
-#### Crear canción
-```
-POST /api/songs
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Mi Canción",
-  "description": "Descripción",
-  "lyrics": "Letras...",
-  "genre": "Pop",
-  "mood": "Alegre",
-  "is_public": true
-}
-```
-
-#### Obtener canción
-```
-GET /api/songs/:id
-```
-
-#### Actualizar canción
-```
-PUT /api/songs/:id
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Nuevo título",
-  ...
-}
-```
-
-#### Eliminar canción
-```
-DELETE /api/songs/:id
-Authorization: Bearer <token>
-```
-
-### Playlists
-
-#### Crear playlist
-```
-POST /api/playlists
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Mi Playlist",
-  "description": "Descripción",
-  "is_public": true
-}
-```
-
-#### Agregar canción a playlist
-```
-POST /api/playlists/:id/songs
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "song_id": 1
-}
-```
-
-### Favoritos
-
-#### Agregar a favoritos
-```
-POST /api/favorites/:songId
-Authorization: Bearer <token>
-```
-
-#### Obtener favoritos
-```
-GET /api/favorites
-Authorization: Bearer <token>
-```
-
-#### Remover de favoritos
-```
-DELETE /api/favorites/:songId
-Authorization: Bearer <token>
-```
-
-### IA
-
-#### Generar letras
-```
-POST /api/ai/generate-lyrics
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "prompt": "Una canción sobre la noche"
-}
-```
-
-Respuesta:
-```json
-{
-  "success": true,
-  "data": {
-    "lyrics": "Bajo las estrellas brillantes...",
-    "model": "ollama-llama3.2"
-  }
-}
-```
-
-## Características
-
-- Autenticación JWT
-- CRUD de canciones
-- Playlists y favoritos
-- Búsqueda y filtrado
-- Generación de letras con IA
-- Diseño de portadas Canvas
-- Integración MusicBrainz
-- Validaciones cliente/servidor
-- Manejo de errores
-- Responsive design
-
-## Seguridad
-
-- Contraseñas hasheadas con bcrypt
-- JWT para autenticación stateless
-- Validación de inputs contra inyecciones
-- CORS configurado
-- Headers de seguridad
-
-## Requisitos Mínimos Cumplidos
-
-| Requisito | Estado |
-|-----------|--------|
-| Frontend HTML5/CSS/JS | Implementado |
-| Backend API REST | Implementado |
-| BD relacional 6 tablas | Implementado |
-| Diagrama E-R | Implementado |
-| Autenticación JWT | Implementado |
-| API externa (MusicBrainz) | Implementado |
-| Validaciones | Implementado |
-| Manejo de errores | Implementado |
-| Elemento diferenciador | Implementado |
-| Documentación | Implementado |
+---
 
 ## Usuarios de Prueba
 
-- **Admin**: admin@musify.local / password
-- **Demo**: demo@musify.local / password
+| Email | Contraseña | Rol |
+|-------|-----------|-----|
+| admin@musify.local | password | admin |
+| editor@musify.local | password | editor |
+| premium@musify.local | password | premium |
+| demo@musify.local | password | user |
+
+## Roles y Permisos
+
+| Permiso | admin | editor | premium | user |
+|---------|-------|--------|---------|------|
+| Ver canciones públicas | ✅ | ✅ | ✅ | ✅ |
+| Crear canción | ✅ | ✅ | ✅ | ✅ |
+| Generar con IA | ✅ | ✅ | ✅ | ❌ |
+| Editar canciones propias | ✅ | ✅ | ✅ | ✅ |
+| Editar canciones de otros | ✅ | ✅ | ❌ | ❌ |
+| Eliminar cualquier canción | ✅ | ❌ | ❌ | ❌ |
+| Panel de administración | ✅ | ❌ | ❌ | ❌ |
+| Descargar canciones | ✅ | ✅ | ✅ | ❌ |
+
+---
+
+## API REST
+
+```
+POST   /api/auth/register          Registrar usuario
+POST   /api/auth/login             Iniciar sesión
+GET    /api/auth/me                Datos del usuario autenticado
+
+GET    /api/songs/list             Listar canciones (paginación + filtros)
+POST   /api/songs/create           Crear canción
+GET    /api/songs/detail?id=X      Detalle de canción
+DELETE /api/songs/delete?id=X      Eliminar canción
+
+GET    /api/playlists/list         Listar playlists
+POST   /api/playlists/create       Crear playlist
+POST   /api/playlists/add-song     Añadir canción a playlist
+
+GET    /api/favorites/list         Ver favoritos
+POST   /api/favorites/add          Añadir favorito
+DELETE /api/favorites/remove       Quitar favorito
+
+GET    /api/musicbrainz?q=X        Buscar artistas (MusicBrainz)
+```
+
+Autenticación: `Authorization: Bearer <token>`
+
+---
+
+## Características técnicas
+
+- **IA local con Ollama** — letras sin coste ni latencia de red externa
+- **JWT + bcrypt** — autenticación segura con tokens firmados HS256
+- **Prepared statements** — protección total contra SQL injection
+- **Canvas API** — diseñador de portadas de álbum en el navegador
+- **Expresiones regulares** — validación en cliente y normalización de búsquedas
+- **Debounce en buscador** — sin sobrecarga de peticiones
+- **Estados loading/error/success** — feedback visual durante generación IA
+- **Sistema de roles** — 4 niveles con middleware de permisos
+- **SEO técnico** — sitemap.xml, robots.txt, meta tags, Open Graph
+- **Mobile-first** — variables CSS, sistema de diseño escalable
+
+---
 
 ## Licencia
 
-MIT
-
-## Autor
-
-Ángel - TFG DAW 2026
+MIT © 2026 Ángel Ríos — TFG DAW 2 DIGITECH
