@@ -32,6 +32,11 @@ public/uploads/*
 .env
 .env.local
 
+# Generado al correr el servidor — no subir al repo
+public/assets/
+database/musify.db
+logs/
+
 # Config real (usar config.example.php como plantilla)
 config/config.php
 musify/config/config.php

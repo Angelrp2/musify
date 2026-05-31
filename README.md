@@ -51,7 +51,10 @@ php database/init.php
 # 4. Instalar modelo IA (opcional)
 ollama pull llama3.2
 
-# 5. Arrancar servidor
+# 5. Copiar assets al directorio público
+cp -r assets public/assets
+
+# 6. Arrancar servidor
 cd public && php -S localhost:8000
 ```
 
