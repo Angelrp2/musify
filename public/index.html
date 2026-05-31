@@ -1,176 +1,405 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musify - Crea música con IA</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musify — Crea tu música con Inteligencia Artificial</title>
+  <meta name="description" content="Musify es la plataforma web que te permite generar letras, diseñar portadas y explorar música con IA. Comparte tus creaciones con la comunidad musical.">
+  <meta name="keywords" content="música, inteligencia artificial, crear canciones, generador de letras, IA musical, Ollama">
+  <meta name="author" content="Ángel — TFG DAW 2026">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Musify — Crea tu música con IA">
+  <meta property="og:description" content="Genera letras con IA, diseña portadas y comparte tus canciones con la comunidad.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://localhost:8000">
+  <link rel="canonical" href="http://localhost:8000">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/responsive.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Navegación -->
-        <nav class="navbar">
-            <div class="container">
-                <div class="navbar-brand">
-                    <a href="/" class="logo">
-                        <span class="logo-icon">♪</span>
-                        <span class="logo-text">Musify</span>
-                    </a>
-                </div>
-                <ul class="navbar-menu">
-                    <li><a href="/" class="nav-link active" data-page="home">Inicio</a></li>
-                    <li><a href="/explore" class="nav-link" data-page="explore">Explorar</a></li>
-                    <li><a href="/studio" class="nav-link" data-page="studio">AI Studio</a></li>
-                    <li><a href="/library" class="nav-link" data-page="library">Biblioteca</a></li>
-                </ul>
-                <div class="navbar-auth">
-                    <button id="themeToggle" class="btn btn-theme" title="Cambiar tema"><span class="theme-icon">◐</span></button>
-                    <button id="authBtn" class="btn btn-primary">Iniciar Sesión</button>
-                </div>
-            </div>
-        </nav>
+<div id="app">
 
-        <!-- Contenido principal -->
-        <main class="main-content">
-            <!-- Home -->
-            <section id="home-page" class="page active">
-                <div class="hero">
-                    <div class="container">
-                        <h1>Crea música con IA</h1>
-                        <p>Genera letras, compón música y diseña portadas de álbum en minutos</p>
-                        <button class="btn btn-large btn-primary" onclick="goToStudio()">Comenzar</button>
-                    </div>
-                </div>
-
-                <div class="features">
-                    <div class="container">
-                        <div class="feature-grid">
-                            <div class="feature-card">
-                                <div class="feature-icon">📝</div>
-                                <h3>Generador de Letras</h3>
-                                <p>Crea letras originales con IA basadas en tu tema</p>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">🎵</div>
-                                <h3>Composición Musical</h3>
-                                <p>Genera música y melodías automáticamente</p>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">🎨</div>
-                                <h3>Diseño de Portadas</h3>
-                                <p>Crea portadas de álbum personalizadas</p>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">🌍</div>
-                                <h3>Comunidad</h3>
-                                <p>Comparte tu música con otros creadores</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Explore -->
-            <section id="explore-page" class="page">
-                <div class="container">
-                    <h2>Descubre Música</h2>
-                    <div class="search-bar">
-                        <input type="text" id="searchInput" placeholder="Buscar canciones..." class="search-input">
-                        <select id="genreFilter" class="genre-select">
-                            <option value="">Todos los géneros</option>
-                            <option value="Pop">Pop</option>
-                            <option value="Rock">Rock</option>
-                            <option value="Indie">Indie</option>
-                            <option value="Electronic">Electronic</option>
-                            <option value="Hip-Hop">Hip-Hop</option>
-                        </select>
-                    </div>
-                    <div id="songsList" class="songs-grid">
-                        <!-- Canciones cargadas aquí -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- AI Studio -->
-            <section id="studio-page" class="page">
-                <div class="container">
-                    <h2>AI Studio</h2>
-                    <div class="studio-container">
-                        <!-- Paso 1: Letras -->
-                        <div class="studio-step">
-                            <h3>Paso 1: Generar Letra</h3>
-                            <textarea id="lyricsInput" placeholder="Ingresa un tema o descripción..." class="textarea"></textarea>
-                            <button class="btn btn-primary" onclick="generateLyrics()">Generar Letra</button>
-                            <div id="lyricsOutput" class="output-box"></div>
-                        </div>
-
-                        <!-- Paso 2: Música -->
-                        <div class="studio-step">
-                            <h3>Paso 2: Generar Música</h3>
-                            <select id="genreSelect" class="select">
-                                <option value="">Selecciona género</option>
-                                <option value="Pop">Pop</option>
-                                <option value="Rock">Rock</option>
-                                <option value="Indie">Indie</option>
-                            </select>
-                            <button class="btn btn-primary" onclick="generateMusic()">Generar Música</button>
-                            <div id="musicOutput" class="output-box"></div>
-                        </div>
-
-                        <!-- Paso 3: Portada -->
-                        <div class="studio-step">
-                            <h3>Paso 3: Diseñar Portada</h3>
-                            <canvas id="coverCanvas" width="300" height="300" class="canvas"></canvas>
-                            <button class="btn btn-primary" onclick="generateCover()">Generar Portada</button>
-                            <button class="btn btn-secondary" onclick="downloadCover()">Descargar</button>
-                        </div>
-
-                        <!-- Guardar canción -->
-                        <div class="studio-step">
-                            <h3>Guardar Canción</h3>
-                            <input type="text" id="songTitle" placeholder="Título de la canción" class="input">
-                            <textarea id="songDescription" placeholder="Descripción..." class="textarea"></textarea>
-                            <button class="btn btn-success" onclick="saveSong()">Guardar Canción</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Biblioteca -->
-            <section id="library-page" class="page">
-                <div class="container">
-                    <h2>Mi Biblioteca</h2>
-                    <div id="userLibrary" class="library-container">
-                        <!-- Canciones del usuario cargadas aquí -->
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Modal de autenticación -->
-        <div id="authModal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close" onclick="closeAuthModal()">&times;</span>
-                <h2>Iniciar Sesión</h2>
-                <form id="loginForm" onsubmit="handleLogin(event)">
-                    <input type="email" id="loginEmail" placeholder="Email" class="input" required>
-                    <input type="password" id="loginPassword" placeholder="Contraseña" class="input" required>
-                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-                </form>
-                <p>¿No tienes cuenta? <a href="#" onclick="showRegister()">Registrarse</a></p>
-                <form id="registerForm" class="hidden" onsubmit="handleRegister(event)">
-                    <input type="text" id="registerUsername" placeholder="Usuario" class="input" required>
-                    <input type="email" id="registerEmail" placeholder="Email" class="input" required>
-                    <input type="password" id="registerPassword" placeholder="Contraseña" class="input" required>
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
-                </form>
-            </div>
-        </div>
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="/" class="logo" aria-label="Musify — Inicio">
+          <span class="logo-icon" aria-hidden="true">♪</span>
+          <span class="logo-text">Musify</span>
+        </a>
+      </div>
+      <button class="navbar-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      <ul class="navbar-menu" id="navMenu">
+        <li><a href="#" class="nav-link active" data-page="home">Inicio</a></li>
+        <li><a href="#" class="nav-link" data-page="explore">Explorar</a></li>
+        <li><a href="#" class="nav-link" data-page="studio">AI Studio</a></li>
+        <li><a href="#" class="nav-link" data-page="library">Biblioteca</a></li>
+        <li><a href="#" class="nav-link" data-page="blog">Blog</a></li>
+        <li><a href="#" class="nav-link" data-page="contact">Contacto</a></li>
+      </ul>
+      <div class="navbar-auth">
+        <button id="themeToggle" class="btn btn-theme" title="Cambiar tema" aria-label="Cambiar tema">
+          <span class="theme-icon" aria-hidden="true">◐</span>
+        </button>
+        <button id="authBtn" class="btn btn-primary">Iniciar Sesión</button>
+      </div>
     </div>
+  </nav>
 
-    <script src="/assets/js/app.js"></script>
-    <script src="/assets/js/api.js"></script>
-    <script src="/assets/js/canvas.js"></script>
+  <main class="main-content" id="main-content">
+
+    <!-- HOME -->
+    <section id="home-page" class="page active" aria-labelledby="home-h1">
+      <div class="hero">
+        <div class="container">
+          <h1 id="home-h1">Crea tu música con <span class="highlight">Inteligencia Artificial</span></h1>
+          <p>Genera letras originales, diseña portadas y comparte tus creaciones con la comunidad</p>
+          <div class="hero-actions">
+            <button class="btn btn-large btn-primary" onclick="navigateTo('studio')">Empezar a crear</button>
+            <button class="btn btn-large btn-secondary" onclick="navigateTo('explore')">Explorar música</button>
+          </div>
+        </div>
+      </div>
+      <div class="features">
+        <div class="container">
+          <h2>¿Qué puedes hacer con Musify?</h2>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon" aria-hidden="true">📝</div>
+              <h3>Generador de Letras</h3>
+              <p>Crea letras originales con IA (Ollama) basadas en tu tema, género y mood</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" aria-hidden="true">🎨</div>
+              <h3>Diseño de Portadas</h3>
+              <p>Crea portadas de álbum personalizadas directamente en el navegador con Canvas API</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" aria-hidden="true">🔍</div>
+              <h3>Buscar Artistas</h3>
+              <p>Explora artistas relacionados mediante la API pública de MusicBrainz</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" aria-hidden="true">🌍</div>
+              <h3>Comunidad</h3>
+              <p>Comparte tus canciones y descubre las creaciones de otros usuarios</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORAR -->
+    <section id="explore-page" class="page" aria-labelledby="explore-h1">
+      <div class="container">
+        <h1 id="explore-h1">Explorar Música</h1>
+        <div class="search-controls" role="search">
+          <div class="search-bar">
+            <label for="searchInput" class="visually-hidden">Buscar canciones</label>
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="search" id="searchInput" placeholder="Buscar canciones o artistas..." autocomplete="off" aria-label="Buscar canciones">
+          </div>
+          <div class="filter-controls">
+            <select id="genreFilter" aria-label="Filtrar por género">
+              <option value="">Todos los géneros</option>
+              <option value="Pop">Pop</option>
+              <option value="Rock">Rock</option>
+              <option value="Indie">Indie</option>
+              <option value="Hip-Hop">Hip-Hop</option>
+              <option value="Electrónica">Electrónica</option>
+              <option value="Reggaeton">Reggaeton</option>
+              <option value="Jazz">Jazz</option>
+              <option value="Clásica">Clásica</option>
+              <option value="Flamenco">Flamenco</option>
+            </select>
+            <select id="sortSelect" aria-label="Ordenar canciones">
+              <option value="newest">Más recientes</option>
+              <option value="oldest">Más antiguas</option>
+              <option value="title_asc">Título A-Z</option>
+              <option value="title_desc">Título Z-A</option>
+            </select>
+          </div>
+        </div>
+        <p id="resultsCount" class="results-count" aria-live="polite"></p>
+        <div id="loadingList" class="loading-state" style="display:none" aria-live="polite">
+          <div class="spinner" aria-hidden="true"></div><span>Cargando canciones...</span>
+        </div>
+        <div id="songsList" class="songs-grid"></div>
+        <div id="noSongsMsg" class="no-results" style="display:none">No se encontraron canciones con esos filtros.</div>
+        <nav class="paginacion" aria-label="Páginas" id="paginacion">
+          <button id="btnAnterior" class="btn btn-secondary" disabled>← Anterior</button>
+          <span id="paginacionInfo" aria-live="polite">Página 1 de 1</span>
+          <button id="btnSiguiente" class="btn btn-secondary">Siguiente →</button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- AI STUDIO -->
+    <section id="studio-page" class="page" aria-labelledby="studio-h1">
+      <div class="container">
+        <h1 id="studio-h1">AI Studio</h1>
+        <p class="page-subtitle">Crea tu canción paso a paso con inteligencia artificial</p>
+        <div class="studio-container">
+
+          <div class="studio-step">
+            <h2>Paso 1 — Generar Letra</h2>
+            <div class="form-group">
+              <label for="lyricsInput">Describe tu canción *</label>
+              <textarea id="lyricsInput" placeholder="Ej: rock melancólico sobre la nostalgia de los 90..." class="textarea" rows="4"></textarea>
+              <span class="campo-error-msg" id="lyricsInput-error" role="alert"></span>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="genreSelect">Género</label>
+                <select id="genreSelect" class="select">
+                  <option value="Pop">Pop</option>
+                  <option value="Rock">Rock</option>
+                  <option value="Indie">Indie</option>
+                  <option value="Hip-Hop">Hip-Hop</option>
+                  <option value="Electrónica">Electrónica</option>
+                  <option value="Reggaeton">Reggaeton</option>
+                  <option value="Jazz">Jazz</option>
+                  <option value="Flamenco">Flamenco</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="moodSelect">Mood</label>
+                <select id="moodSelect" class="select">
+                  <option value="alegre">Alegre</option>
+                  <option value="melancólico">Melancólico</option>
+                  <option value="intenso">Intenso</option>
+                  <option value="romántico">Romántico</option>
+                  <option value="esperanzador">Esperanzador</option>
+                </select>
+              </div>
+            </div>
+            <div id="aiLoadingState" class="loading-state" style="display:none" aria-live="polite">
+              <div class="spinner" aria-hidden="true"></div>
+              <p class="loading-text" id="aiLoadingMsg">Generando tu canción...</p>
+            </div>
+            <div id="aiErrorState" class="error-state" style="display:none" role="alert">
+              <span aria-hidden="true">⚠️</span>
+              <p id="aiErrorMsg">Ha ocurrido un error</p>
+              <button class="btn btn-sm" onclick="document.getElementById('aiErrorState').style.display='none'">Cerrar</button>
+            </div>
+            <div id="aiSuccessState" class="success-state" style="display:none" role="status">
+              <span aria-hidden="true">✅</span>
+              <p>¡Letra generada con éxito!</p>
+            </div>
+            <button class="btn btn-primary" id="btnGenerateLyrics" onclick="generateLyrics()">Generar Letra con IA</button>
+            <div id="lyricsOutput" class="output-box" style="display:none"></div>
+          </div>
+
+          <div class="studio-step">
+            <h2>Paso 2 — Buscar Artistas Relacionados</h2>
+            <div class="form-group">
+              <label for="artistSearch">Artista de referencia</label>
+              <input type="text" id="artistSearch" placeholder="Ej: Bad Bunny, Rosalía, Metallica..." class="input">
+              <span class="campo-error-msg" id="artistSearch-error" role="alert"></span>
+            </div>
+            <button class="btn btn-secondary" onclick="searchArtist()">Buscar en MusicBrainz</button>
+            <div id="artistResults" class="artist-results"></div>
+          </div>
+
+          <div class="studio-step">
+            <h2>Paso 3 — Diseñar Portada</h2>
+            <canvas id="coverCanvas" width="300" height="300" class="canvas" aria-label="Diseñador de portada"></canvas>
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="generateCover()">Generar Portada</button>
+              <button class="btn btn-outline" onclick="downloadCover()">Descargar PNG</button>
+            </div>
+          </div>
+
+          <div class="studio-step">
+            <h2>Paso 4 — Guardar Canción</h2>
+            <div class="form-group">
+              <label for="songTitle">Título *</label>
+              <input type="text" id="songTitle" placeholder="Título de tu canción" class="input">
+              <span class="campo-error-msg" id="songTitle-error" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="songDescription">Descripción</label>
+              <textarea id="songDescription" placeholder="Descripción opcional..." class="textarea" rows="2"></textarea>
+            </div>
+            <button class="btn btn-success" onclick="saveSong()">Guardar Canción</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BIBLIOTECA -->
+    <section id="library-page" class="page" aria-labelledby="library-h1">
+      <div class="container">
+        <h1 id="library-h1">Mi Biblioteca</h1>
+        <div id="userLibrary" class="library-container"></div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="blog-page" class="page" aria-labelledby="blog-h1">
+      <div class="container">
+        <h1 id="blog-h1">Blog — Música e IA</h1>
+        <p class="page-subtitle">Artículos sobre creación musical, inteligencia artificial y tecnología</p>
+        <div class="blog-grid">
+          <article class="blog-card">
+            <div class="blog-meta">
+              <span class="blog-tag">Inteligencia Artificial</span>
+              <time datetime="2026-05-01">1 mayo 2026</time>
+            </div>
+            <h2>Cómo la IA está transformando la creación musical</h2>
+            <p>La inteligencia artificial ha democratizado la creación musical. Herramientas como Ollama permiten generar letras de calidad sin costes externos. Exploramos cómo esta tecnología abre puertas a nuevos creadores.</p>
+            <a href="#" class="btn btn-text">Leer más →</a>
+          </article>
+          <article class="blog-card">
+            <div class="blog-meta">
+              <span class="blog-tag">Tutorial</span>
+              <time datetime="2026-04-15">15 abril 2026</time>
+            </div>
+            <h2>Guía completa de Ollama: IA local para desarrolladores</h2>
+            <p>Ollama permite ejecutar modelos de lenguaje en tu propia máquina. Esta guía cubre instalación, configuración y uso práctico del modelo Llama 3.2 para generación de texto creativo.</p>
+            <a href="#" class="btn btn-text">Leer más →</a>
+          </article>
+          <article class="blog-card">
+            <div class="blog-meta">
+              <span class="blog-tag">Diseño</span>
+              <time datetime="2026-04-01">1 abril 2026</time>
+            </div>
+            <h2>Canvas API: diseña portadas de álbum en el navegador</h2>
+            <p>La Canvas API de HTML5 permite crear gráficos en el navegador sin plugins. Aprende a crear portadas de álbum profesionales con gradientes, texto y formas geométricas.</p>
+            <a href="#" class="btn btn-text">Leer más →</a>
+          </article>
+          <article class="blog-card">
+            <div class="blog-meta">
+              <span class="blog-tag">API</span>
+              <time datetime="2026-03-20">20 marzo 2026</time>
+            </div>
+            <h2>MusicBrainz: la base de datos musical libre más completa</h2>
+            <p>MusicBrainz es una enciclopedia musical colaborativa. Su API pública es perfecta para enriquecer aplicaciones musicales sin coste ni registro.</p>
+            <a href="#" class="btn btn-text">Leer más →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contact-page" class="page" aria-labelledby="contact-h1">
+      <div class="container">
+        <h1 id="contact-h1">Contacto</h1>
+        <p class="page-subtitle">¿Tienes dudas o sugerencias? Escríbenos.</p>
+        <div class="contact-layout">
+          <form id="formContacto" class="contact-form" novalidate>
+            <div class="form-group">
+              <label for="contactNombre">Nombre completo *</label>
+              <input type="text" id="contactNombre" placeholder="Tu nombre" class="input" autocomplete="name">
+              <span class="campo-error-msg" id="contactNombre-error" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="contactEmail">Email *</label>
+              <input type="email" id="contactEmail" placeholder="tu@email.com" class="input" autocomplete="email">
+              <span class="campo-error-msg" id="contactEmail-error" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="contactAsunto">Asunto *</label>
+              <input type="text" id="contactAsunto" placeholder="Asunto del mensaje" class="input">
+              <span class="campo-error-msg" id="contactAsunto-error" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="contactMensaje">Mensaje *</label>
+              <textarea id="contactMensaje" placeholder="Tu mensaje aquí..." class="textarea" rows="5"></textarea>
+              <span class="campo-error-msg" id="contactMensaje-error" role="alert"></span>
+            </div>
+            <div class="form-group form-group-check">
+              <label class="checkbox-label">
+                <input type="checkbox" id="contactRgpd">
+                <span>Acepto la política de privacidad y el tratamiento de mis datos *</span>
+              </label>
+              <span class="campo-error-msg" id="contactRgpd-error" role="alert"></span>
+            </div>
+            <div id="contactSuccessState" class="success-state" style="display:none" role="status">
+              <span aria-hidden="true">✅</span>
+              <p>¡Mensaje enviado! Te responderemos en menos de 48 horas.</p>
+            </div>
+            <div id="contactErrorState" class="error-state" style="display:none" role="alert">
+              <span aria-hidden="true">⚠️</span>
+              <p id="contactErrorMsg">Error al enviar el mensaje.</p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="btnContacto">Enviar mensaje</button>
+          </form>
+          <div class="contact-info">
+            <h2>Información</h2>
+            <div class="contact-item">
+              <span aria-hidden="true">📧</span>
+              <div><strong>Email</strong><p>hola@musify.local</p></div>
+            </div>
+            <div class="contact-item">
+              <span aria-hidden="true">⏱️</span>
+              <div><strong>Respuesta</strong><p>Menos de 48 horas</p></div>
+            </div>
+            <div class="contact-item">
+              <span aria-hidden="true">🐙</span>
+              <div><strong>GitHub</strong><p><a href="https://github.com/Angelrp2/musify" target="_blank" rel="noopener noreferrer">Angelrp2/musify</a></p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>© 2026 Musify — TFG DAW 2 DIGITECH &nbsp;·&nbsp; <a href="/sitemap.xml">Sitemap</a> &nbsp;·&nbsp; <a href="/robots.txt">Robots</a></p>
+    </div>
+  </footer>
+
+  <!-- Modal auth -->
+  <div id="authModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <button class="close" onclick="closeAuthModal()" aria-label="Cerrar">&times;</button>
+      <div id="loginSection">
+        <h2 id="modalTitle">Iniciar Sesión</h2>
+        <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+          <div class="form-group">
+            <label for="loginEmail">Email *</label>
+            <input type="email" id="loginEmail" placeholder="tu@email.com" class="input" autocomplete="email">
+            <span class="campo-error-msg" id="loginEmail-error" role="alert"></span>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Contraseña *</label>
+            <input type="password" id="loginPassword" placeholder="Tu contraseña" class="input" autocomplete="current-password">
+            <span class="campo-error-msg" id="loginPassword-error" role="alert"></span>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+        </form>
+        <p class="auth-switch">¿No tienes cuenta? <a href="#" onclick="showSection('register')">Registrarse</a></p>
+      </div>
+      <div id="registerSection" style="display:none">
+        <h2>Crear Cuenta</h2>
+        <form id="registerForm" onsubmit="handleRegister(event)" novalidate>
+          <div class="form-group">
+            <label for="registerUsername">Usuario *</label>
+            <input type="text" id="registerUsername" placeholder="Tu nombre de usuario" class="input" autocomplete="username">
+            <span class="campo-error-msg" id="registerUsername-error" role="alert"></span>
+          </div>
+          <div class="form-group">
+            <label for="registerEmail">Email *</label>
+            <input type="email" id="registerEmail" placeholder="tu@email.com" class="input" autocomplete="email">
+            <span class="campo-error-msg" id="registerEmail-error" role="alert"></span>
+          </div>
+          <div class="form-group">
+            <label for="registerPassword">Contraseña *</label>
+            <input type="password" id="registerPassword" placeholder="Mín. 8 caracteres, 1 mayúscula y 1 número" class="input" autocomplete="new-password">
+            <span class="campo-error-msg" id="registerPassword-error" role="alert"></span>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Crear Cuenta</button>
+        </form>
+        <p class="auth-switch">¿Ya tienes cuenta? <a href="#" onclick="showSection('login')">Iniciar Sesión</a></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/canvas.js"></script>
+<script src="/assets/js/app.js"></script>
 </body>
 </html>
