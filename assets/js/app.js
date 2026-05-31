@@ -295,15 +295,18 @@ async function searchArtist() {
   if (resultsEl) resultsEl.innerHTML = '<div class="loading-inline"><div class="spinner-sm"></div> Buscando...</div>';
 
   try {
-    const res = await fetch(API_URL + '/musicbrainz?q=' + encodeURIComponent(q));
-    const data = await res.json();
-    if (!data.success || !data.data?.length) {
+    // Llamada directa a MusicBrainz (tienen CORS habilitado para navegadores)
+    const mbUrl = 'https://musicbrainz.org/ws/2/artist?query=' + encodeURIComponent(q) + '&fmt=json&limit=8';
+    const res = await fetch(mbUrl, { headers: { 'User-Agent': 'Musify-TFG/1.0' } });
+    const mb = await res.json();
+    const artists = mb.artists || [];
+    if (!artists.length) {
       if (resultsEl) resultsEl.innerHTML = '<p class="no-results-sm">No se encontraron artistas.</p>';
       return;
     }
     if (resultsEl) {
-      resultsEl.innerHTML = data.data.map(a =>
-        `<div class="artist-card"><strong>${a.name}</strong>${a.country ? `<span class="tag">${a.country}</span>` : ''}</div>`
+      resultsEl.innerHTML = artists.map(a =>
+        `<div class="artist-card"><strong>${a.name}</strong>${a.country ? `<span class="tag">${a.country}</span>` : ''}${a.type ? `<span class="tag">${a.type}</span>` : ''}</div>`
       ).join('');
     }
   } catch (err) {

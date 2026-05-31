@@ -55,7 +55,10 @@ $routes = [
     
     // IA
     'POST /api/ai/generate-lyrics' => 'api/ai/generate-lyrics.php',
-    'GET /api/ai/history' => 'api/ai/history.php',
+    'GET /api/ai/history'          => 'api/ai/history.php',
+
+    // MusicBrainz
+    'GET /api/musicbrainz' => 'api/musicbrainz.php',
 ];
 
 // Buscar ruta coincidente
