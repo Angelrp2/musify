@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musify · Contacto</title>
+<meta name="description" content="Formulario de contacto de Musify. Dudas, sugerencias o reportes de errores.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen-label="Contacto">
+<div class="shell">
+  <header class="masthead" role="banner">
+    <div class="container masthead__row">
+      <a class="wordmark" href="index.html" aria-label="Musify, inicio">Musify<span class="wordmark__dot" aria-hidden="true"></span><span class="wordmark__sub" aria-hidden="true">Vol. 07 · 2026</span></a>
+      <p class="masthead__meta">Contacto</p>
+      <nav class="nav" aria-label="Principal">
+        <ul class="nav__links" data-nav-links>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="create.html">Estudio</a></li>
+          <li><a href="my-songs.html">Mi colección</a></li>
+          <li><button class="nav__account" type="button" data-account-btn aria-label="Entrar">Entrar</button></li>
+        </ul>
+        <button class="nav__toggle" type="button" data-nav-toggle aria-label="Abrir menú" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero" aria-labelledby="contacto-title" style="padding-bottom: var(--s-7);">
+      <p class="hero__eyebrow"><span>N.º 10</span> · Comunicación</p>
+      <h1 class="hero__title" id="contacto-title">¿Algo que <em>contar?</em></h1>
+      <p class="hero__lead lead">Dudas, errores, sugerencias o lo que sea. Se responde en menos de 48 horas.</p>
+    </section>
+
+    <section class="container section" aria-labelledby="form-title">
+      <div style="display: grid; grid-template-columns: 1fr 320px; gap: var(--s-8); align-items: start; max-width: 900px;">
+
+        <div>
+          <header class="section__head" style="margin-bottom: var(--s-5);">
+            <p class="section__num">N.º 01 · Formulario</p>
+            <h2 id="form-title">Escríbenos <em class="italic-display">aquí</em></h2>
+          </header>
+
+          <form id="contact-form" novalidate style="display: flex; flex-direction: column; gap: var(--s-4);">
+
+            <div class="field">
+              <label class="field__label" for="c-nombre">Nombre *</label>
+              <input class="input" type="text" id="c-nombre" name="nombre" placeholder="Tu nombre completo" autocomplete="name" required minlength="3">
+              <span class="field__error" id="c-nombre-error" aria-live="polite"></span>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="c-email">Correo electrónico *</label>
+              <input class="input" type="email" id="c-email" name="email" placeholder="tu@correo.com" autocomplete="email" required>
+              <span class="field__error" id="c-email-error" aria-live="polite"></span>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="c-asunto">Asunto *</label>
+              <input class="input" type="text" id="c-asunto" name="asunto" placeholder="¿De qué va el mensaje?" required minlength="5">
+              <span class="field__error" id="c-asunto-error" aria-live="polite"></span>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="c-mensaje">Mensaje *</label>
+              <textarea class="textarea" id="c-mensaje" name="mensaje" rows="5" placeholder="Escribe aquí..." required minlength="10" style="resize: vertical;"></textarea>
+              <span class="field__error" id="c-mensaje-error" aria-live="polite"></span>
+            </div>
+
+            <div class="field">
+              <label class="check">
+                <input type="checkbox" id="c-rgpd" name="rgpd" required>
+                <span class="check__box" aria-hidden="true"></span>
+                <span>He leído el <a href="aviso-legal.html" style="color: var(--hot);">aviso legal</a> y acepto el tratamiento de mis datos. *</span>
+              </label>
+              <span class="field__error" id="c-rgpd-error" aria-live="polite"></span>
+            </div>
+
+            <div id="contact-success" hidden style="padding: var(--s-4); background: color-mix(in srgb, var(--success) 15%, var(--paper)); border: 1px solid var(--success); border-radius: var(--r-md); color: var(--success);" role="status">
+              ✓ Mensaje enviado correctamente. Te respondemos en menos de 48 horas.
+            </div>
+
+            <button type="submit" class="btn btn--hot btn--big" id="contact-submit" style="align-self: flex-start;">Enviar mensaje</button>
+          </form>
+        </div>
+
+        <div style="padding-top: var(--s-8);">
+          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--s-4);">Datos de contacto</p>
+          <div style="display: flex; flex-direction: column; gap: var(--s-4);">
+            <div><p style="font-size: 0.8rem; color: var(--ink-mute); margin-bottom: var(--s-1);">Correo</p><p style="font-weight: 500;">hola@musify.local</p></div>
+            <div><p style="font-size: 0.8rem; color: var(--ink-mute); margin-bottom: var(--s-1);">Respuesta</p><p style="font-weight: 500;">Menos de 48 horas</p></div>
+            <div><p style="font-size: 0.8rem; color: var(--ink-mute); margin-bottom: var(--s-1);">GitHub</p><p><a href="https://github.com/Angelrp2/musify" style="color: var(--hot);">Angelrp2/musify</a></p></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon" role="contentinfo">
+    <div class="container">
+      <div class="colophon__inner">
+        <div class="colophon__brand">Musi<em>fy</em><br><span style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);">2026 — Estudio editorial digital</span></div>
+        <div><h4>Producto</h4><ul><li><a href="create.html">Estudio</a></li><li><a href="my-songs.html">Mi colección</a></li><li><a href="generos.html">Géneros</a></li><li><a href="changelog.html">Cambios recientes</a></li></ul></div>
+        <div><h4>Sobre el proyecto</h4><ul><li><a href="tfg.html">Trabajo fin de grado · DAW</a></li><li><a href="credito.html">Crédito</a></li><li><a href="aviso-legal.html">Aviso legal</a></li><li><a href="contacto.html" aria-current="page">Contacto</a></li></ul></div>
+      </div>
+      <div class="container colophon__legal"><span>© 2026 Musify · Hecho con cuidado en Madrid</span><span>Edición Vol. 07</span></div>
+    </div>
+  </footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/validator@13.12.0/validator.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/backend.js"></script>
+<script>
+(function () {
+  'use strict';
+  const REGEX = {
+    nombre: /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s'\-]{3,50}$/,
+    email:  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+    asunto: /^.{5,100}$/,
+    mensaje: /^[\s\S]{10,500}$/,
+  };
+
+  function campo(id) { return document.getElementById(id); }
+  function error(id, msg) { campo(id + '-error').textContent = msg || ''; if (msg) campo(id).setAttribute('aria-invalid','true'); else campo(id).removeAttribute('aria-invalid'); }
+
+  function validate() {
+    let ok = true;
+    if (!REGEX.nombre.test(campo('c-nombre').value.trim())) { error('c-nombre','Nombre inválido (mínimo 3 letras)'); ok = false; } else error('c-nombre','');
+    if (!REGEX.email.test(campo('c-email').value.trim()))   { error('c-email','Correo inválido'); ok = false; } else error('c-email','');
+    if (!REGEX.asunto.test(campo('c-asunto').value.trim())) { error('c-asunto','Entre 5 y 100 caracteres'); ok = false; } else error('c-asunto','');
+    if (!REGEX.mensaje.test(campo('c-mensaje').value.trim())){ error('c-mensaje','Entre 10 y 500 caracteres'); ok = false; } else error('c-mensaje','');
+    if (!campo('c-rgpd').checked) { error('c-rgpd','Debes aceptar la política de privacidad'); ok = false; } else error('c-rgpd','');
+    return ok;
+  }
+
+  // Blur validation
+  ['c-nombre','c-email','c-asunto','c-mensaje'].forEach(id => {
+    campo(id)?.addEventListener('blur', () => validate());
+  });
+
+  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    const btn = campo('contact-submit');
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+    await new Promise(r => setTimeout(r, 800));
+    document.getElementById('contact-success').hidden = false;
+    document.getElementById('contact-form').reset();
+    btn.disabled = false;
+    btn.textContent = 'Enviar mensaje';
+    setTimeout(() => { document.getElementById('contact-success').hidden = true; }, 6000);
+  });
+})();
+</script>
+</body>
+</html>

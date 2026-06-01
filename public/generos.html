@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musify · Géneros disponibles</title>
+<meta name="description" content="Todos los géneros musicales disponibles en Musify para generar canciones con IA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen-label="Géneros">
+<div class="shell">
+  <header class="masthead" role="banner">
+    <div class="container masthead__row">
+      <a class="wordmark" href="index.html" aria-label="Musify, inicio">Musify<span class="wordmark__dot" aria-hidden="true"></span><span class="wordmark__sub" aria-hidden="true">Vol. 07 · 2026</span></a>
+      <p class="masthead__meta">Catálogo de géneros</p>
+      <nav class="nav" aria-label="Principal">
+        <ul class="nav__links" data-nav-links>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="create.html">Estudio</a></li>
+          <li><a href="my-songs.html">Mi colección</a></li>
+          <li><button class="nav__account" type="button" data-account-btn aria-label="Entrar">Entrar</button></li>
+        </ul>
+        <button class="nav__toggle" type="button" data-nav-toggle aria-label="Abrir menú" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero" aria-labelledby="generos-title" style="padding-bottom: var(--s-7);">
+      <p class="hero__eyebrow"><span>N.º 05</span> · Catálogo</p>
+      <h1 class="hero__title" id="generos-title">Cuarenta y dos <em>géneros.</em><br>Una sola idea.</h1>
+      <p class="hero__lead lead">Cada género activa un conjunto de reglas armónicas, rítmicas y líricas distintas. Elige el que más se acerque a lo que tengas en la cabeza — o el que menos esperes.</p>
+    </section>
+
+    <section class="container section" aria-labelledby="lista-title">
+      <header class="section__head">
+        <p class="section__num">N.º 01 · Lista completa</p>
+        <h2 id="lista-title">Géneros disponibles en el <em class="italic-display">Estudio</em></h2>
+      </header>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--s-4); margin-top: var(--s-5);">
+        <div class="step"><span class="step__num">01</span><h3>Indie folk</h3><p>Guitarras acústicas, letras introspectivas, producción mínima.</p></div>
+        <div class="step"><span class="step__num">02</span><h3>Pop</h3><p>Estructuras claras, estribillos pegadizos, producción contemporánea.</p></div>
+        <div class="step"><span class="step__num">03</span><h3>Jazz</h3><p>Improvisación, armonías complejas, influencia del blues y swing.</p></div>
+        <div class="step"><span class="step__num">04</span><h3>Bolero</h3><p>Romántico, tempo lento, letra elaborada, raíces latinoamericanas.</p></div>
+        <div class="step"><span class="step__num">05</span><h3>Hip-hop</h3><p>Ritmo y rima, samples, beatbox, cultura urbana contemporánea.</p></div>
+        <div class="step"><span class="step__num">06</span><h3>Electrónica</h3><p>Síntesis digital, loops, BPM elevado, producción en DAW.</p></div>
+        <div class="step"><span class="step__num">07</span><h3>Reguetón</h3><p>Dembow, letras directas, producción latina de bajo peso melódico.</p></div>
+        <div class="step"><span class="step__num">08</span><h3>Flamenco</h3><p>Palmas, guitarra española, cante jondo, duende.</p></div>
+        <div class="step"><span class="step__num">09</span><h3>R&amp;B</h3><p>Groove, vocales elaboradas, influencia soul y funk.</p></div>
+        <div class="step"><span class="step__num">10</span><h3>Rock</h3><p>Guitarras eléctricas, batería prominente, actitud y energía.</p></div>
+        <div class="step"><span class="step__num">11</span><h3>Trap</h3><p>Hi-hats rápidos, 808s profundos, tempos medios, adlibs.</p></div>
+        <div class="step"><span class="step__num">12</span><h3>Bossa nova</h3><p>Jazz brasileño, guitarra sincopada, melancolía suave.</p></div>
+      </div>
+
+      <div class="cta-block" style="margin-top: var(--s-8);">
+        <div class="cta-block__inner">
+          <div>
+            <p class="section__num" style="color: var(--paper); opacity: 0.6;">Cara B</p>
+            <h2>Elige uno <em>y empieza.</em></h2>
+            <p class="lead">Todos los géneros generan letras distintas. Prueba el mismo tema en dos géneros — el resultado te sorprenderá.</p>
+          </div>
+          <a class="btn btn--hot btn--big" href="create.html">Ir al Estudio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon" role="contentinfo">
+    <div class="container">
+      <div class="colophon__inner">
+        <div class="colophon__brand">Musi<em>fy</em><br><span style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);">2026 — Estudio editorial digital</span></div>
+        <div><h4>Producto</h4><ul><li><a href="create.html">Estudio</a></li><li><a href="my-songs.html">Mi colección</a></li><li><a href="generos.html" aria-current="page">Géneros</a></li><li><a href="changelog.html">Cambios recientes</a></li></ul></div>
+        <div><h4>Sobre el proyecto</h4><ul><li><a href="tfg.html">Trabajo fin de grado · DAW</a></li><li><a href="credito.html">Crédito</a></li><li><a href="aviso-legal.html">Aviso legal</a></li><li><a href="contacto.html">Contacto</a></li></ul></div>
+      </div>
+      <div class="container colophon__legal"><span>© 2026 Musify · Hecho con cuidado en Madrid</span><span>Edición Vol. 07</span></div>
+    </div>
+  </footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/validator@13.12.0/validator.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/backend.js"></script>
+</body>
+</html>
