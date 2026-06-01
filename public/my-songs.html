@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy-Report-Only" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; media-src 'self' blob: data:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none';">
+<meta name="referrer" content="no-referrer">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musify · Mi colección</title>
+<meta name="description" content="Tus canciones generadas, guardadas en tu navegador.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen-label="03 Mi colección">
+
+<div class="shell">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead" role="banner">
+    <div class="container masthead__row">
+      <a class="wordmark" href="index.html" aria-label="Musify, inicio">
+        Musify<span class="wordmark__dot" aria-hidden="true"></span>
+        <span class="wordmark__sub" aria-hidden="true">Vol. 07 · 2026</span>
+      </a>
+      <p class="masthead__meta">Mi colección · Archivo personal</p>
+      <nav class="nav" aria-label="Principal">
+        <ul class="nav__links" data-nav-links>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="create.html">Estudio</a></li>
+          <li><a href="my-songs.html" aria-current="page">Mi colección</a></li>
+          <li>
+            <button class="nav__account" type="button" data-account-btn aria-label="Entrar">Entrar</button>
+          </li>
+        </ul>
+        <button class="nav__toggle" type="button" data-nav-toggle aria-label="Abrir menú">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container" data-library aria-labelledby="lib-title">
+
+      <header class="library__head">
+        <p class="section__num">N.º 01 · Archivo</p>
+        <h1 class="library__title">
+          Tu <em class="italic-display">colección</em>, ordenada cronológicamente.
+        </h1>
+        <p class="lead" style="margin-top: var(--s-4);">
+          Aquí viven todas las canciones que has compuesto en este navegador. Si limpias la caché, se van contigo. Si quieres conservarlas, mejor anótalas en una libreta — al estilo antiguo.
+        </p>
+      </header>
+
+      <!-- Filtros -->
+      <div class="library__filters">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input class="library__search" type="search" data-library-search placeholder="Busca por título, género o ánimo" aria-label="Buscar en mi colección">
+        <span class="library__count" data-library-count>—</span>
+        <a class="btn btn--ink" href="create.html">
+          Componer otra
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Lista -->
+      <div class="tracklist" data-library-list role="list" aria-label="Tus canciones"></div>
+
+      <!-- Empty -->
+      <div class="empty" data-library-empty hidden>
+        <div class="empty__art" aria-hidden="true"></div>
+        <h3>Todavía <em class="italic-display">en blanco</em></h3>
+        <p>No has compuesto ninguna canción todavía. La página de Estudio te espera — pones una frase, eliges género, y en menos de tres minutos vuelves aquí con la primera pista.</p>
+        <a class="btn btn--hot btn--big" href="create.html">
+          Empezar
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Nota al pie -->
+      <p style="margin-top: var(--s-7); font-size: 0.8rem; color: var(--ink-mute); font-style: italic; max-width: 50ch;">
+        Tus canciones se guardan en el almacenamiento local de tu navegador. No las subimos a ningún servidor. Si necesitas conservarlas, exporta el JSON desde la consola del navegador con <span class="mono" style="background: var(--paper-2); padding: 2px 6px;">localStorage.getItem('musify.library')</span>.
+      </p>
+
+    </section>
+  </main>
+
+  <footer class="colophon" role="contentinfo">
+    <div class="container">
+      <div class="colophon__inner">
+        <div class="colophon__brand">
+          Musi<em>fy</em><br>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);">2026 — Estudio editorial digital</span>
+        </div>
+        <div>
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="create.html">Estudio</a></li>
+            <li><a href="my-songs.html">Mi colección</a></li>
+            <li><a href="index.html">Inicio</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sobre el proyecto</h4>
+          <ul>
+            <li><a href="#">Trabajo fin de grado · DAW</a></li>
+            <li><a href="#">Aviso legal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container colophon__legal">
+        <span>© 2026 Musify · Hecho con cuidado en Madrid</span>
+        <span>Edición Vol. 07</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Librerías estándar de industria — validación y sanitización -->
+<script src="https://cdn.jsdelivr.net/npm/validator@13.12.0/validator.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/backend.js"></script>
+</body>
+</html>
