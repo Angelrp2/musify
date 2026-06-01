@@ -1,0 +1,26 @@
+═══════════════════════════════════════════════════════
+MUSIFY — REPOSITORIO GITHUB
+═══════════════════════════════════════════════════════
+
+URL del repositorio:
+https://github.com/Angelrp2/musify
+
+Rama principal: main
+Commits: https://github.com/Angelrp2/musify/commits/main
+
+═══════════════════════════════════════════════════════
+CÓMO ARRANCAR EL PROYECTO LOCALMENTE
+═══════════════════════════════════════════════════════
+
+1. git clone https://github.com/Angelrp2/musify.git
+2. cd musify
+3. php database/init.php
+4. cd public && php -S localhost:8000
+5. Abrir http://localhost:8000
+
+USUARIOS DE PRUEBA (todos con contraseña: password)
+───────────────────────────────────────────────────
+admin@musify.local   → rol admin   (acceso total + IA)
+editor@musify.local  → rol editor
+premium@musify.local → rol premium (acceso a IA)
+demo@musify.local    → rol user    (acceso básico)
