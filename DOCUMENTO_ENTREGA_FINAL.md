@@ -121,41 +121,49 @@ El proyecto se desarrolló siguiendo una metodología ágil adaptada al ciclo fo
 
 ## 4. Tecnologías Empleadas
 
-**Frontend:** HTML5, CSS3, JavaScript Vanilla (ES6+). Se utilizó un enfoque mobile-first con variables CSS para sistema de diseño escalable. Canvas API para el diseñador de portadas.
+**Frontend:** HTML5, CSS3 con sistema de tokens de diseño (variables `:root`), JavaScript Vanilla (ES6+) con módulos IIFE. Diseño editorial con tipografía Instrument Serif (títulos) y JetBrains Mono (datos). Sistema de diseño escalable basado en CSS custom properties.
 
-**Backend:** PHP 8.2 con arquitectura REST. Separación clara entre rutas, controladores y servicios.
+**Backend:** PHP 8.3 con arquitectura REST. Sin frameworks. Router propio en `public/index.php` con pattern matching por regex para parámetros dinámicos.
 
-**Base de Datos:** SQLite para almacenamiento relacional. Esquema con 6 tablas relacionadas: users, songs, playlists, playlist_songs, favorites, generations.
+**Base de Datos:** SQLite 3 para almacenamiento relacional. Esquema con 6 tablas relacionadas: users, songs, playlists, playlist_songs, favorites, ai_lyric_ideas.
 
-**Inteligencia Artificial:** Ollama (Llama 3.2 3B) — ejecutado localmente, sin costes por petición.
+**Inteligencia Artificial:** Ollama (Llama 3.2 3B) — ejecutado localmente, sin costes por petición. Fallback automático a generador de plantillas si Ollama no está disponible.
 
-**APIs Externas:** MusicBrainz (búsqueda de artistas — API pública gratuita).
+**Síntesis musical:** Web Audio API — genera melodías procedurales por género, con seed reproducible. Sin dependencias externas, funciona 100% en el navegador.
 
-**Seguridad:** JWT para autenticación, bcrypt para contraseñas, prepared statements contra SQLi.
+**Diseño de portadas:** Canvas API — diseñador de portadas de álbum con gradientes y tipografía dinámica.
 
-**Control de Versiones:** Git + GitHub.
+**APIs Externas:** MusicBrainz (búsqueda de artistas — API pública gratuita, llamada directamente desde el navegador aprovechando soporte CORS nativo).
+
+**Seguridad:** JWT (HS256) para autenticación, bcrypt (coste 10) para contraseñas, PBKDF2-SHA256 en cliente, prepared statements en todos los endpoints, DOMPurify para sanitización XSS.
+
+**Control de Versiones:** Git + GitHub (https://github.com/Angelrp2/musify).
 
 ---
 
 ## 5. Diseño y Arquitectura
 
-La aplicación sigue una arquitectura cliente-servidor:
+La aplicación sigue una arquitectura cliente-servidor multipágina:
 
-El **frontend** es una SPA (Single Page Application) que se ejecuta en el navegador. Comunica con el backend mediante peticiones HTTP usando la Fetch API.
+El **frontend** son 16 páginas HTML estáticas servidas por PHP. JavaScript Vanilla gestiona la interactividad mediante tres módulos: `auth.js` (autenticación), `app.js` (lógica de aplicación) y `backend.js` (puente con el API PHP). La comunicación con el backend usa la Fetch API con tokens JWT en cabecera `Authorization`.
 
-El **backend** es un servidor PHP que expone una API REST con endpoints para autenticación, gestión de canciones, y consumo de APIs externas.
+El **backend** es un servidor PHP que expone una API REST. El router `public/index.php` mapea rutas a archivos PHP en `api/`. Las rutas no-API devuelven las páginas HTML estáticas directamente.
 
-La **base de datos** SQLite almacena información de usuarios (con contraseñas hasheadas con bcrypt), canciones generadas, playlists, favoritos y metadatos de generaciones.
+La **base de datos** SQLite almacena información de usuarios (contraseñas bcrypt), canciones generadas, playlists, favoritos y metadatos de generaciones IA.
+
+**Páginas del proyecto:** index, create, my-songs, song-detail, search, playlists, login, dashboard, profile, settings, generos, changelog, tfg, contacto, aviso-legal, credito (16 páginas).
 
 **Flujo de comunicación:**
 ```
-Usuario → Frontend (HTML/CSS/JS)
-        → Fetch API → Backend PHP
+Usuario → Página HTML (index/create/my-songs/...)
+        → auth.js + app.js + backend.js (JavaScript)
+        → Fetch API → public/index.php (router PHP)
+                    → api/* (endpoints PHP)
                     → SQLite (datos)
-                    → Ollama (generación IA)
-                    → MusicBrainz (búsqueda artistas)
-        ← JSON Response
-        ← Actualización de UI
+                    → Ollama /api/generate (IA local)
+        ← JSON Response → actualización del DOM
+        
+        → MusicBrainz API (llamada directa desde JS, CORS nativo)
 ```
 
 **Sistema de roles:**
@@ -175,21 +183,25 @@ Usuario → Frontend (HTML/CSS/JS)
 
 ## 6. Funcionalidades Implementadas
 
-**Autenticación:** Registro e inicio de sesión con tokens JWT. Contraseñas hasheadas con bcrypt. Middleware de verificación en todos los endpoints protegidos.
+**Autenticación:** Registro e inicio de sesión con tokens JWT (HS256). Contraseñas hasheadas con bcrypt (coste 10) en servidor y PBKDF2-SHA256 en cliente. Middleware `Auth.php` con jerarquía de roles (user=1, premium=2, editor=3, admin=4). Diálogo de auth con validación de fortaleza de contraseña en tiempo real.
 
-**Generación de Canciones:** Flujo progresivo con feedback visual (estados loading/success/error). Generación de letras mediante Ollama + Llama 3.2 3B. Diseño de portada con Canvas API.
+**Generación de Letras con IA:** Llama a Ollama (Llama 3.2 3B) local mediante PHP. Animación de pasos durante generación (5 fases). Estados loading / success / error con mensajes contextuales. Fallback automático a generador local de plantillas si Ollama no está disponible. Sanitización del output con DOMPurify contra XSS.
 
-**Gestión de Canciones:** CRUD completo. Visualización, reproducción, descarga y eliminación.
+**Síntesis Musical:** Web Audio API genera melodías procedurales en el navegador usando seed por canción (reproducibles). Motor por géneros: Indie folk, Pop, Jazz, Bolero, Hip-hop, Electrónica, Reggaeton, Flamenco, R&B, Rock, Trap, Bossa nova.
 
-**Búsqueda de Artistas:** Integración con MusicBrainz. Búsqueda con normalización de texto y expresiones regulares.
+**Diseño de Portadas:** Canvas API con gradientes generativos basados en el género y seed de cada canción. Descarga directa como PNG.
 
-**Reproductor de Audio:** Reproducción con controles de volumen y barra de progreso.
+**Búsqueda de Artistas (MusicBrainz):** Llamada directa desde el navegador (CORS nativo), sin proxy PHP. Validación con regex antes de enviar. Resultados con país y tipo de artista.
 
-**Buscador y Filtros:** Búsqueda en tiempo real con debounce, filtro por género, ordenación múltiple, paginación.
+**Gestión de Canciones:** CRUD completo via API REST. Paginación, filtros por género, búsqueda con debounce 350ms y regex, ordenación (más recientes, título A-Z/Z-A).
 
-**Sistema de Roles:** 4 roles diferenciados (admin/editor/premium/user) con middleware de permisos.
+**Playlists y Favoritos:** Crear playlists, añadir canciones, marcar favoritos.
 
-**Validaciones:** Expresiones regulares en cliente para UX, prepared statements en servidor para seguridad.
+**Sistema de Roles:** 4 niveles con middleware PHP que bloquea endpoints según jerarquía. Generación con IA requiere rol premium o superior.
+
+**Validaciones:** Objeto `REGEX` en JS con patrones para email, contraseña (min 8 + mayúscula + número), username, nombre, asunto y mensaje. Función `validarCampo()` con feedback visual en tiempo real (borde rojo/verde). Prepared statements en todos los endpoints PHP.
+
+**SEO técnico:** `sitemap.xml` con las 6 rutas principales, `robots.txt` bloqueando `/api/` y `/config/`, meta tags completos, Open Graph, un H1 único por página, jerarquía correcta de encabezados.
 
 ---
 
