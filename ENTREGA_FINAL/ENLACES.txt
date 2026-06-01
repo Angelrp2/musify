@@ -1,0 +1,46 @@
+═══════════════════════════════════════════════════
+MUSIFY — TFG DAW 2 · DIGITECH 2026
+═══════════════════════════════════════════════════
+
+REPOSITORIO GITHUB
+──────────────────
+URL: https://github.com/Angelrp2/musify
+Rama principal: main
+Commits: verificar en https://github.com/Angelrp2/musify/commits/main
+
+SERVIDOR LOCAL (para demo)
+──────────────────────────
+1. Entrar en la carpeta: cd public
+2. Arrancar: php -S localhost:8000
+3. Abrir en el navegador: http://localhost:8000
+
+USUARIOS DE PRUEBA
+──────────────────
+admin@musify.local   / password  → rol admin
+editor@musify.local  / password  → rol editor
+premium@musify.local / password  → rol premium
+demo@musify.local    / password  → rol user
+
+PÁGINAS DISPONIBLES
+───────────────────
+/               → Portada principal
+/create.html    → AI Studio (generar canciones)
+/my-songs.html  → Mi colección
+/login.html     → Inicio de sesión
+/dashboard.html → Panel de usuario
+/generos.html   → Catálogo de géneros
+/tfg.html       → Sobre el TFG
+/contacto.html  → Formulario de contacto
+/aviso-legal.html → Política de privacidad
+/sitemap.xml    → Sitemap SEO
+/robots.txt     → Robots SEO
+
+STACK TECNOLÓGICO
+─────────────────
+Backend:    PHP 8.3 + SQLite 3
+Frontend:   HTML5 + CSS3 + JavaScript Vanilla ES6+
+Auth:       JWT + bcrypt (OWASP)
+IA:         Ollama (Llama 3.2 3B) — local
+API extern: MusicBrainz (búsqueda de artistas)
+Audio:      Web Audio API (síntesis por géneros)
+Portadas:   Canvas API
