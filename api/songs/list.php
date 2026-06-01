@@ -12,6 +12,10 @@ try {
     $limit = $_GET['limit'] ?? ITEMS_PER_PAGE;
     $genre = $_GET['genre'] ?? null;
     $search = $_GET['search'] ?? null;
+    
+    // Validar límites
+    $limit = min(intval($limit), 100);
+    $page = max(1, intval($page));
     $offset = ($page - 1) * $limit;
     
     // Intentar obtener usuario autenticado
