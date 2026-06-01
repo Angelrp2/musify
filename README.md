@@ -66,10 +66,11 @@ Abre `http://localhost:8000`
 
 | Email | Contraseña | Rol |
 |-------|-----------|-----|
-| admin@musify.local | password | admin |
-| editor@musify.local | password | editor |
-| premium@musify.local | password | premium |
-| demo@musify.local | password | user |
+| admin@musify.local | password123 | admin |
+| editor@musify.local | password123 | editor |
+| premium@musify.local | password123 | premium |
+| demo@musify.local | password123 | user |
+| test@musify.local | password123 | user |
 
 ## Roles y Permisos
 
