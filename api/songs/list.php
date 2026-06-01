@@ -24,30 +24,32 @@ try {
     }
     
     // Construir query
-    $where = ['(s.is_public = 1'];
+    $conditions = [];
     $params = [];
-    
+
+    // Visibilidad
     if ($currentUserId) {
-        $where[0] = '(s.is_public = 1 OR s.user_id = ?)';
+        $conditions[] = '(s.is_public = 1 OR s.user_id = ?)';
         $params[] = $currentUserId;
+    } else {
+        $conditions[] = 's.is_public = 1';
     }
-    
+
     if ($genre) {
-        $where[] = 's.genre = ?';
+        $conditions[] = 's.genre = ?';
         $params[] = $genre;
     }
-    
+
     if ($search) {
-        $where[] = '(s.title LIKE ? OR u.username LIKE ?)';
+        $conditions[] = '(s.title LIKE ? OR u.username LIKE ?)';
         $params[] = "%$search%";
         $params[] = "%$search%";
     }
-    
-    $whereClause = ')' . (count($where) > 1 ? ' AND ' . implode(' AND ', array_slice($where, 1)) : '');
-    $where[0] .= $whereClause;
-    
+
+    $whereClause = implode(' AND ', $conditions);
+
     // Contar total
-    $countSql = 'SELECT COUNT(*) as total FROM songs s JOIN users u ON s.user_id = u.id WHERE ' . $where[0];
+    $countSql = 'SELECT COUNT(*) as total FROM songs s JOIN users u ON s.user_id = u.id WHERE ' . $whereClause;
     $countStmt = $db->prepare($countSql);
     $countStmt->execute($params);
     $total = $countStmt->fetch()['total'];
@@ -60,7 +62,7 @@ try {
             u.id as user_id, u.username, u.avatar_url
         FROM songs s
         JOIN users u ON s.user_id = u.id
-        WHERE ' . $where[0] . '
+        WHERE ' . $whereClause . '
         ORDER BY s.created_at DESC
         LIMIT ? OFFSET ?
     ';
