@@ -83,6 +83,364 @@ ul, ol { list-style: none; padding: 0; }
   --container: 1240px;
 }
 
+/* ---------- 3. Estilos para nuevas páginas ---------- */
+.search-section, .playlists-section, .profile-section, .settings-section {
+  padding: var(--s-7) var(--gutter);
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.search-section h2, .playlists-section h2, .profile-section h2, .settings-section h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: var(--s-2);
+}
+
+.search-section > p, .playlists-section > p, .profile-section > p, .settings-section > p {
+  color: var(--ink-mute);
+  margin-bottom: var(--s-6);
+  font-size: 1.1rem;
+}
+
+/* Search */
+.search-box {
+  display: flex;
+  gap: var(--s-4);
+  margin-bottom: var(--s-6);
+}
+
+.search-input {
+  flex: 1;
+  padding: var(--s-4);
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  font-family: var(--font-sans);
+}
+
+.search-btn {
+  padding: var(--s-4) var(--s-6);
+  background: var(--hot);
+  color: white;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+}
+
+.filters {
+  margin-bottom: var(--s-6);
+  padding: var(--s-5);
+  border: 1px solid var(--rule);
+}
+
+.filter-group {
+  margin-bottom: var(--s-4);
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: var(--s-2);
+  font-weight: 600;
+}
+
+.filter-group select {
+  width: 100%;
+  padding: var(--s-3);
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.results {
+  margin-top: var(--s-6);
+}
+
+.song-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.song-item {
+  display: flex;
+  gap: var(--s-4);
+  padding: var(--s-4);
+  border: 1px solid var(--rule);
+  align-items: center;
+}
+
+.song-cover {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--hot) 0%, var(--cool) 100%);
+  border-radius: var(--r-sm);
+  flex-shrink: 0;
+}
+
+.song-info {
+  flex: 1;
+}
+
+.song-info h4 {
+  font-size: 1rem;
+  margin-bottom: var(--s-1);
+}
+
+.song-info p {
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+}
+
+.duration {
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+}
+
+/* Playlists */
+.create-playlist-btn {
+  padding: var(--s-4) var(--s-6);
+  background: var(--hot);
+  color: white;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  margin-bottom: var(--s-6);
+}
+
+.playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s-6);
+  margin-bottom: var(--s-8);
+}
+
+.playlist-card {
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.playlist-cover {
+  height: 150px;
+  background: linear-gradient(135deg, var(--hot) 0%, var(--cool) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: var(--s-4);
+}
+
+.playlist-cover h3 {
+  font-size: 1.2rem;
+}
+
+.playlist-info {
+  padding: var(--s-4);
+  background: var(--paper-2);
+}
+
+.playlist-count, .playlist-duration {
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+}
+
+.playlist-details {
+  margin-top: var(--s-8);
+  padding: var(--s-6);
+  border: 1px solid var(--rule);
+}
+
+.playlist-songs {
+  margin-top: var(--s-4);
+}
+
+.song-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Profile */
+.profile-header {
+  display: flex;
+  gap: var(--s-6);
+  margin-bottom: var(--s-8);
+  padding: var(--s-6);
+  border: 1px solid var(--rule);
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, var(--hot) 0%, var(--cool) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.profile-info h2 {
+  margin-bottom: var(--s-2);
+}
+
+.profile-role {
+  color: var(--hot);
+  font-weight: 600;
+}
+
+.profile-joined {
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--s-4);
+  margin-bottom: var(--s-8);
+}
+
+.stat {
+  padding: var(--s-4);
+  border: 1px solid var(--rule);
+  text-align: center;
+}
+
+.stat h3 {
+  font-size: 2rem;
+  color: var(--hot);
+  margin-bottom: var(--s-2);
+}
+
+.stat p {
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+}
+
+.profile-content {
+  margin-bottom: var(--s-8);
+}
+
+.profile-section-title {
+  margin-bottom: var(--s-4);
+  padding-bottom: var(--s-4);
+  border-bottom: 2px solid var(--rule);
+}
+
+.profile-field {
+  margin-bottom: var(--s-4);
+  padding: var(--s-4);
+  border: 1px solid var(--rule);
+}
+
+.profile-field label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: var(--s-2);
+}
+
+.profile-actions {
+  display: flex;
+  gap: var(--s-4);
+  margin-top: var(--s-6);
+}
+
+.btn-edit, .btn-settings, .btn-logout, .btn-change-password, .btn-two-factor, .btn-delete-account, .btn-save, .btn-cancel {
+  padding: var(--s-4) var(--s-6);
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-edit, .btn-settings, .btn-change-password, .btn-two-factor, .btn-save {
+  background: var(--hot);
+  color: white;
+  border: none;
+}
+
+.btn-delete-account {
+  background: var(--error);
+  color: white;
+  border: none;
+}
+
+.recent-activity {
+  margin-top: var(--s-8);
+  padding: var(--s-6);
+  border: 1px solid var(--rule);
+}
+
+.activity-list {
+  margin-top: var(--s-4);
+}
+
+.activity-item {
+  display: flex;
+  gap: var(--s-4);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.activity-time {
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+  min-width: 80px;
+}
+
+/* Settings */
+.settings-menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  margin-bottom: var(--s-6);
+}
+
+.settings-item {
+  padding: var(--s-6);
+  border: 1px solid var(--rule);
+}
+
+.settings-item h3 {
+  margin-bottom: var(--s-4);
+  padding-bottom: var(--s-4);
+  border-bottom: 2px solid var(--rule);
+}
+
+.setting-group {
+  margin-bottom: var(--s-4);
+}
+
+.setting-group label {
+  display: block;
+  margin-bottom: var(--s-2);
+  font-weight: 600;
+}
+
+.setting-group select, .setting-group input[type="range"] {
+  width: 100%;
+  padding: var(--s-3);
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.setting-group input[type="checkbox"] {
+  margin-right: var(--s-2);
+}
+
+.settings-item.danger {
+  background: rgba(193, 54, 31, 0.1);
+  border-color: var(--error);
+}
+
+.settings-actions {
+  display: flex;
+  gap: var(--s-4);
+  justify-content: center;
+}
+
 /* ---------- 3. Tipografía global ---------- */
 body {
   font-family: var(--font-sans);
