@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musify · Panel de administración</title>
+<meta name="description" content="Panel de administración de Musify.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen-label="08 Admin">
+
+<div class="shell">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead" role="banner">
+    <div class="container masthead__row">
+      <a class="wordmark" href="index.html" aria-label="Musify, inicio">
+        Musify<span class="wordmark__dot" aria-hidden="true"></span>
+        <span class="wordmark__sub" aria-hidden="true">Vol. 07 · 2026</span>
+      </a>
+      <p class="masthead__meta">Admin · Panel de control</p>
+      <nav class="nav" aria-label="Principal">
+        <ul class="nav__links" data-nav-links>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="create.html">Estudio</a></li>
+          <li><a href="my-songs.html">Mi colección</a></li>
+          <li><a href="discover.html">Descubrir</a></li>
+          <li><a href="playlists.html">Playlists</a></li>
+          <li><a href="profile.html">Perfil</a></li>
+          <li>
+            <button class="nav__account" type="button" data-account-btn aria-label="Entrar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                <polyline points="10 17 15 12 10 7"/>
+                <line x1="15" y1="12" x2="3" y2="12"/>
+              </svg>
+              Entrar
+            </button>
+          </li>
+        </ul>
+        <button class="nav__toggle" type="button" data-nav-toggle aria-label="Abrir menú">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container section" aria-labelledby="admin-title">
+
+      <header class="section__head">
+        <p class="section__num">N.º 01 · Control</p>
+        <h1 id="admin-title">Panel de <em class="italic-display">administración</em></h1>
+      </header>
+
+      <!-- ── Tabla: Usuarios ──────────────────────────────────────── -->
+      <div style="margin-bottom: var(--s-8);">
+        <div style="display: flex; align-items: baseline; gap: var(--s-4); border-top: 1px solid var(--ink); padding-top: var(--s-5); margin-bottom: var(--s-5);">
+          <span class="section__num" style="margin-bottom: 0;">Usuarios</span>
+        </div>
+        <div class="empty" style="text-align: left; padding: var(--s-5);">
+          <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-mute); letter-spacing: 0.06em;">
+            La API de usuarios no está implementada aún.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Tabla: Canciones ─────────────────────────────────────── -->
+      <div>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-4); border-top: 1px solid var(--ink); padding-top: var(--s-5); margin-bottom: var(--s-5); flex-wrap: wrap;">
+          <span class="section__num" style="margin-bottom: 0;">Canciones</span>
+          <span class="library__count" id="songs-count">—</span>
+        </div>
+
+        <!-- Cargando -->
+        <div id="songs-loading" style="text-align: center; padding: var(--s-6) 0;">
+          <span class="spinner" aria-label="Cargando canciones..."></span>
+          <p style="margin-top: var(--s-3); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase;">Cargando canciones…</p>
+        </div>
+
+        <!-- Tabla -->
+        <div id="songs-table-wrap" hidden style="overflow-x: auto;">
+          <table class="admin-table" id="songs-table" aria-label="Canciones">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Autor</th>
+                <th>Fecha</th>
+                <th><span class="sr-only">Acciones</span></th>
+              </tr>
+            </thead>
+            <tbody id="songs-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- Error / vacío -->
+        <div id="songs-empty" hidden>
+          <div class="empty">
+            <div class="empty__art" aria-hidden="true"></div>
+            <h3>Sin canciones</h3>
+            <p>No hay canciones registradas todavía.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="colophon" role="contentinfo">
+    <div class="container">
+      <div class="colophon__inner">
+        <div class="colophon__brand">
+          Musi<em>fy</em><br>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);">2026 — Estudio editorial digital</span>
+        </div>
+        <div>
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="create.html">Estudio</a></li>
+            <li><a href="my-songs.html">Mi colección</a></li>
+            <li><a href="admin.html">Admin</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sobre el proyecto</h4>
+          <ul>
+
+            <li><a href="#">Aviso legal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container colophon__legal">
+        <span>© 2026 Musify · Hecho con cuidado en Madrid</span>
+        <span>Edición Vol. 07</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Librerías estándar de industria — validación y sanitización -->
+<script src="https://cdn.jsdelivr.net/npm/validator@13.12.0/validator.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/app.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  function sanitize(str) {
+    return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(str) : String(str);
+  }
+
+  function formatDate(str) {
+    if (!str) return '—';
+    try {
+      return new Date(str).toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch (_) { return sanitize(str); }
+  }
+
+  async function deleteSong(id, row) {
+    if (!confirm('¿Borrar esta canción? Esta acción no se puede deshacer.')) return;
+
+    const token = window.MusifyAuth.getToken();
+    try {
+      const res = await fetch('/api/songs/' + id, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error('Error ' + res.status);
+      row.remove();
+      if (window.MusifyToast) window.MusifyToast.show('Canción eliminada', 'success');
+
+      // Update count
+      const tbody = document.getElementById('songs-tbody');
+      const remaining = tbody.querySelectorAll('tr').length;
+      document.getElementById('songs-count').textContent = remaining + ' canción' + (remaining !== 1 ? 'es' : '');
+      if (remaining === 0) {
+        document.getElementById('songs-table-wrap').hidden = true;
+        document.getElementById('songs-empty').hidden = false;
+      }
+    } catch (err) {
+      if (window.MusifyToast) window.MusifyToast.show('No se pudo eliminar la canción', 'error');
+    }
+  }
+
+  function renderRow(song) {
+    const tr    = document.createElement('tr');
+    const id    = sanitize(String(song.id || ''));
+    const title = sanitize(song.title || song.name || '—');
+    const genre = sanitize(song.genre || '—');
+    const author = sanitize(song.author || song.user?.username || song.username || '—');
+    const date  = formatDate(song.created_at || song.date);
+
+    tr.innerHTML = `
+      <td class="admin-table__mono">${id}</td>
+      <td>${title}</td>
+      <td><span class="tag tag--ink">${genre}</span></td>
+      <td class="admin-table__mute">${author}</td>
+      <td class="admin-table__mono admin-table__mute">${date}</td>
+      <td>
+        <button class="btn" type="button" style="border-color: var(--error); color: var(--error); font-size: 0.72rem; padding: var(--s-1) var(--s-3);" data-delete-id="${id}">
+          Borrar
+        </button>
+      </td>
+    `;
+
+    tr.querySelector('[data-delete-id]').addEventListener('click', function () {
+      deleteSong(id, tr);
+    });
+
+    return tr;
+  }
+
+  async function loadSongs() {
+    const token = window.MusifyAuth.getToken();
+
+    try {
+      const res  = await fetch('/api/songs', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error('Error ' + res.status);
+      const data = await res.json();
+      const songs = data.songs || data.data || data || [];
+
+      document.getElementById('songs-loading').hidden = true;
+
+      if (!Array.isArray(songs) || songs.length === 0) {
+        document.getElementById('songs-empty').hidden = false;
+        return;
+      }
+
+      const tbody = document.getElementById('songs-tbody');
+      songs.forEach(s => tbody.appendChild(renderRow(s)));
+
+      document.getElementById('songs-count').textContent = songs.length + ' canción' + (songs.length !== 1 ? 'es' : '');
+      document.getElementById('songs-table-wrap').hidden = false;
+    } catch (err) {
+      document.getElementById('songs-loading').hidden = true;
+      document.getElementById('songs-empty').hidden = false;
+      if (window.MusifyToast) window.MusifyToast.show('Error al cargar canciones', 'error');
+    }
+  }
+
+  window.addEventListener('load', function () {
+    const user = window.MusifyAuth && window.MusifyAuth.getUser();
+    if (!user || user.role !== 'admin') {
+      window.location.href = 'index.html';
+      return;
+    }
+    loadSongs();
+  });
+})();
+</script>
+</body>
+</html>

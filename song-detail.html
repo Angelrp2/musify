@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musify · Reproductor</title>
+<meta name="description" content="Detalle de la canción con reproductor, letra y acciones.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen-label="04 Reproductor">
+
+<div class="shell">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead" role="banner">
+    <div class="container masthead__row">
+      <a class="wordmark" href="index.html" aria-label="Musify, inicio">
+        Musify<span class="wordmark__dot" aria-hidden="true"></span>
+        <span class="wordmark__sub" aria-hidden="true">Vol. 07 · 2026</span>
+      </a>
+      <p class="masthead__meta">Reproductor · Ficha de pista</p>
+      <nav class="nav" aria-label="Principal">
+        <ul class="nav__links" data-nav-links>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="create.html">Estudio</a></li>
+          <li><a href="my-songs.html">Mi colección</a></li>
+          <li><a href="discover.html">Descubrir</a></li>
+          <li><a href="playlists.html">Playlists</a></li>
+          <li><a href="profile.html">Perfil</a></li>
+          <li>
+            <button class="nav__account" type="button" data-account-btn aria-label="Entrar">Entrar</button>
+          </li>
+        </ul>
+        <button class="nav__toggle" type="button" data-nav-toggle aria-label="Abrir menú">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <article class="container detail" data-player aria-labelledby="song-h1">
+
+      <a href="my-songs.html" class="detail__back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Volver a mi colección
+      </a>
+
+      <!-- HERO: sleeve + info -->
+      <header class="detail__hero">
+        <div class="sleeve" aria-hidden="true">
+          <p class="sleeve__num" data-sleeve-num>Cat. nº 0000</p>
+          <h2 class="sleeve__title" data-sleeve-title>Título</h2>
+        </div>
+        <div class="detail__info">
+          <p class="section__num">N.º — · Pista personal</p>
+          <h1 id="song-h1" data-song-title>Título</h1>
+          <div class="detail__tags">
+            <span class="tag tag--ink" data-song-genre>—</span>
+            <span class="tag" data-song-mood>—</span>
+            <span class="tag tag--ink" data-song-voice>—</span>
+          </div>
+          <p class="lead" style="margin-top: var(--s-5); font-style: italic; max-width: 50ch;" data-song-prompt>—</p>
+        </div>
+      </header>
+
+      <!-- PLAYER -->
+      <section class="player" aria-label="Reproductor">
+        <div class="player__top">
+          <button class="player__big-play" type="button" data-play-toggle aria-label="Reproducir">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <polygon points="6 4 20 12 6 20 6 4"/>
+            </svg>
+          </button>
+          <div class="player__times" aria-live="off">
+            <span data-time-elapsed>0:00</span>
+            <span class="sep">/</span>
+            <span data-time-total>0:00</span>
+          </div>
+          <div class="player__actions">
+            <button class="icon-btn" type="button" data-action="share" aria-label="Compartir enlace">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </button>
+            <button class="icon-btn" type="button" data-action="remix" aria-label="Remezclar idea">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="23 4 23 10 17 10"/>
+                <polyline points="1 20 1 14 7 14"/>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/>
+                <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/>
+              </svg>
+            </button>
+            <button class="icon-btn" type="button" data-action="download" aria-label="Descargar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+            <button class="icon-btn" type="button" data-action="delete" aria-label="Eliminar canción">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6"/>
+                <path d="M14 11v6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="waveform" data-waveform tabindex="0" role="slider" aria-label="Posición de reproducción" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="waveform__bars"></div>
+          <span class="waveform__cursor" data-waveform-cursor style="left: 0%;"></span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-4);">
+          <p class="now-playing">
+            <span class="now-playing__dot" aria-hidden="true"></span>
+            Sección actual:
+            <span class="now-playing__label" data-current-section>—</span>
+          </p>
+          <p style="font-size: 0.78rem; color: var(--ink-mute); font-style: italic;">
+            Mezcla sintetizada en tu navegador (WebAudio + Web Speech)
+          </p>
+        </div>
+      </section>
+
+      <!-- METADATOS -->
+      <section style="padding-block: var(--s-6); border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--s-5);" aria-label="Ficha técnica">
+        <div>
+          <p class="mono" style="color: var(--ink-mute);">Duración</p>
+          <p style="font-family: var(--font-display); font-size: 1.4rem;" data-song-duration>—</p>
+        </div>
+        <div>
+          <p class="mono" style="color: var(--ink-mute);">Creada</p>
+          <p style="font-family: var(--font-display); font-size: 1.4rem;" data-song-created>—</p>
+        </div>
+        <div>
+          <p class="mono" style="color: var(--ink-mute);">Mezcla</p>
+          <p style="font-family: var(--font-display); font-size: 1.4rem;">Estudio v.07</p>
+        </div>
+        <div>
+          <p class="mono" style="color: var(--ink-mute);">Formato</p>
+          <p style="font-family: var(--font-display); font-size: 1.4rem;">Demo · WebAudio</p>
+        </div>
+      </section>
+
+      <!-- LETRA -->
+      <section class="lyrics" aria-labelledby="lyrics-title">
+        <p class="lyrics__num" id="lyrics-title">N.º — · Letra</p>
+        <div class="lyrics__body" data-song-lyrics></div>
+      </section>
+
+    </article>
+  </main>
+
+  <footer class="colophon" role="contentinfo">
+    <div class="container">
+      <div class="colophon__inner">
+        <div class="colophon__brand">
+          Musi<em>fy</em><br>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);">2026 — Estudio editorial digital</span>
+        </div>
+        <div>
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="create.html">Estudio</a></li>
+            <li><a href="my-songs.html">Mi colección</a></li>
+            <li><a href="index.html">Inicio</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sobre el proyecto</h4>
+          <ul>
+
+            <li><a href="#">Aviso legal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container colophon__legal">
+        <span>© 2026 Musify · Hecho con cuidado en Madrid</span>
+        <span>Edición Vol. 07</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Librerías estándar de industria — validación y sanitización -->
+<script src="https://cdn.jsdelivr.net/npm/validator@13.12.0/validator.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/player.js" defer></script>
+<script>
+(function () {
+  function setText(sel, val) {
+    var el = document.querySelector(sel);
+    if (el) el.textContent = val;
+  }
+
+  function formatDuration(s) {
+    var m = Math.floor(s / 60);
+    var sec = s % 60;
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  async function loadSong() {
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+    if (!id) { window.location.href = 'my-songs.html'; return; }
+
+    try {
+      var headers = { 'Content-Type': 'application/json' };
+      var token = window.MusifyAuth && window.MusifyAuth.getToken();
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
+      var res = await fetch('/api/songs/' + id, { headers: headers });
+      if (!res.ok) throw new Error('Canción no encontrada');
+      var data = await res.json();
+      var song = data.data || data;
+
+      // Exponer para player.js (que ya no usa localStorage)
+      window._musifySong = {
+        id:               song.id,
+        title:            song.title,
+        genre:            song.genre   || '',
+        mood:             song.mood    || '',
+        lyrics:           song.lyrics  || '',
+        duration:         song.duration_seconds || 0,
+        duration_seconds: song.duration_seconds || 0,
+        created:          song.created_at       || '',
+        prompt:           song.description      || '',
+        seed:             song.id               || 1
+      };
+      window.dispatchEvent(new CustomEvent('musify:song-loaded', { detail: window._musifySong }));
+
+      // Título — sin truncado
+      var h1 = document.querySelector('[data-song-title]');
+      if (h1) {
+        h1.textContent = song.title;
+        h1.style.whiteSpace = 'normal';
+        h1.style.overflow = 'visible';
+        h1.style.textOverflow = 'unset';
+      }
+
+      // Sleeve (tarjeta visual) — título corto intencional
+      setText('[data-sleeve-title]', song.title);
+      setText('[data-sleeve-num]', 'Cat. nº ' + String(id).padStart(4, '0'));
+
+      // Tags
+      setText('[data-song-genre]', song.genre || '—');
+      setText('[data-song-mood]',  song.mood  || '—');
+      setText('[data-song-voice]', '—');
+
+      // Descripción/prompt
+      setText('[data-song-prompt]', song.description || '—');
+
+      // Metadatos
+      setText('[data-song-duration]', song.duration_seconds ? formatDuration(song.duration_seconds) : '—');
+      setText('[data-song-created]',  song.created_at ? new Date(song.created_at).toLocaleDateString('es-ES') : '—');
+
+      // Letra
+      if (song.lyrics) {
+        var lyricsEl = document.querySelector('[data-song-lyrics]');
+        if (lyricsEl) {
+          lyricsEl.innerHTML = song.lyrics
+            .split('\n')
+            .map(function (l) { return l.trim() ? '<p>' + l + '</p>' : '<br>'; })
+            .join('');
+        }
+      }
+
+      // Tab title
+      document.title = 'Musify · ' + song.title;
+
+    } catch (err) {
+      window.MusifyToast && window.MusifyToast.show(err.message || 'Error al cargar la canción', 'error', 4000);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadSong);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Musify · Estudio — Compón una canción</title>
+<meta name="description" content="Pon una idea, elige género y ánimo, y deja que Musify le ponga música.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen-label="02 Estudio">
+
+<div class="shell">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead" role="banner">
+    <div class="container masthead__row">
+      <a class="wordmark" href="index.html" aria-label="Musify, inicio">
+        Musify<span class="wordmark__dot" aria-hidden="true"></span>
+        <span class="wordmark__sub" aria-hidden="true">Vol. 07 · 2026</span>
+      </a>
+      <p class="masthead__meta">Estudio · Mesa de mezclas</p>
+      <nav class="nav" aria-label="Principal">
+        <ul class="nav__links" data-nav-links>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="create.html" aria-current="page">Estudio</a></li>
+          <li><a href="my-songs.html">Mi colección</a></li>
+          <li><a href="discover.html">Descubrir</a></li>
+          <li><a href="playlists.html">Playlists</a></li>
+          <li><a href="profile.html">Perfil</a></li>
+          <li>
+            <button class="nav__account" type="button" data-account-btn aria-label="Entrar">Entrar</button>
+          </li>
+        </ul>
+        <button class="nav__toggle" type="button" data-nav-toggle aria-label="Abrir menú">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container studio" aria-labelledby="studio-title">
+
+      <!-- Encabezado -->
+      <header style="margin-bottom: var(--s-6);">
+        <p class="section__num">N.º 01 · Sesión</p>
+        <h1 class="studio__title" id="studio-title">
+          Pon una <em>idea</em> sobre la mesa.
+        </h1>
+        <p class="studio__lead lead">
+          Cuanto más concreta, mejor sale. Pero tampoco te flipes — a veces una sola palabra basta. Lo afinamos contigo a la derecha, en la ficha del estudio.
+        </p>
+      </header>
+
+      <div class="studio__layout">
+
+        <!-- ====== Formulario ====== -->
+        <form class="studio__form" id="studio-form" data-studio-form novalidate aria-describedby="studio-help">
+          <p id="studio-help" class="sr-only">Rellena los campos para componer una canción.</p>
+
+          <!-- Grupo 1: la idea -->
+          <div class="studio__group">
+            <header class="studio__group-head">
+              <span class="studio__group-num">01</span>
+              <h2 class="studio__group-title">La idea</h2>
+              <span class="studio__group-hint">obligatorio</span>
+            </header>
+            <div class="field">
+              <label class="field__label" for="prompt">De qué va la canción</label>
+              <textarea
+                class="textarea"
+                id="prompt"
+                name="prompt"
+                required
+                minlength="8"
+                rows="3"
+                placeholder="Ej.: Vuelvo en tren de casa de mis abuelos. Es agosto. La canción huele a melocotón y a pueblo."
+                aria-describedby="prompt-error"></textarea>
+              <span class="field__error" id="prompt-error" data-error-for="prompt" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <!-- Grupo 2: género -->
+          <div class="studio__group">
+            <header class="studio__group-head">
+              <span class="studio__group-num">02</span>
+              <h2 class="studio__group-title">El género</h2>
+              <span class="studio__group-hint">elige uno</span>
+            </header>
+            <div class="chips" data-chips="genre" role="radiogroup" aria-label="Género">
+              <button type="button" class="chip" data-value="Indie folk" aria-pressed="false" role="radio">Indie folk</button>
+              <button type="button" class="chip" data-value="Pop" aria-pressed="false" role="radio">Pop</button>
+              <button type="button" class="chip" data-value="Jazz" aria-pressed="false" role="radio">Jazz</button>
+              <button type="button" class="chip" data-value="Bolero" aria-pressed="false" role="radio">Bolero</button>
+              <button type="button" class="chip" data-value="Hip-hop" aria-pressed="false" role="radio">Hip-hop</button>
+              <button type="button" class="chip" data-value="Electrónica" aria-pressed="false" role="radio">Electrónica</button>
+              <button type="button" class="chip" data-value="Reguetón" aria-pressed="false" role="radio">Reguetón</button>
+              <button type="button" class="chip" data-value="Flamenco" aria-pressed="false" role="radio">Flamenco</button>
+              <button type="button" class="chip" data-value="R&amp;B" aria-pressed="false" role="radio">R&amp;B</button>
+              <button type="button" class="chip" data-value="Rock" aria-pressed="false" role="radio">Rock</button>
+              <button type="button" class="chip" data-value="Trap" aria-pressed="false" role="radio">Trap</button>
+              <button type="button" class="chip" data-value="Bossa nova" aria-pressed="false" role="radio">Bossa nova</button>
+            </div>
+            <span class="field__error" data-error-for="genre" aria-live="polite" style="margin-top: var(--s-3); display: block;"></span>
+          </div>
+
+          <!-- Grupo 3: ánimo -->
+          <div class="studio__group">
+            <header class="studio__group-head">
+              <span class="studio__group-num">03</span>
+              <h2 class="studio__group-title">El ánimo</h2>
+              <span class="studio__group-hint">opcional</span>
+            </header>
+            <div class="chips" data-chips="mood" role="radiogroup" aria-label="Estado de ánimo">
+              <button type="button" class="chip chip--hot" data-value="Nostálgico" aria-pressed="false" role="radio">Nostálgico</button>
+              <button type="button" class="chip chip--hot" data-value="Eufórico" aria-pressed="false" role="radio">Eufórico</button>
+              <button type="button" class="chip chip--hot" data-value="Melancólico" aria-pressed="false" role="radio">Melancólico</button>
+              <button type="button" class="chip chip--hot" data-value="Romántico" aria-pressed="false" role="radio">Romántico</button>
+              <button type="button" class="chip chip--hot" data-value="Reflexivo" aria-pressed="false" role="radio">Reflexivo</button>
+              <button type="button" class="chip chip--hot" data-value="Energético" aria-pressed="false" role="radio">Energético</button>
+              <button type="button" class="chip chip--hot" data-value="Tranquilo" aria-pressed="false" role="radio">Tranquilo</button>
+            </div>
+          </div>
+
+          <!-- Grupo 4: voz -->
+          <div class="studio__group">
+            <header class="studio__group-head">
+              <span class="studio__group-num">04</span>
+              <h2 class="studio__group-title">La voz</h2>
+              <span class="studio__group-hint">a tu gusto</span>
+            </header>
+            <div class="field">
+              <label class="field__label" for="voice">Quién canta</label>
+              <select class="select" id="voice" name="voice">
+                <option value="Femenina">Voz femenina</option>
+                <option value="Masculina">Voz masculina</option>
+                <option value="Andrógina">Voz andrógina</option>
+                <option value="Coro">Coro</option>
+                <option value="Instrumental">Sin voz (instrumental)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Grupo 5: duración -->
+          <div class="studio__group">
+            <header class="studio__group-head">
+              <span class="studio__group-num">05</span>
+              <h2 class="studio__group-title">La duración</h2>
+              <span class="studio__group-hint">en segundos</span>
+            </header>
+            <div class="duration">
+              <p class="duration__value" aria-live="polite">
+                <span data-duration-value>180<small>seg</small></span>
+              </p>
+              <input type="range" class="slider" name="duration" min="60" max="300" step="15" value="180" aria-label="Duración en segundos">
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-mute); letter-spacing: 0.1em;">
+                <span>1:00</span>
+                <span>3:00</span>
+                <span>5:00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Términos -->
+          <div class="studio__group">
+            <label class="check">
+              <input type="checkbox" name="terms" required>
+              <span class="check__box" aria-hidden="true"></span>
+              <span>He leído que esto es una <em class="italic-display">demo educativa</em> — la canción se guarda solo en este navegador y la puedo borrar cuando quiera.</span>
+            </label>
+          </div>
+
+        </form>
+
+        <!-- ====== Aside: Receta + submit ====== -->
+        <aside class="studio__aside" aria-label="Resumen de la canción">
+          <div class="recipe">
+            <h3 class="recipe__title">Receta del <em>día</em></h3>
+            <dl class="recipe__rows">
+              <div class="recipe__row"><dt>Idea</dt><dd data-rec="prompt"></dd></div>
+              <div class="recipe__row"><dt>Género</dt><dd data-rec="genre"></dd></div>
+              <div class="recipe__row"><dt>Ánimo</dt><dd data-rec="mood"></dd></div>
+              <div class="recipe__row"><dt>Voz</dt><dd data-rec="voice"></dd></div>
+              <div class="recipe__row"><dt>Duración</dt><dd data-rec="duration"></dd></div>
+            </dl>
+            <button class="btn btn--hot btn--big recipe__submit" type="submit" form="studio-form" data-studio-submit>
+              Componer
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+            <p style="margin-top: var(--s-3); font-size: 0.8rem; color: var(--ink-mute); text-align: center; font-style: italic;">
+              Tarda menos de 3 segundos.
+            </p>
+          </div>
+
+          <!-- Estado de generación -->
+          <div class="generating" data-generating hidden style="margin-top: var(--s-5);" role="status" aria-live="polite">
+            <h3>Estamos <em class="italic-display">tocando</em></h3>
+            <p>Afinando voces, mezclando capas, escribiendo letra. Aguanta un instante.</p>
+            <div class="generating__bars" aria-hidden="true">
+              <span class="generating__bar"></span>
+              <span class="generating__bar"></span>
+              <span class="generating__bar"></span>
+              <span class="generating__bar"></span>
+              <span class="generating__bar"></span>
+              <span class="generating__bar"></span>
+              <span class="generating__bar"></span>
+              <span class="generating__bar"></span>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="colophon" role="contentinfo">
+    <div class="container">
+      <div class="colophon__inner">
+        <div class="colophon__brand">
+          Musi<em>fy</em><br>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);">2026 — Estudio editorial digital</span>
+        </div>
+        <div>
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="create.html">Estudio</a></li>
+            <li><a href="my-songs.html">Mi colección</a></li>
+            <li><a href="index.html">Inicio</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sobre el proyecto</h4>
+          <ul>
+
+            <li><a href="#">Aviso legal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container colophon__legal">
+        <span>© 2026 Musify · Hecho con cuidado en Madrid</span>
+        <span>Edición Vol. 07</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Librerías estándar de industria — validación y sanitización -->
+<script src="https://cdn.jsdelivr.net/npm/validator@13.12.0/validator.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js" defer></script>
+<script src="js/auth.js?v=2" defer></script>
+<script>
+(function () {
+  const state = { genre: '', mood: '' };
+
+  function initChips() {
+    document.querySelectorAll('[data-chips]').forEach(function (group) {
+      const key = group.dataset.chips;
+      group.querySelectorAll('.chip').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          group.querySelectorAll('.chip').forEach(function (c) {
+            c.setAttribute('aria-pressed', 'false');
+            c.classList.remove('is-active');
+          });
+          chip.setAttribute('aria-pressed', 'true');
+          chip.classList.add('is-active');
+          state[key] = chip.dataset.value;
+          updateRecipe();
+        });
+      });
+    });
+  }
+
+  function initDuration() {
+    var slider = document.querySelector('input[name="duration"]');
+    var display = document.querySelector('[data-duration-value]');
+    if (!slider || !display) return;
+    slider.addEventListener('input', function () {
+      display.innerHTML = slider.value + '<small>seg</small>';
+      updateRecipe();
+    });
+  }
+
+  function updateRecipe() {
+    var prompt = document.getElementById('prompt');
+    var voice = document.getElementById('voice');
+    var duration = document.querySelector('input[name="duration"]');
+    if (prompt)   setRec('prompt',   prompt.value || '—');
+    if (voice)    setRec('voice',    voice.options[voice.selectedIndex].text || '—');
+    if (duration) setRec('duration', duration.value + ' seg');
+    setRec('genre', state.genre || '—');
+    setRec('mood',  state.mood  || '—');
+  }
+
+  function setRec(key, val) {
+    var el = document.querySelector('[data-rec="' + key + '"]');
+    if (el) el.textContent = val;
+  }
+
+  function initLiveRecipe() {
+    var prompt = document.getElementById('prompt');
+    var voice  = document.getElementById('voice');
+    if (prompt) prompt.addEventListener('input', updateRecipe);
+    if (voice)  voice.addEventListener('change', updateRecipe);
+    updateRecipe();
+  }
+
+  function initForm() {
+    var form   = document.getElementById('studio-form');
+    var submit = document.querySelector('[data-studio-submit]');
+    var gen    = document.querySelector('[data-generating]');
+
+    if (!form) return;
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      if (!window.MusifyAuth || !window.MusifyAuth.isSignedIn()) {
+        window.MusifyAuth && window.MusifyAuth.open('signin');
+        window.MusifyToast && window.MusifyToast.show('Inicia sesión para guardar canciones', 'error');
+        return;
+      }
+
+      var prompt   = document.getElementById('prompt').value.trim();
+      var voice    = document.getElementById('voice').value;
+      var duration = parseInt(document.querySelector('input[name="duration"]').value, 10);
+      var terms    = form.querySelector('[name="terms"]');
+
+      if (!prompt || prompt.length < 8) {
+        window.MusifyToast && window.MusifyToast.show('La idea debe tener al menos 8 caracteres', 'error');
+        document.getElementById('prompt').focus();
+        return;
+      }
+      if (!state.genre) {
+        window.MusifyToast && window.MusifyToast.show('Elige un género', 'error');
+        return;
+      }
+      if (terms && !terms.checked) {
+        window.MusifyToast && window.MusifyToast.show('Acepta las condiciones para continuar', 'error');
+        return;
+      }
+
+      if (submit) submit.disabled = true;
+      if (gen)    gen.hidden = false;
+
+      try {
+        var res = await fetch('/api/songs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + window.MusifyAuth.getToken(),
+          },
+          body: JSON.stringify({
+            title:            prompt,
+            description:      prompt,
+            genre:            state.genre,
+            mood:             state.mood || null,
+            duration_seconds: duration,
+            is_public:        true,
+          }),
+        });
+
+        var data = await res.json();
+
+        if (!res.ok) {
+          var msg = data.message || data.error || 'Error al guardar la canción';
+          throw new Error(msg);
+        }
+
+        var id = data.data && data.data.id ? data.data.id : (data.id || null);
+        window.MusifyToast && window.MusifyToast.show('¡Canción creada!', 'success');
+
+        setTimeout(function () {
+          window.location.href = id ? 'song-detail.html?id=' + id : 'my-songs.html';
+        }, 800);
+
+      } catch (err) {
+        window.MusifyToast && window.MusifyToast.show(err.message || 'Error al crear la canción', 'error', 4000);
+        if (submit) submit.disabled = false;
+        if (gen)    gen.hidden = true;
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initChips();
+    initDuration();
+    initLiveRecipe();
+    initForm();
+  });
+})();
+</script>
+</body>
+</html>
