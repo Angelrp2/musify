@@ -35,3 +35,17 @@ public/uploads/*
 # Node (si se usa)
 node_modules/
 npm-debug.log
+
+# Archivos de Laragon/diagnóstico — no pertenecen al proyecto
+.gga
+.user.ini
+__test__.txt
+
+# Directorios de scaffolding no implementado
+assets/
+backend/
+public/index.old.html
+
+# Capturas (el alumno las añade manualmente)
+docs/capturas/*
+!docs/capturas/.gitkeep
