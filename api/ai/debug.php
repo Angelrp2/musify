@@ -1,0 +1,1 @@
+﻿<?php echo json_encode(["cwd"=>getcwd(),"root"=>dirname(dirname(__DIR__)),"docroot"=>$_SERVER["DOCUMENT_ROOT"]]);
