@@ -91,6 +91,10 @@
                 aria-describedby="prompt-error"></textarea>
               <span class="field__error" id="prompt-error" data-error-for="prompt" aria-live="polite"></span>
             </div>
+            <div class="field" style="margin-top: var(--s-4);">
+              <label class="field__label" for="song-title">Título <span style="font-weight:400; color: var(--ink-mute);">(opcional — si lo dejas vacío se genera del texto)</span></label>
+              <input class="input" type="text" id="song-title" name="song-title" maxlength="80" placeholder="Ej.: Agosto en el tren" autocomplete="off">
+            </div>
           </div>
 
           <!-- Grupo 2: género -->
@@ -358,10 +362,38 @@
         return;
       }
 
+      var titleInput = document.getElementById('song-title');
+      var title = (titleInput && titleInput.value.trim()) ||
+        prompt.split(/\s+/).slice(0, 5).join(' ');
+
       if (submit) submit.disabled = true;
       if (gen)    gen.hidden = false;
 
       try {
+        // Paso 1: generar letra
+        var lyrics = '';
+        try {
+          var lyricsRes = await fetch('/api/ai/generate-lyrics', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + window.MusifyAuth.getToken(),
+            },
+            body: JSON.stringify({
+              prompt: prompt,
+              genre:  state.genre,
+              mood:   state.mood || 'Neutral',
+            }),
+          });
+          if (lyricsRes.ok) {
+            var lyricsData = await lyricsRes.json();
+            lyrics = (lyricsData.data && lyricsData.data.lyrics) || '';
+          }
+        } catch (e) {
+          // degradación elegante: guardamos sin letra
+        }
+
+        // Paso 2: guardar canción
         var res = await fetch('/api/songs', {
           method: 'POST',
           headers: {
@@ -369,8 +401,9 @@
             'Authorization': 'Bearer ' + window.MusifyAuth.getToken(),
           },
           body: JSON.stringify({
-            title:            prompt,
+            title:            title,
             description:      prompt,
+            lyrics:           lyrics,
             genre:            state.genre,
             mood:             state.mood || null,
             duration_seconds: duration,

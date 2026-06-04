@@ -208,7 +208,7 @@
       });
       if (!res.ok) throw new Error('Error ' + res.status);
       const data  = await res.json();
-      const items = data.playlists || data.data || data || [];
+      const items = (data.data && data.data.playlists) || data.playlists || [];
 
       playlistsLoad.hidden = true;
 

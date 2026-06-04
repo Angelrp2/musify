@@ -238,21 +238,6 @@
       var data = await res.json();
       var song = data.data || data;
 
-      // Exponer para player.js (que ya no usa localStorage)
-      window._musifySong = {
-        id:               song.id,
-        title:            song.title,
-        genre:            song.genre   || '',
-        mood:             song.mood    || '',
-        lyrics:           song.lyrics  || '',
-        duration:         song.duration_seconds || 0,
-        duration_seconds: song.duration_seconds || 0,
-        created:          song.created_at       || '',
-        prompt:           song.description      || '',
-        seed:             song.id               || 1
-      };
-      window.dispatchEvent(new CustomEvent('musify:song-loaded', { detail: window._musifySong }));
-
       // Título — sin truncado
       var h1 = document.querySelector('[data-song-title]');
       if (h1) {
@@ -291,6 +276,21 @@
 
       // Tab title
       document.title = 'Musify · ' + song.title;
+
+      // Exponer para player.js — DESPUÉS de actualizar el DOM
+      window._musifySong = {
+        id:               song.id,
+        title:            song.title,
+        genre:            song.genre             || '',
+        mood:             song.mood              || '',
+        lyrics:           song.lyrics            || '',
+        duration:         song.duration_seconds  || 0,
+        duration_seconds: song.duration_seconds  || 0,
+        created:          song.created_at        || '',
+        prompt:           song.description       || '',
+        seed:             song.id                || 1
+      };
+      window.dispatchEvent(new CustomEvent('musify:song-loaded', { detail: window._musifySong }));
 
     } catch (err) {
       window.MusifyToast && window.MusifyToast.show(err.message || 'Error al cargar la canción', 'error', 4000);

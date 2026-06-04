@@ -538,7 +538,7 @@
     const sleeveTitle = $('[data-sleeve-title]', root);
     if (sleeveTitle) sleeveTitle.innerHTML = decorateTitle(song.title);
     const sleeveNum = $('[data-sleeve-num]', root);
-    if (sleeveNum) sleeveNum.textContent = 'Cat. nº ' + (song.id || '').slice(-4).toUpperCase();
+    if (sleeveNum) sleeveNum.textContent = 'Cat. nº ' + String(song.id || '').slice(-4).toUpperCase();
 
     // Letra
     const lyricsEl = $('[data-song-lyrics]', root);
