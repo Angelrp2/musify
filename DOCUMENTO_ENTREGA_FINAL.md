@@ -270,7 +270,7 @@ La página de registro incluye un checkbox de aceptación de condiciones de uso 
 
 ```bash
 # 1. Clonar el repositorio
-git clone <repo>
+git clone https://github.com/Angelrp2/musify.git
 cd musify
 
 # 2. Crear el archivo de configuración de entorno
@@ -446,20 +446,42 @@ Disponible en `docs/API.md`.
 Disponible en el repositorio Git. Historial de commits:
 
 ```
-78055dc docs: README, memoria y documentación completa
-29eb019 feat: Docker para despliegue
-d86801f fix: seguridad - sanitización XSS y JWT secret
-66ac4f3 feat: buscador, filtros y paginación
-e34ddb1 feat: generación de letra con IA
-99acba6 feat: integración MusicBrainz
-93f9f73 feat: playlists y favoritos
-6aac556 feat: CRUD completo de canciones
-db9e751 feat: autenticación JWT con bcrypt
+3d6d8e9 fix: eliminar API key hardcodeada
+417e1f2 chore: entrega final TFG
+5c63065 chore: limpieza final — elimina debug.php, añade sitemap/robots, documento completo
+32ea9ea docs: README, memoria y documentación completa
+f38716e feat: Docker para despliegue
+926843c fix: seguridad - sanitización XSS y JWT secret
+f2ac727 feat: buscador, filtros y paginación
+65f8d42 feat: generación de letra con IA
+22c9654 feat: integración MusicBrainz
+6446f19 feat: playlists y favoritos
+b2de616 feat: CRUD completo de canciones
+a36ad0f feat: autenticación JWT con bcrypt
 85d58af feat: estructura base del proyecto y configuración
 ```
 
+Repositorio: https://github.com/Angelrp2/musify
+
 ### E. Capturas de pantalla
-*(Ver carpeta `docs/capturas/` — añadir antes de la entrega)*
+
+Disponibles en `docs/capturas/`:
+
+| Archivo | Contenido |
+|---|---|
+| `home.png` | Página de inicio |
+| `login.png` | Modal de login |
+| `creacionDeCanciones.png` | Formulario del estudio |
+| `animacion-carga.png` | Estado "generando" |
+| `cancion_Creada.png` | Detalle de canción con letra |
+| `canciones guardadas.png` | Mi colección |
+| `buscador_Canciones_artistas_reales.png` | Discover con MusicBrainz |
+| `playlist.png` | Gestión de playlists |
+| `admin.png` | Panel de administración |
+| `admin-perfil.png` | Perfil de usuario |
+| `necesidad-de-logueo.png` | Control de acceso |
+| `docker.png` | Contenedor Docker en ejecución |
+| `Diagrama_E-R.png` | Diagrama entidad-relación |
 
 ---
 
