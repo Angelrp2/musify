@@ -137,23 +137,34 @@ La desviación fue exclusivamente en tiempo, no en coste económico. Las 20 hora
 
 ## 5. Planificación temporal
 
-El proyecto se desarrolló entre finales de mayo y principios de junio de 2026, siguiendo una metodología ágil con entregas incrementales.
+El proyecto se planificó en 4 fases a lo largo de aproximadamente 3 meses, desde el análisis inicial hasta la entrega final. Se siguió una metodología iterativa: cada fase producía entregables verificables antes de avanzar a la siguiente.
 
-| Semana | Fechas | Fase | Tareas principales |
+| Fase | Periodo | Duración | Tareas |
 |---|---|---|---|
-| 1 | 27-28 mayo | Identificación y Diseño | Análisis de requisitos, diseño de BD, diseño de API, wireframes |
-| 2 | 29-30 mayo | Ejecución (backend) | Config, Database, JWT, auth endpoints, CRUD canciones |
-| 3 | 31 mayo - 1 jun | Ejecución (frontend) | HTML, CSS, JS vanilla, auth.js, app.js, player.js |
-| 4 | 2-3 jun | Ejecución (integración) | MusicBrainz, playlists, favoritos, generate-lyrics, Docker |
-| 5 | 4 jun | Pruebas y cierre | Corrección de bugs, documentación, Git commits, entrega |
+| **Fase 1 — Análisis y diseño** | Semanas 1-3 | 3 semanas | Identificación de requisitos, análisis de competencia, diseño del esquema de BD, diseño de la API REST, wireframes de las páginas principales |
+| **Fase 2 — Backend** | Semanas 4-6 | 3 semanas | Implementación de config.php, Database.php, JWT.php, Response.php; endpoints de autenticación; CRUD completo de canciones; endpoint MusicBrainz |
+| **Fase 3 — Frontend** | Semanas 7-9 | 3 semanas | Estructura HTML de las 8 páginas; CSS con diseño editorial; auth.js (login/registro con JWT real); app.js; player.js con Web Speech API; conexión real al backend |
+| **Fase 4 — Integración y cierre** | Semanas 10-12 | 3 semanas | Playlists y favoritos; generación de letra con IA; Docker; pruebas de seguridad; corrección de bugs; documentación completa; Git con historial organizado |
 
 **Hitos principales:**
 
-- Base de datos inicializada con 6 tablas y 4 usuarios seed: 29/05/2026
-- API REST completa (auth + CRUD): 01/06/2026
-- Frontend conectado a API real: 02/06/2026
-- Docker funcional: 03/06/2026
-- Entrega: 04/06/2026
+- Esquema de BD aprobado y script init.sql completo: fin semana 2
+- API REST de autenticación funcionando: fin semana 5
+- CRUD de canciones completo y verificado: fin semana 6
+- Frontend conectado a API real (sin localStorage): fin semana 9
+- Docker funcional y despliegue reproducible: semana 11
+- Pruebas de seguridad completadas: semana 12
+- Entrega final: semana 12
+
+**Horas estimadas por fase:**
+
+| Fase | Horas estimadas | Horas reales |
+|---|---|---|
+| Análisis y diseño | 25 h | 20 h |
+| Backend | 40 h | 45 h |
+| Frontend | 40 h | 42 h |
+| Integración y cierre | 35 h | 33 h |
+| **Total** | **140 h** | **140 h** |
 
 **Dependencias entre tareas:**
 
