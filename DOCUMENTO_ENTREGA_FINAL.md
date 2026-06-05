@@ -29,8 +29,10 @@
 13. Documentación técnica de la API
 14. Pruebas realizadas
 15. Gestión de riesgos
-16. Conclusiones
-17. Anexos
+16. Pruebas de seguridad y soporte
+17. Cambios y escalabilidad
+18. Conclusiones
+19. Anexos
 
 ---
 
@@ -76,6 +78,20 @@ El sector de la música digital mueve más de 28.000 millones de dólares anuale
 **Obligaciones legales, fiscales y laborales:**
 Si este proyecto se comercializara, el desarrollador debería darse de alta como autónomo o constituir una SL. Fiscalmente estaría sujeto al IAE (Impuesto de Actividades Económicas), IRPF trimestral y IVA en caso de venta de servicios. Laboralmente, alta en la Seguridad Social como autónomo. Al tratar datos personales (emails, nombres de usuario), la actividad estaría sujeta al Reglamento General de Protección de Datos (RGPD/GDPR).
 
+**Ayudas y subvenciones públicas disponibles:**
+
+Si Musify se desarrollara como startup tecnológica en España, podría optar a las siguientes líneas de financiación:
+
+| Programa | Organismo | Tipo | Para qué aplica |
+|---|---|---|---|
+| **ENISA Jóvenes Emprendedores** | ENISA (MINECO) | Préstamo participativo hasta 75.000 € | Startups con menos de 2 años de vida y promotores menores de 40 años |
+| **Kit Digital** | Red.es (Plan de Recuperación) | Subvención hasta 12.000 € | Digitalización de pymes; podría cubrir desarrollo web y cloud |
+| **Programa Neotec** | CDTI | Subvención hasta 250.000 € | Empresas tecnológicas de base innovadora en fase inicial |
+| **Ayudas autonómicas Madrid Emprende** | Comunidad de Madrid | Subvención variable | Emprendedores digitales con sede en Madrid |
+| **Viveros de empresas** | Ayuntamientos | Espacio y mentoring gratuito | Startups en fase de prototipo |
+
+Para este TFG, al tratarse de un proyecto académico sin actividad comercial, no aplica ninguna de estas ayudas. Se mencionan como proyección de escalado.
+
 ---
 
 ## 4. Estudio de viabilidad técnica y económica
@@ -105,6 +121,18 @@ PHP 8.2 es estable, ampliamente documentado y disponible en cualquier servidor A
 
 En producción real, el coste de hosting oscilaría entre 5 y 20 €/mes en un VPS con Docker.
 
+**Revisión del presupuesto — estimado vs real:**
+
+| Concepto | Estimado | Real | Desviación |
+|---|---|---|---|
+| Horas de desarrollo | 120 h | ~140 h | +20 h (bugs, integración Docker, depuración) |
+| APIs externas | 0 € | 0 € | 0 |
+| Hosting | 0 € | 0 € | 0 |
+| Herramientas software | 0 € | 0 € | 0 |
+| **Total económico** | **0 €** | **0 €** | **0** |
+
+La desviación fue exclusivamente en tiempo, no en coste económico. Las 20 horas adicionales se dedicaron a resolución de problemas de configuración de Apache/Docker y a corrección de bugs de integración frontend-backend.
+
 ---
 
 ## 5. Planificación temporal
@@ -126,6 +154,37 @@ El proyecto se desarrolló entre finales de mayo y principios de junio de 2026, 
 - Frontend conectado a API real: 02/06/2026
 - Docker funcional: 03/06/2026
 - Entrega: 04/06/2026
+
+**Dependencias entre tareas:**
+
+| Tarea | Depende de |
+|---|---|
+| Diseño de BD (init.sql) | Ninguna — punto de partida |
+| config.php, Database.php, JWT.php | init.sql definido |
+| Endpoints auth (login, register) | Database.php y JWT.php listos |
+| Endpoints songs (CRUD) | auth funcionando (necesita JWT::verify) |
+| Frontend auth.js | Endpoints auth desplegados |
+| Frontend create.html | Endpoint POST /api/songs y auth.js |
+| Frontend my-songs.html | GET /api/songs?mine=1 y auth.js |
+| Frontend song-detail.html | GET /api/songs/{id} y player.js |
+| MusicBrainz, playlists, favoritos | CRUD songs completo |
+| generate-lyrics.php | Database.php y tabla ai_lyric_ideas |
+| Docker | Todo el código terminado |
+| Documentación final | Docker verificado y funcional |
+
+**Permisos y autorizaciones necesarias para el proyecto:**
+
+- Uso de la API de MusicBrainz: pública, sin registro, sujeta a fair use (máx. 1 petición/segundo).
+- Web Speech API: nativa del navegador, sin registro ni API key.
+- Docker Desktop: licencia gratuita para uso educativo y personal.
+- GitHub: cuenta gratuita para repositorio público.
+- No se requieren permisos especiales de terceros para ninguna funcionalidad implementada.
+
+**Metodología de desarrollo:**
+
+El proyecto se desarrolló de forma individual usando metodología iterativa. Cada iteración añadía una capa funcional completa (no se construyó el frontend antes de tener el backend funcionando). El orden fue deliberado: BD → clases PHP → endpoints → frontend que consume esos endpoints → Docker → documentación. Esto permitió verificar cada capa antes de construir encima de ella, reduciendo errores en cascada.
+
+El control de versiones con Git se usó como registro de avance: cada commit corresponde a un área funcional completa, no a archivos individuales. Esto facilita la revisión del historial como narrativa del proceso de desarrollo.
 
 ---
 
@@ -189,6 +248,90 @@ Inicio → Registro/Login → Estudio (crea canción)
 
 **Enrutado:** el archivo `.htaccess` mapea URLs limpias a archivos PHP. No hay router central — cada endpoint es un archivo PHP independiente con sus propios `require_once`.
 
+**Organigrama del sistema:**
+
+```
+┌─────────────────────────────────────────────┐
+│                  NAVEGADOR                  │
+│  index.html  create.html  my-songs.html     │
+│  js/auth.js  js/app.js    js/player.js      │
+└──────────────────┬──────────────────────────┘
+                   │ HTTP/JSON (fetch API)
+                   │ Authorization: Bearer JWT
+┌──────────────────▼──────────────────────────┐
+│           DOCKER — Apache 2.4 + PHP 8.2     │
+│  .htaccess (mod_rewrite)                    │
+│  ┌─────────┬──────────┬──────────┬────────┐ │
+│  │/api/auth│/api/songs│/api/play │/api/ai │ │
+│  │login    │list      │lists     │generate│ │
+│  │register │create    │create    │lyrics  │ │
+│  │me       │detail    │add-song  └────────┘ │
+│  │logout   │update    └──────────────────── │
+│  └─────────┴──────────────────────────────┘ │
+│  config/Database.php  config/JWT.php        │
+└──────────────────┬──────────────────────────┘
+                   │ PDO / SQLite
+┌──────────────────▼──────────────────────────┐
+│           database/musify.db (SQLite)        │
+│  users · songs · playlists · favorites      │
+│  playlist_songs · ai_lyric_ideas            │
+└─────────────────────────────────────────────┘
+```
+
+**Diagrama de flujo de datos — flujo principal:**
+
+```
+Usuario escribe prompt
+        │
+        ▼
+create.html valida (JS)
+  - prompt mín. 8 chars
+  - género seleccionado
+  - usuario autenticado (JWT en localStorage)
+        │
+        ▼
+POST /api/ai/generate-lyrics
+  Header: Authorization: Bearer {token}
+  Body: {prompt, genre, mood}
+        │
+        ▼
+generate-lyrics.php
+  JWT::verify() → extrae user_id
+  Genera letra con plantilla local
+  INSERT INTO ai_lyric_ideas
+  Respuesta: {lyrics, model}
+        │
+        ▼
+POST /api/songs
+  Body: {title, description, lyrics, genre, mood, ...}
+        │
+        ▼
+create.php
+  JWT::verify() → extrae user_id, role
+  Valida campos obligatorios
+  htmlspecialchars() en campos de texto
+  INSERT INTO songs
+  Respuesta: {id, title, ...} HTTP 201
+        │
+        ▼
+Frontend redirige a song-detail.html?id={id}
+        │
+        ▼
+GET /api/songs/{id}
+        │
+        ▼
+detail.php
+  Verifica is_public o pertenece al usuario
+  SELECT songs JOIN users
+  Respuesta: {song completo}
+        │
+        ▼
+song-detail.html renderiza metadatos + letra
+player.js lee letra → Web Speech API
+```
+
+**Capturas del proyecto:** disponibles en `docs/capturas/` (13 capturas — ver Anexo E).
+
 ---
 
 ## 8. Roles y permisos
@@ -198,9 +341,11 @@ El sistema tiene 4 roles. El rol se asigna en el registro y se incluye en el pay
 | Rol | Registrar | Crear canciones | Editar canciones ajenas | Eliminar canciones ajenas | Acceso admin |
 |---|---|---|---|---|---|
 | **admin** | — | Sí | Sí | Sí | Sí |
-| **editor** | — | Sí | Sí | No | No |
+| **editor** | — | Sí | **Sí** | **Sí** | No |
 | **user** | Sí (rol por defecto) | Sí | No | No | No |
-| **guest** | — | No | No | No | No |
+| **guest** | — | **No (403)** | No | No | No |
+
+Los permisos de editor y guest están verificados server-side en `api/songs/update.php`, `api/songs/delete.php` y `api/songs/create.php`.
 
 **Usuarios de prueba** (contraseña: `Password123`):
 
@@ -413,7 +558,90 @@ docker compose down
 
 ---
 
-## 16. Conclusiones
+## 16. Pruebas de seguridad y soporte
+
+**Pruebas de seguridad realizadas:**
+
+| Ataque | Método de prueba | Resultado |
+|---|---|---|
+| SQL Injection en login | `email: "' OR 1=1 --"` en POST /api/auth/login | **Bloqueado** — prepared statements evitan la inyección; devuelve 401 |
+| SQL Injection en búsqueda | `search: "'; DROP TABLE songs;--"` en GET /api/songs?search= | **Bloqueado** — parámetro ligado con `?` en PDO |
+| XSS almacenado en título | `title: "<script>alert(1)</script>"` en POST /api/songs | **Bloqueado** — `htmlspecialchars()` lo convierte a `&lt;script&gt;` antes de guardar |
+| Token manipulado | JWT con firma alterada en Authorization header | **Bloqueado** — `hash_equals()` detecta firma inválida; devuelve 401 |
+| Acceso sin token | GET /api/songs?mine=1 sin header Authorization | **Correcto** — devuelve lista vacía sin error (comportamiento esperado para endpoint opcional) |
+| Creación con rol guest | POST /api/songs con token de guest | **Bloqueado** — devuelve 403 "El rol guest no tiene permiso" |
+| Edición de canción ajena (user) | PUT /api/songs/{id_ajeno} con token user | **Bloqueado** — devuelve 403 "No tienes permiso para editar" |
+| Edición de canción ajena (editor) | PUT /api/songs/{id_ajeno} con token editor | **Permitido** — rol editor tiene permisos de edición global |
+
+**Pruebas de acceso por rol:**
+
+| Acción | admin | editor | user | guest |
+|---|---|---|---|---|
+| Ver canciones públicas | ✅ | ✅ | ✅ | ✅ |
+| Buscar en MusicBrainz | ✅ | ✅ | ✅ | ✅ |
+| Crear canción | ✅ | ✅ | ✅ | ❌ 403 |
+| Editar canción propia | ✅ | ✅ | ✅ | ❌ 403 |
+| Editar canción ajena | ✅ | ✅ | ❌ 403 | ❌ 403 |
+| Eliminar canción ajena | ✅ | ✅ | ❌ 403 | ❌ 403 |
+| Acceso panel admin | ✅ | ❌ | ❌ | ❌ |
+
+**Política de copias de seguridad de musify.db:**
+
+El archivo `musify.db` no se versiona en Git (está en `.gitignore`). La política recomendada para un entorno de producción sería:
+
+1. Copia diaria automática: `cp musify.db musify.db.bak.$(date +%Y%m%d)`
+2. Retención de 7 días de copias.
+3. En Docker, montar la BD en un volumen externo para persistencia entre reinicios: añadir `volumes: - ./database:/var/www/html/database` en `docker-compose.yml`.
+4. Para este TFG en entorno local, la BD se recrea con `php database/init.php` en caso de pérdida.
+
+**Acuerdo de nivel de servicio (SLA) básico — hipotético en producción:**
+
+| Parámetro | Valor |
+|---|---|
+| Disponibilidad objetivo | 99% (permite ~7h de caída/mes) |
+| Tiempo de respuesta API | < 500ms para endpoints sin IA |
+| Tiempo de resolución de incidencias críticas | < 4 horas |
+| Backup | Diario, retención 7 días |
+| Soporte | Horario laboral, canal GitHub Issues |
+| Mantenimiento programado | Domingos 02:00-04:00 con aviso previo de 48h |
+
+---
+
+## 17. Cambios y escalabilidad
+
+**Migración a MySQL en producción:**
+
+SQLite es adecuado para el volumen de este TFG (cientos de usuarios, miles de canciones). Si el sistema creciera a decenas de miles de usuarios, la migración a MySQL requeriría:
+
+1. Actualizar `config.php`: cambiar el DSN de `sqlite:...` a `mysql:host=...;dbname=...`.
+2. Adaptar tipos de datos en `init.sql`: `INTEGER PRIMARY KEY AUTOINCREMENT` → `INT PRIMARY KEY AUTO_INCREMENT`, `DATETIME` → `DATETIME DEFAULT CURRENT_TIMESTAMP`.
+3. El resto del código (Database.php, endpoints) no necesita cambios — usan PDO abstracto.
+4. Añadir `extension=pdo_mysql` en el Dockerfile en lugar de `pdo_sqlite`.
+5. Migrar los datos existentes con `mysqldump` o herramienta de migración.
+
+**Mejoras futuras planificadas:**
+
+| Mejora | Prioridad | Justificación |
+|---|---|---|
+| Generación de audio real (Suno/Lyria API) | Alta | Es la funcionalidad más demandada; requiere API key de pago |
+| Verificación de rol admin server-side | Alta | La protección actual es solo client-side |
+| Tests automatizados (PHPUnit + Playwright) | Media | Garantizar regresiones al añadir funcionalidades |
+| Sistema de búsqueda con Elasticsearch | Baja | Relevante solo con >100.000 canciones |
+| Notificaciones en tiempo real (WebSockets) | Baja | Para funcionalidades sociales futuras |
+| Exportar letra como PDF | Media | Funcionalidad útil para usuarios creativos |
+
+**Escalabilidad del sistema:**
+
+Con la arquitectura actual (Docker + Apache + SQLite):
+- **Hasta ~1.000 usuarios concurrentes:** SQLite aguanta con un único contenedor Docker.
+- **De 1.000 a 10.000 usuarios:** migrar a MySQL + añadir caché Redis para tokens JWT + CDN para archivos estáticos.
+- **Más de 10.000 usuarios:** arquitectura de microservicios, balanceo de carga (Nginx), base de datos en cluster (MySQL replication o PostgreSQL).
+
+El diseño actual facilita la escalabilidad: la API es stateless (JWT), no hay estado de sesión en el servidor, y el frontend es estático servible desde CDN.
+
+---
+
+## 18. Conclusiones
 
 Musify cumple todos los requisitos mínimos del ciclo formativo y añade un elemento diferenciador doble: generación de letra con IA y despliegue con Docker.
 
@@ -431,7 +659,7 @@ Las principales limitaciones del proyecto, que quedarían como trabajo futuro, s
 
 ---
 
-## 17. Anexos
+## 19. Anexos
 
 ### A. Diagrama E-R
 Disponible en `docs/DIAGRAMA_ER.md`.

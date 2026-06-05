@@ -39,7 +39,7 @@ try {
         Response::notFound('Canción no encontrada');
     }
     
-    if ($song['user_id'] != $user['id'] && $user['role'] != 'admin') {
+    if ($song['user_id'] != $user['id'] && $user['role'] != 'admin' && $user['role'] != 'editor') {
         Response::forbidden('No tienes permiso para editar esta canción');
     }
     

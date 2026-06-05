@@ -22,6 +22,10 @@ if (!$user) {
     Response::unauthorized('No autorizado');
 }
 
+if ($user['role'] === 'guest') {
+    Response::forbidden('El rol guest no tiene permiso para crear canciones');
+}
+
 // Validaciones
 $errors = [];
 if (empty($data['title']) || strlen($data['title']) < 3) {
