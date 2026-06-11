@@ -47,25 +47,26 @@ try {
     $updates = [];
     $params = [];
     
+    $s = fn($v) => htmlspecialchars(trim((string)$v), ENT_QUOTES, 'UTF-8');
     if (isset($data['title'])) {
         $updates[] = 'title = ?';
-        $params[] = trim($data['title']);
+        $params[] = $s($data['title']);
     }
     if (isset($data['description'])) {
         $updates[] = 'description = ?';
-        $params[] = trim($data['description']);
+        $params[] = $s($data['description']);
     }
     if (isset($data['lyrics'])) {
         $updates[] = 'lyrics = ?';
-        $params[] = trim($data['lyrics']);
+        $params[] = $s($data['lyrics']);
     }
     if (isset($data['genre'])) {
         $updates[] = 'genre = ?';
-        $params[] = trim($data['genre']);
+        $params[] = $s($data['genre']);
     }
     if (isset($data['mood'])) {
         $updates[] = 'mood = ?';
-        $params[] = trim($data['mood']);
+        $params[] = $s($data['mood']);
     }
     if (isset($data['is_public'])) {
         $updates[] = 'is_public = ?';

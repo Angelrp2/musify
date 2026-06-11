@@ -4,6 +4,11 @@
  * Obtener perfil del usuario autenticado
  */
 
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../config/Database.php';
+require_once __DIR__ . '/../../config/JWT.php';
+require_once __DIR__ . '/../../config/Response.php';
+
 try {
     $payload = JWT::verify();
     

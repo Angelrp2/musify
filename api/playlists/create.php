@@ -35,8 +35,9 @@ if (!empty($errors)) {
 try {
     $db = Database::getInstance()->getConnection();
     
-    $title = trim($data['title']);
-    $description = isset($data['description']) ? trim($data['description']) : '';
+    $s = fn($v) => htmlspecialchars(trim((string)$v), ENT_QUOTES, 'UTF-8');
+    $title = $s($data['title']);
+    $description = isset($data['description']) ? $s($data['description']) : '';
     $is_public = isset($data['is_public']) ? intval($data['is_public']) : 0;
     
     $stmt = $db->prepare('

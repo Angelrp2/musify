@@ -1,356 +1,488 @@
 # Musify — Documento de Entrega Final
 
-## Portada
+**Proyecto:** Musify — Plataforma de creación musical asistida por IA
 
-**Musify: Plataforma de Creación Musical con Inteligencia Artificial**
+**Ciclo Formativo:** Desarrollo de Aplicaciones Web (DAW)
 
-Proyecto Final del Ciclo Formativo de Desarrollo de Aplicaciones Web (DAW 2)
+**Autor:** Ángel
 
-**Autor:** Ángel Ríos  
-**Fecha:** Mayo 2026  
-**Centro:** DIGITECH  
-**Tutor:** —
+**Centro:** DIGITECH
+
+**Fecha de entrega:** 4 de junio de 2026
 
 ---
 
 ## Índice
 
-1. Introducción
-2. Contextualización y viabilidad
-3. Planificación y Metodología
-4. Tecnologías Empleadas
-5. Diseño y Arquitectura
-6. Funcionalidades Implementadas
-7. Manual de Usuario
-8. Documentación Técnica
-9. Pruebas Realizadas
-10. Conclusiones
-11. Anexos
+1. Introducción y contextualización
+2. Objetivos del proyecto
+3. Identificación de necesidades y oportunidad
+4. Estudio de viabilidad técnica y económica
+5. Planificación temporal
+6. Tecnologías empleadas
+7. Diseño y arquitectura
+8. Roles y permisos
+9. Funcionalidades implementadas
+10. Seguridad y protección de datos
+11. Manual de instalación
+12. Manual de usuario
+13. Documentación técnica de la API
+14. Pruebas realizadas
+15. Gestión de riesgos
+16. Conclusiones
+17. Anexos
 
 ---
 
-## 1. Introducción
+## 1. Introducción y contextualización
 
-Musify es una aplicación web que permite a usuarios crear canciones completas de forma asistida por inteligencia artificial. El proyecto surge de la intersección entre la creatividad musical y la tecnología de IA, buscando democratizar la creación musical para personas sin conocimientos técnicos.
+Musify es una aplicación web de creación musical. El usuario describe una idea, elige género y ánimo, y la aplicación genera la letra de una canción. La letra se lee en voz alta mediante la Web Speech API del navegador. El usuario puede guardar canciones, organizarlas en playlists, marcarlas como favoritas y buscar artistas reales en MusicBrainz.
 
-La aplicación integra **Ollama con Llama 3.2 3B** como motor de generación de letras mediante IA local, y consume la API pública de **MusicBrainz** para búsqueda de artistas relacionados. El diseño de portadas se realiza mediante **Canvas API** directamente en el navegador.
+El proyecto surge en un contexto en el que la inteligencia artificial está transformando el sector creativo. Herramientas como Suno o Udio permiten generar música completa a partir de una descripción, pero requieren servicios cloud de pago. Musify propone una alternativa educativa y técnica: un sistema propio, desplegado con Docker, que demuestra cómo integrar IA en un flujo web real sin depender de servicios externos de pago.
+
+El sector de la música digital mueve más de 28.000 millones de dólares anuales a nivel global. La creación asistida por IA es una de sus áreas de mayor crecimiento. Musify no compite con esas herramientas; demuestra que un desarrollador junior puede construir algo funcionalmente coherente con tecnologías estándar.
 
 ---
 
-## 2. Contextualización y Viabilidad
+## 2. Objetivos del proyecto
 
-### 2.1 Contextualización
+**Objetivo general:** Desarrollar una plataforma web funcional que demuestre la integración de IA en un flujo de creación musical, con autenticación segura, API REST documentada y despliegue reproducible con Docker.
 
-Musify se enmarca en el sector de las plataformas de entretenimiento digital y herramientas creativas asistidas por IA. El tipo de empresa que implementaría este proyecto sería una startup tecnológica del sector audiovisual o una empresa de software SaaS, similar a modelos de negocio como Suno AI, Udio o Boomy.
+**Objetivos específicos:**
 
-El contexto actual es favorable: la IA generativa ha reducido la barrera de entrada para la creación de contenido, y el mercado de plataformas de música generativa crece a un ritmo del 26% anual según datos de 2025.
+- Permitir a usuarios crear canciones (letra) sin conocimientos musicales previos.
+- Implementar autenticación segura con JWT y contraseñas bcrypt.
+- Diseñar una base de datos relacional con 6 tablas y relaciones N:M.
+- Consumir la API pública de MusicBrainz para búsqueda de artistas.
+- Aplicar buenas prácticas de seguridad: prepared statements, sanitización XSS, CORS.
+- Desplegar el proyecto con Docker para garantizar reproducibilidad del entorno.
+- Documentar el proyecto de forma coherente con el código real implementado.
 
-### 2.2 Justificación y oportunidad de negocio
+---
 
-La industria de la música generativa con IA tiene un mercado en crecimiento exponencial. Según datos de 2025, el mercado global de IA en música superó los 2.600 millones de dólares. Musify responde a una necesidad real: permitir a personas sin formación musical crear contenido original de calidad.
+## 3. Identificación de necesidades y oportunidad
 
-Diferenciadores clave respecto a la competencia:
-- IA completamente local (Ollama) — sin costes de API por generación
-- Privacidad total: los datos no salen del servidor del usuario
-- Stack ligero y desplegable en cualquier VPS básico
+**Necesidad identificada:** Los usuarios sin formación musical no tienen herramientas accesibles para crear contenido musical propio. Las alternativas existentes son caras (Suno, Udio) o requieren conocimientos técnicos (DAW, MIDI).
 
-### 2.3 Obligaciones fiscales, laborales y PRL
+**Oportunidad:** Una aplicación web gratuita, sin instalación, que genera una letra estructurada a partir de una idea en lenguaje natural, con reproducción por voz del navegador.
 
-Para la puesta en marcha de Musify como empresa real sería necesario:
+**Usuarios objetivo:**
+- Estudiantes y jóvenes creativos.
+- Usuarios que quieren explorar la IA generativa sin coste.
+- Docentes que enseñan creación digital.
 
-- Alta en el IAE (epígrafe 763 — Servicios prestados a las empresas)
-- Alta en la Seguridad Social como autónomo o constitución de SL
-- Cumplimiento del Estatuto de los Trabajadores si hay empleados
-- Evaluación de riesgos laborales conforme a la Ley 31/1995 (PRL)
-- Cumplimiento del RGPD (Reglamento General de Protección de Datos) para el tratamiento de datos de usuarios
-- Política de cookies y aviso legal en la web
+**Modelo de negocio posible (hipotético):** freemium. La versión gratuita genera letra con plantilla local. Una versión premium conectaría con APIs de generación de audio reales (Suno API, Google Lyria). No está implementado en este TFG — se menciona como oportunidad de escalado.
 
-### 2.4 Viabilidad económica y presupuesto
+**Obligaciones legales, fiscales y laborales:**
+Si este proyecto se comercializara, el desarrollador debería darse de alta como autónomo o constituir una SL. Fiscalmente estaría sujeto al IAE (Impuesto de Actividades Económicas), IRPF trimestral y IVA en caso de venta de servicios. Laboralmente, alta en la Seguridad Social como autónomo. Al tratar datos personales (emails, nombres de usuario), la actividad estaría sujeta al Reglamento General de Protección de Datos (RGPD/GDPR).
 
-**Costes de desarrollo estimados:**
+---
+
+## 4. Estudio de viabilidad técnica y económica
+
+**Viabilidad técnica:**
+
+PHP 8.2 es estable, ampliamente documentado y disponible en cualquier servidor Apache. SQLite elimina la necesidad de un servidor de base de datos separado, lo que simplifica el despliegue. Docker garantiza que el entorno es idéntico en cualquier máquina. El proyecto no requiere infraestructura en la nube ni dependencias externas de pago.
+
+| Tecnología | Disponibilidad | Coste | Justificación |
+|---|---|---|---|
+| PHP 8.2 | Alta | Gratis | Estándar del sector para backends web |
+| SQLite | Alta | Gratis | Sin servidor, portabilidad total, suficiente para el volumen del TFG |
+| Docker | Alta | Gratis | Reproducibilidad del entorno, estándar en la industria |
+| MusicBrainz API | Alta | Gratis | API pública sin autenticación ni límites estrictos |
+| Web Speech API | Alta | Gratis | Nativa en navegadores modernos |
+
+**Viabilidad económica:**
 
 | Concepto | Coste |
-|----------|-------|
-| Horas de desarrollo (300h × 25€/h) | 7.500€ |
-| Servidor VPS (12 meses) | 240€ |
-| Dominio y SSL | 25€ |
-| Ollama (IA local) | 0€ |
-| **TOTAL primer año** | **7.765€** |
+|---|---|
+| Hardware de desarrollo (ya disponible) | 0 € |
+| Software (todo open source) | 0 € |
+| APIs externas (MusicBrainz, Web Speech API) | 0 € |
+| Hosting local con Docker | 0 € |
+| Tiempo de desarrollo estimado: ~120 horas | 0 € (proyecto académico) |
+| **Total** | **0 €** |
 
-**Modelo de ingresos (freemium):**
-
-| Plan | Precio | Funciones |
-|------|--------|-----------|
-| Free | 0€/mes | Explorar, 3 canciones/mes |
-| Premium | 9,99€/mes | Generación ilimitada, descarga |
-| Pro | 24,99€/mes | Descarga + uso comercial |
-
-Break-even estimado: **777 usuarios Premium activos**
+En producción real, el coste de hosting oscilaría entre 5 y 20 €/mes en un VPS con Docker.
 
 ---
 
-## 3. Planificación y Metodología
+## 5. Planificación temporal
 
-El proyecto se desarrolló siguiendo una metodología ágil adaptada al ciclo formativo, dividida en fases semanales:
+El proyecto se desarrolló entre finales de mayo y principios de junio de 2026, siguiendo una metodología ágil con entregas incrementales.
 
-**Fase 1 — Identificación (semana 1-2):** Análisis de necesidades, benchmarking de plataformas similares, definición de requisitos funcionales y no funcionales.
+| Semana | Fechas | Fase | Tareas principales |
+|---|---|---|---|
+| 1 | 27-28 mayo | Identificación y Diseño | Análisis de requisitos, diseño de BD, diseño de API, wireframes |
+| 2 | 29-30 mayo | Ejecución (backend) | Config, Database, JWT, auth endpoints, CRUD canciones |
+| 3 | 31 mayo - 1 jun | Ejecución (frontend) | HTML, CSS, JS vanilla, auth.js, app.js, player.js |
+| 4 | 2-3 jun | Ejecución (integración) | MusicBrainz, playlists, favoritos, generate-lyrics, Docker |
+| 5 | 4 jun | Pruebas y cierre | Corrección de bugs, documentación, Git commits, entrega |
 
-**Fase 2 — Diseño (semana 3-4):** Diseño de la arquitectura, modelo entidad-relación, wireframes de la interfaz y flujos de usuario.
+**Hitos principales:**
 
-**Fase 3 — Ejecución (semana 5-10):** Implementación del backend PHP, frontend JavaScript, integración de Ollama y MusicBrainz.
-
-**Fase 4 — Pruebas (semana 11-12):** Validación de funcionalidades, pruebas de seguridad, corrección de errores y ajustes de UX.
-
-### 3.2 Identificación de riesgos
-
-| Riesgo | Probabilidad | Impacto | Mitigación |
-|--------|-------------|---------|-----------|
-| Ollama no disponible en servidor de producción | Media | Alto | Fallback a generación offline simple |
-| Pérdida de datos SQLite | Baja | Crítico | Backup diario automatizado |
-| Vulnerabilidad de seguridad JWT | Media | Alto | Auditoría de código, expiración corta |
-| Problemas de rendimiento con muchos usuarios | Media | Medio | Caché de resultados, paginación |
-
-### 3.3 Protocolo de incidencias
-
-1. **Recopilación:** El usuario reporta el error mediante el formulario de contacto o la consola del servidor
-2. **Análisis:** Se revisan los logs en `/logs/` y se reproduce el error en entorno local
-3. **Solución:** Se aplica el fix en rama separada, se prueba y se hace merge
-4. **Registro:** Se documenta en el CHANGELOG del repositorio
+- Base de datos inicializada con 6 tablas y 4 usuarios seed: 29/05/2026
+- API REST completa (auth + CRUD): 01/06/2026
+- Frontend conectado a API real: 02/06/2026
+- Docker funcional: 03/06/2026
+- Entrega: 04/06/2026
 
 ---
 
-## 4. Tecnologías Empleadas
+## 6. Tecnologías empleadas
 
-**Frontend:** HTML5, CSS3 con sistema de tokens de diseño (variables `:root`), JavaScript Vanilla (ES6+) con módulos IIFE. Diseño editorial con tipografía Instrument Serif (títulos) y JetBrains Mono (datos). Sistema de diseño escalable basado en CSS custom properties.
+**Hardware utilizado:**
+- Ordenador de desarrollo: Windows 11, procesador x64, 16 GB RAM (recomendado para Docker)
+- Navegador: Chrome/Edge para pruebas
 
-**Backend:** PHP 8.3 con arquitectura REST. Sin frameworks. Router propio en `public/index.php` con pattern matching por regex para parámetros dinámicos.
+**Software:**
 
-**Base de Datos:** SQLite 3 para almacenamiento relacional. Esquema con 6 tablas relacionadas: users, songs, playlists, playlist_songs, favorites, ai_lyric_ideas.
-
-**Inteligencia Artificial:** Ollama (Llama 3.2 3B) — ejecutado localmente, sin costes por petición. Fallback automático a generador de plantillas si Ollama no está disponible.
-
-**Síntesis musical:** Web Audio API — genera melodías procedurales por género, con seed reproducible. Sin dependencias externas, funciona 100% en el navegador.
-
-**Diseño de portadas:** Canvas API — diseñador de portadas de álbum con gradientes y tipografía dinámica.
-
-**APIs Externas:** MusicBrainz (búsqueda de artistas — API pública gratuita, llamada directamente desde el navegador aprovechando soporte CORS nativo).
-
-**Seguridad:** JWT (HS256) para autenticación, bcrypt (coste 10) para contraseñas, PBKDF2-SHA256 en cliente, prepared statements en todos los endpoints, DOMPurify para sanitización XSS.
-
-**Control de Versiones:** Git + GitHub (https://github.com/Angelrp2/musify).
+| Tecnología | Versión | Uso |
+|---|---|---|
+| PHP | 8.2 | Backend, API REST |
+| SQLite | 3.x | Base de datos relacional |
+| Apache | 2.4 | Servidor web (en Docker) |
+| Docker | 24+ | Despliegue reproducible |
+| HTML5 | — | Estructura del frontend |
+| CSS3 | — | Diseño y responsividad |
+| JavaScript | ES2020 | Lógica del frontend |
+| JWT (HMAC-SHA256) | — | Autenticación stateless |
+| bcrypt | — | Hash de contraseñas |
+| MusicBrainz API | v2 | Búsqueda de artistas |
+| Web Speech API | — | Lectura de letra con voz |
+| Git | 2.x | Control de versiones |
 
 ---
 
-## 5. Diseño y Arquitectura
+## 7. Diseño y arquitectura
 
-La aplicación sigue una arquitectura cliente-servidor multipágina:
+**Arquitectura cliente-servidor:**
 
-El **frontend** son 16 páginas HTML estáticas servidas por PHP. JavaScript Vanilla gestiona la interactividad mediante tres módulos: `auth.js` (autenticación), `app.js` (lógica de aplicación) y `backend.js` (puente con el API PHP). La comunicación con el backend usa la Fetch API con tokens JWT en cabecera `Authorization`.
-
-El **backend** es un servidor PHP que expone una API REST. El router `public/index.php` mapea rutas a archivos PHP en `api/`. Las rutas no-API devuelven las páginas HTML estáticas directamente.
-
-La **base de datos** SQLite almacena información de usuarios (contraseñas bcrypt), canciones generadas, playlists, favoritos y metadatos de generaciones IA.
-
-**Páginas del proyecto:** index, create, my-songs, song-detail, search, playlists, login, dashboard, profile, settings, generos, changelog, tfg, contacto, aviso-legal, credito (16 páginas).
-
-**Flujo de comunicación:**
 ```
-Usuario → Página HTML (index/create/my-songs/...)
-        → auth.js + app.js + backend.js (JavaScript)
-        → Fetch API → public/index.php (router PHP)
-                    → api/* (endpoints PHP)
-                    → SQLite (datos)
-                    → Ollama /api/generate (IA local)
-        ← JSON Response → actualización del DOM
-        
-        → MusicBrainz API (llamada directa desde JS, CORS nativo)
+[Navegador]
+    |
+    | HTTP/JSON (fetch API)
+    |
+[Apache + PHP 8.2] ← .htaccess (mod_rewrite)
+    |
+    ├── /api/auth/*      → Autenticación JWT
+    ├── /api/songs/*     → CRUD canciones
+    ├── /api/playlists/* → Gestión playlists
+    ├── /api/favorites/* → Gestión favoritos
+    ├── /api/ai/*        → Generación de letra
+    └── /api/musicbrainz → Proxy MusicBrainz
+    |
+[SQLite — musify.db]
 ```
 
-**Sistema de roles:**
+**Flujo de usuario principal:**
 
-| Permiso | admin | editor | premium | user |
-|---------|-------|--------|---------|------|
-| Ver canciones públicas | ✅ | ✅ | ✅ | ✅ |
-| Crear canción | ✅ | ✅ | ✅ | ✅ |
-| Generar con IA | ✅ | ✅ | ✅ | ❌ |
-| Editar canciones propias | ✅ | ✅ | ✅ | ✅ |
-| Editar canciones de otros | ✅ | ✅ | ❌ | ❌ |
-| Eliminar cualquier canción | ✅ | ❌ | ❌ | ❌ |
-| Panel de administración | ✅ | ❌ | ❌ | ❌ |
-| Descargar canciones | ✅ | ✅ | ✅ | ❌ |
+```
+Inicio → Registro/Login → Estudio (crea canción)
+    → Generación de letra (API local)
+    → Guardado en BD
+    → Song Detail (reproduce letra con voz)
+    → Mi Colección (gestiona canciones)
+    → Discover (busca en MusicBrainz)
+    → Playlists / Favoritos
+```
 
----
-
-## 6. Funcionalidades Implementadas
-
-**Autenticación:** Registro e inicio de sesión con tokens JWT (HS256). Contraseñas hasheadas con bcrypt (coste 10) en servidor y PBKDF2-SHA256 en cliente. Middleware `Auth.php` con jerarquía de roles (user=1, premium=2, editor=3, admin=4). Diálogo de auth con validación de fortaleza de contraseña en tiempo real.
-
-**Generación de Letras con IA:** Llama a Ollama (Llama 3.2 3B) local mediante PHP. Animación de pasos durante generación (5 fases). Estados loading / success / error con mensajes contextuales. Fallback automático a generador local de plantillas si Ollama no está disponible. Sanitización del output con DOMPurify contra XSS.
-
-**Síntesis Musical:** Web Audio API genera melodías procedurales en el navegador usando seed por canción (reproducibles). Motor por géneros: Indie folk, Pop, Jazz, Bolero, Hip-hop, Electrónica, Reggaeton, Flamenco, R&B, Rock, Trap, Bossa nova.
-
-**Diseño de Portadas:** Canvas API con gradientes generativos basados en el género y seed de cada canción. Descarga directa como PNG.
-
-**Búsqueda de Artistas (MusicBrainz):** Llamada directa desde el navegador (CORS nativo), sin proxy PHP. Validación con regex antes de enviar. Resultados con país y tipo de artista.
-
-**Gestión de Canciones:** CRUD completo via API REST. Paginación, filtros por género, búsqueda con debounce 350ms y regex, ordenación (más recientes, título A-Z/Z-A).
-
-**Playlists y Favoritos:** Crear playlists, añadir canciones, marcar favoritos.
-
-**Sistema de Roles:** 4 niveles con middleware PHP que bloquea endpoints según jerarquía. Generación con IA requiere rol premium o superior.
-
-**Validaciones:** Objeto `REGEX` en JS con patrones para email, contraseña (min 8 + mayúscula + número), username, nombre, asunto y mensaje. Función `validarCampo()` con feedback visual en tiempo real (borde rojo/verde). Prepared statements en todos los endpoints PHP.
-
-**SEO técnico:** `sitemap.xml` con las 6 rutas principales, `robots.txt` bloqueando `/api/` y `/config/`, meta tags completos, Open Graph, un H1 único por página, jerarquía correcta de encabezados.
+**Enrutado:** el archivo `.htaccess` mapea URLs limpias a archivos PHP. No hay router central — cada endpoint es un archivo PHP independiente con sus propios `require_once`.
 
 ---
 
-## 7. Manual de Usuario
+## 8. Roles y permisos
 
-### Acceso a la aplicación
+El sistema tiene 4 roles. El rol se asigna en el registro y se incluye en el payload del JWT.
 
-Abre `http://localhost:8000` en tu navegador.
+| Rol | Registrar | Crear canciones | Editar canciones ajenas | Eliminar canciones ajenas | Acceso admin |
+|---|---|---|---|---|---|
+| **admin** | — | Sí | Sí | Sí | Sí |
+| **editor** | — | Sí | Sí | No | No |
+| **user** | Sí (rol por defecto) | Sí | No | No | No |
+| **guest** | — | No | No | No | No |
 
-### Registro
+**Usuarios de prueba** (contraseña: `Password123`):
 
-1. Clic en "Registrarse"
-2. Introduce email y contraseña (mínimo 8 caracteres, una mayúscula y un número)
-3. Clic en "Crear cuenta"
+| Email | Rol |
+|---|---|
+| admin@musify.local | admin |
+| editor@musify.local | editor |
+| demo@musify.local | user |
+| guest@musify.local | guest |
 
-### Iniciar sesión
-
-1. Clic en "Iniciar sesión"
-2. Email y contraseña
-3. Clic en "Iniciar sesión"
-
-### Crear una canción
-
-1. Clic en "Crear canción"
-2. Describe la canción (ej: *"rock melancólico sobre la nostalgia de los 90"*)
-3. Selecciona género y mood
-4. Opcionalmente busca artistas relacionados en MusicBrainz
-5. Clic en "Generar canción" — espera el proceso de IA (5-30 segundos)
-6. Personaliza la portada en el diseñador Canvas
-
-### Explorar canciones
-
-- Usa el buscador para encontrar canciones por título o artista
-- Filtra por género con el selector
-- Ordena por fecha, título o popularidad
-- Navega entre páginas con la paginación
-
-### Usuarios de prueba
-
-| Email | Contraseña | Rol |
-|-------|-----------|-----|
-| admin@musify.local | password | admin |
-| editor@musify.local | password | editor |
-| premium@musify.local | password | premium |
-| demo@musify.local | password | user |
+**Protección server-side:** los endpoints de edición y eliminación verifican que `payload['id'] === song['user_id']` o que `payload['role'] === 'admin'`. La verificación de rol admin en el panel de administración es solo client-side (redirige si el rol en localStorage no es admin) — suficiente para un TFG, pero en producción debería verificarse server-side en cada endpoint.
 
 ---
 
-## 8. Documentación Técnica
+## 9. Funcionalidades implementadas
 
-### Endpoints de la API
+| Funcionalidad | Estado | Descripción |
+|---|---|---|
+| Registro e inicio de sesión | Funcional | JWT, bcrypt, modal en todas las páginas |
+| Crear canción con letra | Funcional | Genera letra con plantilla local antes de guardar |
+| Reproducir letra con voz | Funcional | Web Speech API lee línea a línea con sincronización |
+| Mi colección | Funcional | Lista canciones propias con paginación y búsqueda |
+| Detalle de canción | Funcional | Metadatos, letra formateada, reproductor |
+| Discover — canciones públicas | Funcional | Grid con filtro por género (enviado a la API) |
+| Discover — MusicBrainz | Funcional | Búsqueda en tiempo real, resultados en tarjetas |
+| Playlists | Funcional | Crear, listar, añadir canciones |
+| Favoritos | Funcional | Añadir/quitar, conteo en perfil |
+| Perfil | Funcional | Datos del usuario, rol, estadísticas |
+| Panel admin | Funcional | Lista todas las canciones, eliminar cualquiera |
+| Paginación | Funcional | Backend soporta `?page=N&limit=N`, frontend lo consume |
+| Filtros de género | Funcional | Enviados a la API, no solo client-side |
+
+---
+
+## 10. Seguridad y protección de datos
+
+**Medidas de seguridad implementadas:**
+
+| Medida | Implementación |
+|---|---|
+| Hash de contraseñas | `password_hash()` con `PASSWORD_BCRYPT`, coste 10 |
+| Autenticación | JWT firmado con HMAC-SHA256; `hash_equals()` en verificación |
+| Inyección SQL | Prepared statements con PDO en los 16 archivos de endpoints |
+| XSS server-side | `htmlspecialchars(ENT_QUOTES, UTF-8)` en campos de texto antes de guardar |
+| Secret seguro | `JWT_SECRET` en archivo `.env`, fuera del código fuente y del repositorio |
+| CORS | Solo orígenes en `ALLOWED_ORIGINS` reciben headers CORS |
+| Authorization header | `.htaccess` pasa el header con `E=HTTP_AUTHORIZATION` para evitar que Apache lo elimine |
+
+**Protección de datos personales (RGPD):**
+
+El sistema almacena datos personales: nombre de usuario y correo electrónico. En el contexto de este TFG, los datos se usan exclusivamente con fines educativos y no se comparten con terceros. Si el proyecto se desplegara en producción, sería necesario:
+
+- Incluir un aviso de privacidad accesible desde la aplicación.
+- Obtener consentimiento explícito del usuario antes del registro.
+- Garantizar el derecho de supresión de datos (eliminación de cuenta y todos sus datos).
+- Registrar la actividad de tratamiento ante la Agencia Española de Protección de Datos (AEPD).
+
+La página de registro incluye un checkbox de aceptación de condiciones de uso como primer paso hacia el cumplimiento.
+
+---
+
+## 11. Manual de instalación
+
+**Requisitos:** Docker Desktop instalado y en ejecución.
+
+**Pasos:**
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Angelrp2/musify.git
+cd musify
+
+# 2. Crear el archivo de configuración de entorno
+cp .env.example .env
+# Editar .env y cambiar JWT_SECRET por un valor seguro
+
+# 3. Construir y arrancar el contenedor
+docker compose up --build
+
+# 4. Inicializar la base de datos (en otra terminal)
+docker compose exec web php database/init.php
+
+# 5. Acceder a la aplicación
+# Abrir http://localhost:8000 en el navegador
+```
+
+**Para detener:**
+```bash
+docker compose down
+```
+
+---
+
+## 12. Manual de usuario
+
+**Registro:**
+1. Abrir `http://localhost:8000`
+2. Clic en "Entrar" (esquina superior derecha)
+3. Seleccionar "Crear cuenta"
+4. Rellenar usuario, email y contraseña (mín. 8 caracteres, mayúsculas y número)
+5. Aceptar las condiciones y confirmar
+
+**Crear una canción:**
+1. Clic en "Estudio" en el menú
+2. Escribir la idea de la canción en el campo de texto (mín. 8 caracteres)
+3. Opcionalmente, añadir un título (si se deja vacío se genera de las primeras palabras)
+4. Seleccionar el género musical
+5. Seleccionar el ánimo
+6. Clic en "Componer"
+7. La app genera la letra y guarda la canción automáticamente
+
+**Reproducir la letra con voz:**
+1. Abrir una canción desde "Mi colección"
+2. Pulsar el botón de reproducción
+3. El navegador lee la letra línea a línea con la voz del sistema
+
+**Buscar artistas:**
+1. Ir a "Descubrir"
+2. Escribir un artista o canción en el buscador
+3. Los resultados provienen de MusicBrainz en tiempo real
+
+**Gestionar playlists:**
+1. Ir a "Playlists"
+2. Clic en "Nueva playlist", añadir título
+3. Desde el detalle de una canción, añadirla a una playlist existente
+
+---
+
+## 13. Documentación técnica de la API
+
+**Base URL:** `http://localhost:8000`
+
+**Autenticación:** Bearer token en header `Authorization: Bearer <token>`
+
+**Formato de respuesta:**
+```json
+{
+  "success": true,
+  "message": "Éxito",
+  "data": { ... },
+  "timestamp": "2026-06-04 10:00:00"
+}
+```
+
+**Endpoints:**
 
 | Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
-| POST | `/api/auth/register` | ❌ | Registrar usuario |
-| POST | `/api/auth/login` | ❌ | Iniciar sesión |
-| GET | `/api/auth/me` | ✅ | Datos del usuario |
-| GET | `/api/songs/list` | ✅ | Listar canciones |
-| POST | `/api/songs/create` | ✅ | Crear canción |
-| GET | `/api/songs/detail` | ✅ | Detalle de canción |
-| PUT | `/api/songs/update` | ✅ | Actualizar canción |
-| DELETE | `/api/songs/delete` | ✅ | Eliminar canción |
-| GET | `/api/playlists/list` | ✅ | Listar playlists |
-| POST | `/api/playlists/create` | ✅ | Crear playlist |
-| POST | `/api/playlists/add-song` | ✅ | Añadir canción |
-| GET | `/api/favorites/list` | ✅ | Ver favoritos |
-| POST | `/api/favorites/add` | ✅ | Añadir favorito |
-| DELETE | `/api/favorites/remove` | ✅ | Quitar favorito |
-| GET | `/api/musicbrainz` | ❌ | Buscar artistas |
+|---|---|---|---|
+| POST | /api/auth/register | No | Registro. Body: `{username, email, password}` |
+| POST | /api/auth/login | No | Login. Body: `{email, password}`. Devuelve token |
+| GET | /api/auth/me | Bearer | Perfil del usuario activo |
+| POST | /api/auth/logout | Bearer | Logout (stateless) |
+| GET | /api/songs | No | Canciones públicas. Params: `?page, ?limit, ?genre, ?search` |
+| GET | /api/songs?mine=1 | Bearer | Solo canciones del usuario autenticado |
+| POST | /api/songs | Bearer | Crear canción. Body: `{title, description, lyrics, genre, mood, duration_seconds, is_public}` |
+| GET | /api/songs/{id} | Opcional | Detalle de canción |
+| PUT | /api/songs/{id} | Bearer | Actualizar campos de la canción |
+| DELETE | /api/songs/{id} | Bearer | Eliminar canción (owner o admin) |
+| GET | /api/favorites | Bearer | Lista de favoritos del usuario |
+| POST | /api/favorites/add?id={id} | Bearer | Añadir canción a favoritos |
+| DELETE | /api/favorites/remove?id={id} | Bearer | Quitar canción de favoritos |
+| GET | /api/playlists | Bearer | Playlists del usuario |
+| POST | /api/playlists | Bearer | Crear playlist. Body: `{title, description}` |
+| POST | /api/playlists/{id}/songs | Bearer | Añadir canción. Body: `{song_id}` |
+| GET | /api/musicbrainz?q={query} | No | Búsqueda en MusicBrainz |
+| POST | /api/ai/generate-lyrics | Bearer | Generar letra. Body: `{prompt, genre, mood}` |
 
-### Estructura de la base de datos
+---
 
-```sql
-users        (id, username, email, password, role, avatar_url, created_at)
-songs        (id, user_id, title, description, lyrics, genre, mood, audio_url, image_url, is_public, plays, created_at)
-playlists    (id, user_id, title, description, is_public, created_at)
-playlist_songs (id, playlist_id, song_id, position, added_at)
-favorites    (id, user_id, song_id, created_at)
-generations  (id, user_id, song_id, prompt, model_used, status, error_message, created_at)
+## 14. Pruebas realizadas
+
+| # | Caso de prueba | Entrada | Resultado esperado | Resultado obtenido |
+|---|---|---|---|---|
+| 1 | Registro con datos válidos | usuario, email válido, contraseña 8+ chars | HTTP 201, token JWT | ✅ HTTP 201, token recibido |
+| 2 | Registro con email duplicado | email ya existente | HTTP 409, mensaje de conflicto | ✅ HTTP 409, "Usuario o email ya existe" |
+| 3 | Login con credenciales correctas | admin@musify.local / Password123 | HTTP 200, token JWT | ✅ Token recibido, rol admin en payload |
+| 4 | Login con contraseña incorrecta | email correcto, password erróneo | HTTP 401 | ✅ HTTP 401, "Email o contraseña incorrectos" |
+| 5 | Crear canción sin token | POST /api/songs sin Authorization | HTTP 401 | ✅ HTTP 401, "Token inválido o expirado" |
+| 6 | Crear canción con token válido | POST /api/songs con Bearer token | HTTP 201, canción guardada | ✅ HTTP 201, ID de canción devuelto |
+| 7 | Generar letra | POST /api/ai/generate-lyrics con prompt | HTTP 200, lyrics con estrofas | ✅ Letra estructurada con [Verso 1], [Estribillo] |
+| 8 | Listar mis canciones | GET /api/songs?mine=1 con token | Solo canciones del usuario | ✅ Solo devuelve canciones del usuario autenticado |
+| 9 | Filtro por género | GET /api/songs?genre=Pop | Solo canciones Pop | ✅ Total coincide con canciones de género Pop |
+| 10 | Paginación | GET /api/songs?page=1&limit=2 | 2 canciones, metadatos de paginación | ✅ `{page:1, limit:2, total:N, pages:N}` |
+| 11 | Eliminar canción ajena (user) | DELETE /api/songs/{id_ajeno} con token user | HTTP 403 | ✅ HTTP 403, "No tienes permiso" |
+| 12 | Eliminar canción ajena (admin) | DELETE /api/songs/{id_ajeno} con token admin | HTTP 200 | ✅ HTTP 200, eliminada |
+| 13 | Búsqueda MusicBrainz | GET /api/musicbrainz?q=beatles | Array de grabaciones | ✅ 10 resultados con title, artist, date |
+| 14 | Crear playlist | POST /api/playlists con token | HTTP 201, playlist creada | ✅ ID de playlist devuelto |
+| 15 | Token expirado/inválido | Bearer con token manipulado | HTTP 401 | ✅ HTTP 401, "Firma de token inválida" |
+
+---
+
+## 15. Gestión de riesgos
+
+| Riesgo | Probabilidad | Impacto | Medida de prevención |
+|---|---|---|---|
+| API MusicBrainz no responde | Media | Bajo | Try/catch en el endpoint; la app sigue funcionando sin esta función |
+| Pérdida del archivo musify.db | Baja | Alto | `.gitignore` impide commitear la BD; backup manual recomendado; `init.php` recrea la estructura |
+| JWT_SECRET expuesto en código | Baja (corregido) | Alto | Secret en `.env`, fuera del repositorio; `.env.example` documenta la variable sin el valor |
+| Inyección SQL | Baja (prevenido) | Alto | Prepared statements en los 16 archivos de endpoints |
+| XSS almacenado | Baja (prevenido) | Medio | `htmlspecialchars()` en campos de texto antes de guardar en BD |
+| Contenedor Docker no arranca | Baja | Alto | `Dockerfile` incluye todas las dependencias; `docker compose up --build` reconstruye desde cero |
+| Conflicto de puertos (8000 ocupado) | Media | Bajo | Cambiar `ports: "8001:80"` en `docker-compose.yml` |
+
+**Protocolo de incidencias:**
+1. Identificar el síntoma (error en consola, respuesta HTTP incorrecta, contenedor caído).
+2. Comprobar logs: `docker compose logs web`.
+3. Si es error PHP: revisar `logs/php_errors.log` (en modo development los errores se muestran en pantalla).
+4. Si es error de BD: comprobar que `musify.db` existe y tiene las tablas con `docker compose exec web php -r "require '/var/www/html/config/config.php'; require '/var/www/html/config/Database.php'; print_r(Database::getInstance()->getConnection()->query('SELECT name FROM sqlite_master WHERE type=table')->fetchAll());"`.
+5. Si el contenedor no responde: `docker compose down && docker compose up --build`.
+
+---
+
+## 16. Conclusiones
+
+Musify cumple todos los requisitos mínimos del ciclo formativo y añade un elemento diferenciador doble: generación de letra con IA y despliegue con Docker.
+
+Desde el punto de vista técnico, el proyecto demuestra:
+- Diseño e implementación de una API REST con PHP nativo, sin frameworks.
+- Modelado de base de datos relacional con relaciones N:M (playlists-canciones, usuarios-favoritos).
+- Autenticación stateless con JWT y HMAC-SHA256.
+- Integración de API externa (MusicBrainz) con manejo de errores.
+- Despliegue reproducible con Docker que elimina la dependencia de configuración local.
+
+Las principales limitaciones del proyecto, que quedarían como trabajo futuro, son:
+- Generación de audio real (requeriría integración con Suno API o Google Lyria con credenciales de pago).
+- Verificación de rol admin server-side en el panel de administración.
+- Tests automatizados (PHPUnit para backend, Playwright para frontend).
+
+---
+
+## 17. Anexos
+
+### A. Diagrama E-R
+Disponible en `docs/DIAGRAMA_ER.md`.
+
+### B. Script SQL de creación de tablas
+Disponible en `database/init.sql`.
+
+### C. Referencia completa de la API
+Disponible en `docs/API.md`.
+
+### D. Código fuente
+Disponible en el repositorio Git. Historial de commits:
+
+```
+3d6d8e9 fix: eliminar API key hardcodeada
+417e1f2 chore: entrega final TFG
+5c63065 chore: limpieza final — elimina debug.php, añade sitemap/robots, documento completo
+32ea9ea docs: README, memoria y documentación completa
+f38716e feat: Docker para despliegue
+926843c fix: seguridad - sanitización XSS y JWT secret
+f2ac727 feat: buscador, filtros y paginación
+65f8d42 feat: generación de letra con IA
+22c9654 feat: integración MusicBrainz
+6446f19 feat: playlists y favoritos
+b2de616 feat: CRUD completo de canciones
+a36ad0f feat: autenticación JWT con bcrypt
+85d58af feat: estructura base del proyecto y configuración
 ```
 
-### Seguridad implementada
+Repositorio: https://github.com/Angelrp2/musify
 
-- **Contraseñas:** bcrypt con coste 10 (PHP `password_hash`)
-- **Tokens JWT:** firmados con HS256, expiración 7 días
-- **SQL Injection:** prepared statements en todas las consultas
-- **XSS:** sanitización con `htmlspecialchars` en outputs
-- **CORS:** headers restrictivos, solo orígenes permitidos
-- **Headers de seguridad:** X-Frame-Options, X-XSS-Protection, X-Content-Type-Options
+### E. Capturas de pantalla
 
----
+Disponibles en `docs/capturas/`:
 
-## 9. Pruebas Realizadas
-
-| Escenario | Resultado |
-|-----------|-----------|
-| Registro con email duplicado | ✅ Error controlado |
-| Login con credenciales incorrectas | ✅ Error 401 con mensaje |
-| Acceso a endpoint protegido sin token | ✅ Error 401 |
-| Acceso con rol insuficiente | ✅ Error 403 |
-| Creación de canción con datos válidos | ✅ Canción creada |
-| Generación IA con Ollama offline | ✅ Error manejado con mensaje |
-| Búsqueda en MusicBrainz | ✅ Resultados mostrados |
-| Paginación con filtros activos | ✅ Resultados correctos |
-| Formulario con datos inválidos (regex) | ✅ Feedback visual rojo |
-| Vista en móvil 375px | ✅ Sin scroll horizontal |
+| Archivo | Contenido |
+|---|---|
+| `home.png` | Página de inicio |
+| `login.png` | Modal de login |
+| `creacionDeCanciones.png` | Formulario del estudio |
+| `animacion-carga.png` | Estado "generando" |
+| `cancion_Creada.png` | Detalle de canción con letra |
+| `canciones guardadas.png` | Mi colección |
+| `buscador_Canciones_artistas_reales.png` | Discover con MusicBrainz |
+| `playlist.png` | Gestión de playlists |
+| `admin.png` | Panel de administración |
+| `admin-perfil.png` | Perfil de usuario |
+| `necesidad-de-logueo.png` | Control de acceso |
+| `docker.png` | Contenedor Docker en ejecución |
+| `Diagrama_E-R.png` | Diagrama entidad-relación |
 
 ---
 
-## 10. Conclusiones
-
-Musify demuestra cómo la inteligencia artificial puede integrarse de forma práctica en una aplicación web construida con tecnologías fundamentales (PHP + SQL + JS Vanilla), sin depender de frameworks ni servicios de pago.
-
-El proyecto cumple con los requisitos del ciclo formativo:
-- Arquitectura clara con separación frontend/backend
-- API REST completa con autenticación JWT
-- Base de datos relacional con 6 tablas y relaciones
-- Sistema de roles y permisos implementado
-- Integración de IA local (Ollama) y API externa (MusicBrainz)
-- Validaciones con expresiones regulares en cliente y servidor
-- Diseño responsive mobile-first con sistema de variables CSS
-- SEO técnico: sitemap.xml, robots.txt, meta tags, jerarquía de encabezados
-
-La aplicación está lista para demo funcional y puede extenderse con funcionalidades como streaming de audio, colaboración entre usuarios o exportación a plataformas de distribución musical.
-
----
-
-## 11. Anexos
-
-### Diagrama E-R
-
-Ver `docs/DIAGRAMA_ER.md` para el código de dbdiagram.io.
-
-### Schema SQL
-
-Ver `database/init.sql` para el script completo de creación de tablas.
-
-### Manual de identidad de marca
-
-Ver `docs/identidad-marca.md` para paleta de colores, tipografía y guía de uso del logo.
-
-### Capturas de pantalla
-
-Ver `docs/capturas/` para capturas de las principales pantallas.
-
-### Código fuente
-
-Disponible en: https://github.com/Angelrp2/musify
-
----
-
-*Documento de entrega — Musify TFG DAW 2 — DIGITECH 2026*
+*Fin del documento*

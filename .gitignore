@@ -32,15 +32,20 @@ public/uploads/*
 .env
 .env.local
 
-# Generado al correr el servidor — no subir al repo
-public/assets/
-database/musify.db
-logs/
-
-# Config real (usar config.example.php como plantilla)
-config/config.php
-musify/config/config.php
-
 # Node (si se usa)
 node_modules/
 npm-debug.log
+
+# Archivos de Laragon/diagnóstico — no pertenecen al proyecto
+.gga
+.user.ini
+__test__.txt
+
+# Directorios de scaffolding no implementado
+assets/
+backend/
+public/index.old.html
+
+# Capturas (el alumno las añade manualmente)
+docs/capturas/*
+!docs/capturas/.gitkeep

@@ -4,6 +4,11 @@
  * Listar canciones (públicas o del usuario autenticado)
  */
 
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../config/Database.php';
+require_once __DIR__ . '/../../config/JWT.php';
+require_once __DIR__ . '/../../config/Response.php';
+
 try {
     $db = Database::getInstance()->getConnection();
     
@@ -12,10 +17,6 @@ try {
     $limit = $_GET['limit'] ?? ITEMS_PER_PAGE;
     $genre = $_GET['genre'] ?? null;
     $search = $_GET['search'] ?? null;
-    
-    // Validar límites
-    $limit = min(intval($limit), 100);
-    $page = max(1, intval($page));
     $offset = ($page - 1) * $limit;
     
     // Intentar obtener usuario autenticado
@@ -26,34 +27,45 @@ try {
     } catch (Exception $e) {
         // Usuario no autenticado, solo ver públicas
     }
-    
+
+    $mine = !empty($_GET['mine']) && $_GET['mine'] == '1';
+
+    // mine=1 sin sesión → devolver vacío
+    if ($mine && !$currentUserId) {
+        Response::success([
+            'data' => [],
+            'pagination' => ['page' => 1, 'limit' => (int)$limit, 'total' => 0, 'pages' => 0]
+        ]);
+    }
+
     // Construir query
-    $conditions = [];
+    $where = ['(s.is_public = 1'];
     $params = [];
 
-    // Visibilidad
-    if ($currentUserId) {
-        $conditions[] = '(s.is_public = 1 OR s.user_id = ?)';
+    if ($mine && $currentUserId) {
+        $where[0] = '(s.user_id = ?';
         $params[] = $currentUserId;
-    } else {
-        $conditions[] = 's.is_public = 1';
+    } elseif ($currentUserId) {
+        $where[0] = '(s.is_public = 1 OR s.user_id = ?';
+        $params[] = $currentUserId;
     }
-
+    
     if ($genre) {
-        $conditions[] = 's.genre = ?';
+        $where[] = 's.genre = ?';
         $params[] = $genre;
     }
-
+    
     if ($search) {
-        $conditions[] = '(s.title LIKE ? OR u.username LIKE ?)';
+        $where[] = '(s.title LIKE ? OR u.username LIKE ?)';
         $params[] = "%$search%";
         $params[] = "%$search%";
     }
-
-    $whereClause = implode(' AND ', $conditions);
-
+    
+    $whereClause = ')' . (count($where) > 1 ? ' AND ' . implode(' AND ', array_slice($where, 1)) : '');
+    $where[0] .= $whereClause;
+    
     // Contar total
-    $countSql = 'SELECT COUNT(*) as total FROM songs s JOIN users u ON s.user_id = u.id WHERE ' . $whereClause;
+    $countSql = 'SELECT COUNT(*) as total FROM songs s JOIN users u ON s.user_id = u.id WHERE ' . $where[0];
     $countStmt = $db->prepare($countSql);
     $countStmt->execute($params);
     $total = $countStmt->fetch()['total'];
@@ -66,7 +78,7 @@ try {
             u.id as user_id, u.username, u.avatar_url
         FROM songs s
         JOIN users u ON s.user_id = u.id
-        WHERE ' . $whereClause . '
+        WHERE ' . $where[0] . '
         ORDER BY s.created_at DESC
         LIMIT ? OFFSET ?
     ';

@@ -42,11 +42,12 @@ try {
     $db = Database::getInstance()->getConnection();
     
     // Preparar datos
-    $title = trim($data['title']);
-    $description = trim($data['description']);
-    $lyrics = isset($data['lyrics']) ? trim($data['lyrics']) : '';
-    $genre = trim($data['genre']);
-    $mood = isset($data['mood']) ? trim($data['mood']) : 'Neutral';
+    $s = fn($v) => htmlspecialchars(trim((string)$v), ENT_QUOTES, 'UTF-8');
+    $title = $s($data['title']);
+    $description = $s($data['description']);
+    $lyrics = isset($data['lyrics']) ? $s($data['lyrics']) : '';
+    $genre = $s($data['genre']);
+    $mood = isset($data['mood']) ? $s($data['mood']) : 'Neutral';
     $audio_url = isset($data['audio_url']) ? trim($data['audio_url']) : '';
     $cover_image_url = isset($data['cover_image_url']) ? trim($data['cover_image_url']) : '';
     $duration_seconds = isset($data['duration_seconds']) ? intval($data['duration_seconds']) : 0;

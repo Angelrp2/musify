@@ -4,6 +4,11 @@
  * Autenticar usuario
  */
 
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../config/Database.php';
+require_once __DIR__ . '/../../config/JWT.php';
+require_once __DIR__ . '/../../config/Response.php';
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Validaciones

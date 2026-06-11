@@ -1,159 +1,161 @@
-# 🎵 Musify — Plataforma de Creación Musical con IA
+# Musify
 
-[![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?logo=php&logoColor=white)](https://php.net)
-[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://sqlite.org)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org)
-[![JWT](https://img.shields.io/badge/JWT-Auth-000000?logo=jsonwebtokens)](https://jwt.io)
-[![Ollama](https://img.shields.io/badge/IA-Ollama_Llama_3.2-FF6B35)](https://ollama.ai)
-[![License](https://img.shields.io/badge/License-MIT-22c55e)](LICENSE)
+Plataforma web de creación musical. El usuario describe una idea, elige género y ánimo, y la aplicación genera la letra de una canción. Puede guardarla, reproducirla con voz sintetizada, buscar artistas en MusicBrainz y gestionar playlists y favoritos.
 
-> **TFG — Desarrollo de Aplicaciones Web (DAW 2) · DIGITECH · 2026**
-
-Musify es una plataforma web con diseño editorial que permite crear canciones completas de forma asistida por inteligencia artificial. Los usuarios pueden generar letras con **Ollama (IA local)**, sintetizar música con **Web Audio API**, diseñar portadas con **Canvas API** y explorar artistas con **MusicBrainz**.
+TFG DAW — Ángel, DIGITECH 2026.
 
 ---
 
-## Stack Tecnológico
+## Stack
 
-| Capa | Tecnología |
-|------|-----------|
-| Frontend | HTML5 + CSS3 + JavaScript Vanilla (ES6+) |
-| Diseño | Sistema editorial — Instrument Serif + JetBrains Mono |
-| Backend | PHP 8.3 — API REST (sin frameworks) |
-| Base de datos | SQLite 3 (6 tablas relacionadas) |
-| Autenticación | JWT + bcrypt (OWASP PBKDF2) |
-| IA letras | Ollama (Llama 3.2 3B) — local, sin coste |
-| IA música | Web Audio API — síntesis por géneros en el navegador |
-| Portadas | Canvas API — diseñador en el navegador |
-| API externa | MusicBrainz — búsqueda de artistas (CORS nativo) |
+- **Backend:** PHP 8.2, API REST, SQLite
+- **Frontend:** HTML5, CSS3, JavaScript vanilla
+- **Autenticación:** JWT firmado con HMAC-SHA256, contraseñas con bcrypt
+- **Base de datos:** SQLite (6 tablas)
+- **API externa:** MusicBrainz (búsqueda de artistas y canciones)
+- **IA:** Generación de letra con plantilla local
+- **Despliegue:** Docker con Apache
 
 ---
 
-## Instalación
+## Requisitos
 
-### Requisitos
+- Docker Desktop
 
-- PHP 8.3+ con SQLite3 (incluido en Laragon/XAMPP)
-- Ollama (para IA local): https://ollama.ai
-- Navegador moderno (Chrome / Firefox / Edge)
+---
 
-### Pasos
+## Instalación y arranque
 
 ```bash
-# 1. Clonar
-git clone https://github.com/Angelrp2/musify.git && cd musify
-
-# 2. Configurar
-cp config/config.example.php config/config.php
-# Editar config/config.php si es necesario
-
-# 3. Inicializar base de datos (crea tablas + usuarios de prueba)
-php database/init.php
-
-# 4. Instalar modelo IA (opcional — funciona sin él con plantillas locales)
-ollama pull llama3.2
-
-# 5. Arrancar servidor
-cd public && php -S localhost:8000
+git clone <repo>
+cd musify
 ```
 
-Abre `http://localhost:8000`
+Crear el archivo `.env` (copiando `.env.example`) y definir un `JWT_SECRET` propio:
 
----
-
-## Páginas disponibles
-
-| Ruta | Descripción |
-|------|------------|
-| `/` | Portada editorial con tracklist demo |
-| `/create.html` | AI Studio — generar canciones |
-| `/my-songs.html` | Mi colección personal |
-| `/song-detail.html` | Reproductor y detalle de canción |
-| `/search.html` | Búsqueda con filtros y regex |
-| `/playlists.html` | Gestión de playlists |
-| `/login.html` | Inicio de sesión dedicado |
-| `/dashboard.html` | Panel de usuario |
-| `/profile.html` | Perfil de usuario |
-| `/settings.html` | Ajustes de cuenta |
-| `/generos.html` | Catálogo de géneros disponibles |
-| `/changelog.html` | Historial de versiones |
-| `/tfg.html` | Información del TFG |
-| `/contacto.html` | Formulario de contacto con regex |
-| `/aviso-legal.html` | Política de privacidad y RGPD |
-| `/credito.html` | Créditos y tecnologías |
-
----
-
-## Usuarios de Prueba
-
-| Email | Contraseña | Rol |
-|-------|-----------|-----|
-| admin@musify.local | password | admin |
-| editor@musify.local | password | editor |
-| premium@musify.local | password | premium |
-| demo@musify.local | password | user |
-
-## Roles y Permisos
-
-| Permiso | admin | editor | premium | user |
-|---------|-------|--------|---------|------|
-| Ver canciones públicas | ✅ | ✅ | ✅ | ✅ |
-| Crear canción | ✅ | ✅ | ✅ | ✅ |
-| Generar con IA | ✅ | ✅ | ✅ | ❌ |
-| Editar canciones propias | ✅ | ✅ | ✅ | ✅ |
-| Editar canciones de otros | ✅ | ✅ | ❌ | ❌ |
-| Eliminar cualquier canción | ✅ | ❌ | ❌ | ❌ |
-| Panel de administración | ✅ | ❌ | ❌ | ❌ |
-| Descargar canciones | ✅ | ✅ | ✅ | ❌ |
-
----
-
-## API REST
-
-```
-POST   /api/auth/register          Registrar usuario
-POST   /api/auth/login             Iniciar sesión (devuelve JWT)
-GET    /api/auth/me                Datos del usuario autenticado
-
-GET    /api/songs                  Listar canciones (paginación + filtros)
-POST   /api/songs                  Crear canción
-GET    /api/songs/:id              Detalle de canción
-PUT    /api/songs/:id              Actualizar canción
-DELETE /api/songs/:id              Eliminar canción
-
-GET    /api/playlists              Listar playlists
-POST   /api/playlists              Crear playlist
-POST   /api/playlists/add-song     Añadir canción a playlist
-
-GET    /api/favorites              Ver favoritos
-POST   /api/favorites/:songId      Añadir favorito
-DELETE /api/favorites/:songId      Quitar favorito
-
-POST   /api/ai/generate-lyrics     Generar letra con Ollama (req. premium+)
-GET    /api/musicbrainz?q=X        Buscar artistas (MusicBrainz)
+```bash
+cp .env.example .env
+# editar .env y poner: JWT_SECRET=una-clave-larga-y-aleatoria
 ```
 
-Autenticación: `Authorization: Bearer <token>`
+```bash
+docker compose up --build
+```
+
+En otra terminal, inicializar la base de datos:
+
+```bash
+docker compose exec web php database/init.php
+```
+
+Abrir `http://localhost:8000`.
 
 ---
 
-## Características técnicas
+## Usuarios de prueba
 
-- **Diseño editorial** — sistema de tokens CSS (papel crema, tinta, acento tomate), Instrument Serif + JetBrains Mono
-- **IA local con Ollama** — letras sin coste ni latencia externa; fallback a plantillas locales si Ollama no está disponible
-- **Web Audio API** — síntesis musical generativa por género con seed reproducible
-- **Canvas API** — diseñador de portadas de álbum en el navegador
-- **JWT + bcrypt** — autenticación segura (HS256 + PBKDF2-SHA256 en cliente)
-- **Prepared statements** — protección contra SQL injection en todos los endpoints
-- **Expresiones regulares** — validación en cliente (login, registro, contacto, búsqueda) y normalización de texto
-- **Debounce** — búsqueda en tiempo real sin sobrecarga de peticiones
-- **Estados loading/error/success** — feedback visual durante generación IA (animación por pasos)
-- **Sistema de roles** — 4 niveles (admin/editor/premium/user) con middleware PHP
-- **SEO técnico** — sitemap.xml, robots.txt, meta tags, Open Graph, un H1 por página
-- **16 páginas** — estructura multipágina completa con navegación coherente
+Contraseña para todos: `Password123`
+
+| Usuario | Email | Rol | Permisos |
+|---------|-------|-----|----------|
+| admin | admin@musify.local | admin | Gestión total — usuarios y canciones |
+| editor | editor@musify.local | editor | Crear y editar canciones propias y ajenas |
+| demo_user | demo@musify.local | user | Crear canciones propias, playlists, favoritos |
+| guest | guest@musify.local | guest | Solo lectura |
 
 ---
 
-## Licencia
+## Estructura del proyecto
 
-MIT © 2026 Ángel Ríos — TFG DAW 2 DIGITECH
+```
+musify/
+├── api/
+│   ├── auth/          → login.php, register.php, me.php, logout.php
+│   ├── songs/         → list.php, create.php, detail.php, update.php, delete.php, generate.php
+│   ├── playlists/     → list.php, create.php, add-song.php
+│   ├── favorites/     → list.php, add.php, remove.php
+│   ├── ai/            → generate-lyrics.php
+│   └── musicbrainz.php
+├── config/
+│   ├── config.php     → constantes y carga de .env
+│   ├── Database.php   → singleton PDO SQLite
+│   ├── JWT.php        → encode/decode/verify HMAC-SHA256
+│   └── Response.php   → helper respuestas JSON
+├── database/
+│   ├── init.sql       → schema (6 tablas) + datos seed
+│   ├── init.php       → ejecuta init.sql
+│   └── musify.db      → archivo SQLite (no versionar)
+├── css/style.css
+├── js/
+│   ├── auth.js        → login, registro, JWT
+│   ├── app.js         → lógica de páginas
+│   └── player.js      → reproductor + Web Speech API
+├── index.html
+├── create.html
+├── my-songs.html
+├── song-detail.html
+├── discover.html
+├── playlists.html
+├── profile.html
+├── admin.html
+├── .htaccess          → enrutado Apache
+├── .env               → JWT_SECRET (no versionar)
+├── .env.example
+├── Dockerfile
+└── docker-compose.yml
+```
+
+---
+
+## API — endpoints
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|------|-------------|
+| POST | /api/auth/register | No | Registro de usuario |
+| POST | /api/auth/login | No | Login, devuelve JWT |
+| GET | /api/auth/me | Bearer | Perfil del usuario activo |
+| POST | /api/auth/logout | Bearer | Logout (stateless) |
+| GET | /api/songs | No | Canciones públicas (soporta ?page, ?limit, ?genre, ?search) |
+| GET | /api/songs?mine=1 | Bearer | Canciones propias del usuario |
+| POST | /api/songs | Bearer | Crear canción |
+| GET | /api/songs/{id} | Opcional | Detalle de canción |
+| PUT | /api/songs/{id} | Bearer | Actualizar canción propia |
+| DELETE | /api/songs/{id} | Bearer | Eliminar canción propia |
+| GET | /api/favorites | Bearer | Favoritos del usuario |
+| POST | /api/favorites/add?id={id} | Bearer | Añadir a favoritos |
+| DELETE | /api/favorites/remove?id={id} | Bearer | Quitar de favoritos |
+| GET | /api/playlists | Bearer | Playlists del usuario |
+| POST | /api/playlists | Bearer | Crear playlist |
+| POST | /api/playlists/{id}/songs | Bearer | Añadir canción a playlist |
+| GET | /api/musicbrainz?q={query} | No | Búsqueda en MusicBrainz |
+| POST | /api/ai/generate-lyrics | Bearer | Generar letra con plantilla local |
+
+---
+
+## Base de datos — 6 tablas
+
+1. **users** — id, username, email, password_hash, bio, avatar_url, role, is_public, created_at, updated_at
+2. **songs** — id, user_id, title, description, lyrics, audio_url, cover_image_url, genre, mood, duration_seconds, is_public, created_at, updated_at
+3. **playlists** — id, user_id, title, description, cover_image_url, is_public, created_at, updated_at
+4. **playlist_songs** — id, playlist_id, song_id, position, added_at
+5. **favorites** — id, user_id, song_id, created_at
+6. **ai_lyric_ideas** — id, user_id, prompt, generated_lyrics, model, created_at
+
+Diagrama E-R completo en `docs/DIAGRAMA_ER.md`.
+
+---
+
+## Seguridad
+
+- Contraseñas con `password_hash()` bcrypt
+- JWT con firma HMAC-SHA256, sin aceptar algoritmo `none`
+- `JWT_SECRET` en `.env`, fuera del código fuente
+- Prepared statements en todas las consultas SQL
+- `htmlspecialchars()` en campos de texto antes de guardar en BD
+- Header `Authorization` pasado a PHP vía `E=HTTP_AUTHORIZATION` en `.htaccess`
+
+---
+
+## Autor
+
+Ángel — TFG DAW, DIGITECH 2026

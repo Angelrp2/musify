@@ -1,0 +1,54 @@
+Options -Indexes
+DirectorySlash Off
+RewriteEngine On
+
+# Pasar el header Authorization a PHP (Apache lo strips por defecto)
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Archivos reales — servir directamente (css, js, html, imágenes)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# ── Auth ────────────────────────────────────────────────────────
+RewriteRule ^api/auth/login/?$    api/auth/login.php    [L]
+RewriteRule ^api/auth/register/?$ api/auth/register.php [L]
+RewriteRule ^api/auth/me/?$       api/auth/me.php       [L]
+RewriteRule ^api/auth/logout/?$   api/auth/logout.php   [L]
+
+# ── Songs ────────────────────────────────────────────────────────
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^api/songs/?$         api/songs/list.php    [L]
+
+RewriteCond %{REQUEST_METHOD} POST
+RewriteRule ^api/songs/?$         api/songs/create.php  [L]
+
+RewriteRule ^api/songs/generate/?$ api/songs/generate.php [L]
+
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^api/songs/([0-9]+)/?$ api/songs/detail.php?id=$1 [L,QSA]
+
+RewriteCond %{REQUEST_METHOD} PUT
+RewriteRule ^api/songs/([0-9]+)/?$ api/songs/update.php?id=$1 [L,QSA]
+
+RewriteCond %{REQUEST_METHOD} DELETE
+RewriteRule ^api/songs/([0-9]+)/?$ api/songs/delete.php?id=$1 [L,QSA]
+
+# ── Favorites ────────────────────────────────────────────────────
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^api/favorites/?$     api/favorites/list.php [L]
+
+RewriteRule ^api/favorites/add/?$    api/favorites/add.php    [L]
+RewriteRule ^api/favorites/remove/?$ api/favorites/remove.php [L]
+
+# ── Playlists ────────────────────────────────────────────────────
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^api/playlists/?$     api/playlists/list.php   [L]
+
+RewriteCond %{REQUEST_METHOD} POST
+RewriteRule ^api/playlists/?$     api/playlists/create.php [L]
+
+RewriteRule ^api/playlists/([0-9]+)/songs/?$ api/playlists/add-song.php?id=$1 [L,QSA]
+
+# ── MusicBrainz / AI ────────────────────────────────────────────
+RewriteRule ^api/musicbrainz/?$       api/musicbrainz.php        [L,QSA]
+RewriteRule ^api/ai/generate-lyrics/?$ api/ai/generate-lyrics.php [L]

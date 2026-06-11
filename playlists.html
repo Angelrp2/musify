@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musify · Playlists</title>
+<meta name="description" content="Tus playlists de Musify.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen-label="06 Playlists">
+
+<div class="shell">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead" role="banner">
+    <div class="container masthead__row">
+      <a class="wordmark" href="index.html" aria-label="Musify, inicio">
+        Musify<span class="wordmark__dot" aria-hidden="true"></span>
+        <span class="wordmark__sub" aria-hidden="true">Vol. 07 · 2026</span>
+      </a>
+      <p class="masthead__meta">Playlists · Tu biblioteca</p>
+      <nav class="nav" aria-label="Principal">
+        <ul class="nav__links" data-nav-links>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="create.html">Estudio</a></li>
+          <li><a href="my-songs.html">Mi colección</a></li>
+          <li><a href="discover.html">Descubrir</a></li>
+          <li><a href="playlists.html" aria-current="page">Playlists</a></li>
+          <li><a href="profile.html">Perfil</a></li>
+          <li>
+            <button class="nav__account" type="button" data-account-btn aria-label="Entrar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                <polyline points="10 17 15 12 10 7"/>
+                <line x1="15" y1="12" x2="3" y2="12"/>
+              </svg>
+              Entrar
+            </button>
+          </li>
+        </ul>
+        <button class="nav__toggle" type="button" data-nav-toggle aria-label="Abrir menú">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container section" aria-labelledby="playlists-title">
+
+      <header class="section__head section__head--row">
+        <div>
+          <p class="section__num">N.º 01 · Biblioteca</p>
+          <h1 id="playlists-title">Tus <em class="italic-display">playlists</em></h1>
+        </div>
+        <button class="btn btn--ink" id="new-playlist-btn" type="button" hidden>
+          Nueva playlist
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+      </header>
+
+      <!-- Mensaje sin sesión -->
+      <div id="auth-gate" hidden>
+        <div class="empty">
+          <div class="empty__art" aria-hidden="true"></div>
+          <h3>Acceso <em class="italic-display">restringido</em></h3>
+          <p>Inicia sesión para ver tus playlists.</p>
+          <button class="btn btn--hot btn--big" id="signin-btn" type="button">Iniciar sesión</button>
+        </div>
+      </div>
+
+      <!-- Estado de carga -->
+      <div id="playlists-loading" hidden style="text-align: center; padding: var(--s-7) 0;">
+        <span class="spinner" aria-label="Cargando playlists..."></span>
+        <p style="margin-top: var(--s-3); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase;">Cargando playlists…</p>
+      </div>
+
+      <!-- Formulario nueva playlist (inline, oculto por defecto) -->
+      <form id="new-playlist-form" hidden style="margin-bottom: var(--s-6); padding: var(--s-5); border: 1.5px solid var(--ink); background: var(--paper-2);">
+        <p class="section__num" style="margin-bottom: var(--s-3);">Nueva playlist</p>
+        <div style="display: flex; gap: var(--s-3); align-items: flex-end; flex-wrap: wrap;">
+          <div class="field" style="flex: 1; min-width: 200px;">
+            <label class="field__label" for="playlist-title">Nombre de la playlist</label>
+            <input class="input" type="text" id="playlist-title" name="title" required placeholder="Ej.: Sesión de tarde" autocomplete="off">
+          </div>
+          <button class="btn btn--hot" type="submit" id="create-playlist-btn">
+            Crear
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+          <button class="btn btn--ghost" type="button" id="cancel-playlist-btn">Cancelar</button>
+        </div>
+        <span class="field__error" id="playlist-form-error" aria-live="polite" style="margin-top: var(--s-2); display: block;"></span>
+      </form>
+
+      <!-- Lista de playlists -->
+      <div id="playlists-list" class="discover__grid" role="list" aria-label="Tus playlists" hidden></div>
+
+      <!-- Empty state -->
+      <div id="playlists-empty" hidden>
+        <div class="empty">
+          <div class="empty__art" aria-hidden="true"></div>
+          <h3>Sin playlists <em class="italic-display">todavía</em></h3>
+          <p>Crea tu primera playlist con el botón de arriba y empieza a organizar tus canciones.</p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="colophon" role="contentinfo">
+    <div class="container">
+      <div class="colophon__inner">
+        <div class="colophon__brand">
+          Musi<em>fy</em><br>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);">2026 — Estudio editorial digital</span>
+        </div>
+        <div>
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="create.html">Estudio</a></li>
+            <li><a href="my-songs.html">Mi colección</a></li>
+            <li><a href="playlists.html">Playlists</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sobre el proyecto</h4>
+          <ul>
+
+            <li><a href="#">Aviso legal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container colophon__legal">
+        <span>© 2026 Musify · Hecho con cuidado en Madrid</span>
+        <span>Edición Vol. 07</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Librerías estándar de industria — validación y sanitización -->
+<script src="https://cdn.jsdelivr.net/npm/validator@13.12.0/validator.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/app.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  const authGate        = document.getElementById('auth-gate');
+  const playlistsLoad   = document.getElementById('playlists-loading');
+  const playlistsList   = document.getElementById('playlists-list');
+  const playlistsEmpty  = document.getElementById('playlists-empty');
+  const newBtn          = document.getElementById('new-playlist-btn');
+  const newForm         = document.getElementById('new-playlist-form');
+  const cancelBtn       = document.getElementById('cancel-playlist-btn');
+  const signinBtn       = document.getElementById('signin-btn');
+  const formError       = document.getElementById('playlist-form-error');
+  const titleInput      = document.getElementById('playlist-title');
+
+  function sanitize(str) {
+    return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(str) : String(str);
+  }
+
+  function renderPlaylistCard(playlist) {
+    const name  = sanitize(playlist.name || playlist.title || 'Sin nombre');
+    const count = playlist.song_count ?? playlist.songs_count ?? (Array.isArray(playlist.songs) ? playlist.songs.length : 0);
+    const id    = sanitize(String(playlist.id || ''));
+
+    const li = document.createElement('li');
+    li.className = 'discover__card';
+    li.setAttribute('role', 'listitem');
+    li.innerHTML = `
+      <p class="discover__card-title">${name}</p>
+      <p class="discover__card-meta">${count} canción${count !== 1 ? 'es' : ''}</p>
+      <a class="btn btn--ghost" href="#playlist-${id}" style="margin-top: var(--s-3); font-size: 0.75rem;">Ver canciones</a>
+    `;
+    return li;
+  }
+
+  async function loadPlaylists() {
+    playlistsLoad.hidden = false;
+    playlistsList.hidden = true;
+    playlistsEmpty.hidden = true;
+
+    try {
+      const token = window.MusifyAuth.getToken();
+      const res   = await fetch('/api/playlists', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error('Error ' + res.status);
+      const data  = await res.json();
+      const items = (data.data && data.data.playlists) || data.playlists || [];
+
+      playlistsLoad.hidden = true;
+
+      if (!Array.isArray(items) || items.length === 0) {
+        playlistsEmpty.hidden = false;
+        return;
+      }
+
+      playlistsList.innerHTML = '';
+      items.forEach(p => playlistsList.appendChild(renderPlaylistCard(p)));
+      playlistsList.hidden = false;
+    } catch (err) {
+      playlistsLoad.hidden = true;
+      playlistsEmpty.hidden = false;
+    }
+  }
+
+  function showAuthGate() {
+    authGate.hidden = false;
+    playlistsLoad.hidden = true;
+    playlistsList.hidden = true;
+    playlistsEmpty.hidden = true;
+    newBtn.hidden = true;
+  }
+
+  function showContent() {
+    authGate.hidden = true;
+    newBtn.hidden = false;
+    loadPlaylists();
+  }
+
+  // Toggle form
+  newBtn.addEventListener('click', () => {
+    newForm.hidden = false;
+    newBtn.hidden = true;
+    titleInput.focus();
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    newForm.hidden = true;
+    newBtn.hidden = false;
+    formError.textContent = '';
+    titleInput.value = '';
+  });
+
+  newForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const title = titleInput.value.trim();
+    if (!title) {
+      formError.textContent = 'El nombre no puede estar vacío.';
+      return;
+    }
+    formError.textContent = '';
+
+    const submitBtn = document.getElementById('create-playlist-btn');
+    submitBtn.disabled = true;
+
+    try {
+      const token = window.MusifyAuth.getToken();
+      const res   = await fetch('/api/playlists', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ title })
+      });
+      if (!res.ok) throw new Error('Error ' + res.status);
+
+      titleInput.value = '';
+      newForm.hidden = true;
+      newBtn.hidden = false;
+      if (window.MusifyToast) window.MusifyToast.show('Playlist creada', 'success');
+      await loadPlaylists();
+    } catch (err) {
+      formError.textContent = 'No se pudo crear la playlist. Inténtalo de nuevo.';
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  signinBtn && signinBtn.addEventListener('click', () => {
+    if (window.MusifyAuth) window.MusifyAuth.open();
+  });
+
+  // Init — wait for auth.js to be ready
+  window.addEventListener('load', function () {
+    if (!window.MusifyAuth || !window.MusifyAuth.isSignedIn()) {
+      showAuthGate();
+      // Listen for sign-in
+      window.addEventListener('musify:signed-in', showContent);
+    } else {
+      showContent();
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -62,13 +62,21 @@ class JWT {
     }
     
     public static function getTokenFromHeader() {
-        $headers = getallheaders();
-        $auth_header = $headers['Authorization'] ?? '';
-        
-        if (preg_match('/Bearer\s+(.+)/', $auth_header, $matches)) {
-            return $matches[1];
+        $auth_header = '';
+
+        if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+            $auth_header = $_SERVER['HTTP_AUTHORIZATION'];
+        } elseif (!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            $auth_header = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+        } else {
+            $headers = function_exists('getallheaders') ? getallheaders() : [];
+            $auth_header = $headers['Authorization'] ?? $headers['authorization'] ?? '';
         }
-        
+
+        if (preg_match('/Bearer\s+(.+)/i', $auth_header, $matches)) {
+            return trim($matches[1]);
+        }
+
         return null;
     }
     

@@ -4,6 +4,11 @@
  * Registrar nuevo usuario
  */
 
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../config/Database.php';
+require_once __DIR__ . '/../../config/JWT.php';
+require_once __DIR__ . '/../../config/Response.php';
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Validaciones
@@ -14,9 +19,8 @@ if (empty($data['username']) || strlen($data['username']) < 3) {
 if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
     $errors['email'] = 'Email inválido';
 }
-if (empty($data['password']) || strlen($data['password']) < 8 || 
-    !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/', $data['password'])) {
-    $errors['password'] = 'Contraseña debe tener mínimo 8 caracteres, una mayúscula y un número';
+if (empty($data['password']) || strlen($data['password']) < 6) {
+    $errors['password'] = 'Contraseña debe tener al menos 6 caracteres';
 }
 
 if (!empty($errors)) {
@@ -35,6 +39,8 @@ try {
     }
     
     // Crear usuario
+    $s = fn($v) => htmlspecialchars(trim((string)$v), ENT_QUOTES, 'UTF-8');
+    $data['username'] = $s($data['username']);
     $passwordHash = password_hash($data['password'], PASSWORD_BCRYPT);
     
     $stmt = $db->prepare('

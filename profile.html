@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musify · Perfil</title>
+<meta name="description" content="Tu perfil en Musify.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen-label="07 Perfil">
+
+<div class="shell">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead" role="banner">
+    <div class="container masthead__row">
+      <a class="wordmark" href="index.html" aria-label="Musify, inicio">
+        Musify<span class="wordmark__dot" aria-hidden="true"></span>
+        <span class="wordmark__sub" aria-hidden="true">Vol. 07 · 2026</span>
+      </a>
+      <p class="masthead__meta">Perfil · Cuenta</p>
+      <nav class="nav" aria-label="Principal">
+        <ul class="nav__links" data-nav-links>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="create.html">Estudio</a></li>
+          <li><a href="my-songs.html">Mi colección</a></li>
+          <li><a href="discover.html">Descubrir</a></li>
+          <li><a href="playlists.html">Playlists</a></li>
+          <li><a href="profile.html" aria-current="page">Perfil</a></li>
+          <li>
+            <button class="nav__account" type="button" data-account-btn aria-label="Entrar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                <polyline points="10 17 15 12 10 7"/>
+                <line x1="15" y1="12" x2="3" y2="12"/>
+              </svg>
+              Entrar
+            </button>
+          </li>
+        </ul>
+        <button class="nav__toggle" type="button" data-nav-toggle aria-label="Abrir menú">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container section" aria-labelledby="profile-title">
+
+      <!-- Estado de carga -->
+      <div id="profile-loading" style="text-align: center; padding: var(--s-9) 0;">
+        <span class="spinner" aria-label="Cargando perfil..."></span>
+        <p style="margin-top: var(--s-3); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase;">Cargando perfil…</p>
+      </div>
+
+      <!-- Contenido del perfil -->
+      <div id="profile-content" hidden>
+
+        <header class="section__head">
+          <p class="section__num">N.º 01 · Cuenta</p>
+          <h1 id="profile-title">
+            Hola, <em class="italic-display" id="profile-username">—</em>
+          </h1>
+        </header>
+
+        <!-- Info básica -->
+        <div style="display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; margin-bottom: var(--s-7);">
+          <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-soft);" id="profile-email">—</p>
+          <span class="tag" id="profile-role-badge">—</span>
+        </div>
+
+        <!-- Stats -->
+        <div class="hero__pulse" aria-label="Tus estadísticas" style="margin-top: 0; margin-bottom: var(--s-7);">
+          <div class="hero__stat">
+            <span class="num" id="stat-songs">—</span>
+            <span class="lab">Canciones creadas</span>
+          </div>
+          <div class="hero__stat">
+            <span class="num" id="stat-favorites">—</span>
+            <span class="lab">Favoritas</span>
+          </div>
+          <div class="hero__stat">
+            <span class="num" id="stat-role">—</span>
+            <span class="lab">Rol</span>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="divider"></div>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-6);">
+          <a class="btn btn--ink" href="create.html">Ir al estudio</a>
+          <a class="btn btn--ghost" href="my-songs.html">Mi colección</a>
+          <button class="btn" id="logout-btn" type="button" style="margin-left: auto; border-color: var(--error); color: var(--error);">
+            Cerrar sesión
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="colophon" role="contentinfo">
+    <div class="container">
+      <div class="colophon__inner">
+        <div class="colophon__brand">
+          Musi<em>fy</em><br>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);">2026 — Estudio editorial digital</span>
+        </div>
+        <div>
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="create.html">Estudio</a></li>
+            <li><a href="my-songs.html">Mi colección</a></li>
+            <li><a href="profile.html">Perfil</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sobre el proyecto</h4>
+          <ul>
+
+            <li><a href="#">Aviso legal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container colophon__legal">
+        <span>© 2026 Musify · Hecho con cuidado en Madrid</span>
+        <span>Edición Vol. 07</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Librerías estándar de industria — validación y sanitización -->
+<script src="https://cdn.jsdelivr.net/npm/validator@13.12.0/validator.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/app.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  const ROLE_LABELS = {
+    admin:  'Admin',
+    editor: 'Editor',
+    user:   'Usuario',
+    guest:  'Invitado'
+  };
+
+  function sanitize(str) {
+    return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(str) : String(str);
+  }
+
+  function setRoleBadge(role) {
+    const badge = document.getElementById('profile-role-badge');
+    const label = sanitize(ROLE_LABELS[role] || role || '—');
+    badge.textContent = label;
+    if (role === 'admin') {
+      badge.style.color = 'var(--hot)';
+      badge.style.borderColor = 'var(--hot)';
+    } else if (role === 'editor') {
+      badge.style.color = 'var(--cool)';
+      badge.style.borderColor = 'var(--cool)';
+    } else {
+      badge.style.color = 'var(--ink-mute)';
+      badge.style.borderColor = 'var(--ink-mute)';
+    }
+  }
+
+  async function loadProfile() {
+    // Auth guard — redirect if not signed in
+    if (!window.MusifyAuth || !window.MusifyAuth.isSignedIn()) {
+      window.location.href = 'index.html';
+      return;
+    }
+
+    const token = window.MusifyAuth.getToken();
+    const profileLoad    = document.getElementById('profile-loading');
+    const profileContent = document.getElementById('profile-content');
+
+    try {
+      // Fetch user info
+      const meRes  = await fetch('/api/auth/me', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!meRes.ok) {
+        // Token invalid — redirect to home
+        window.location.href = 'index.html';
+        return;
+      }
+      const meData = await meRes.json();
+      const user   = meData.user || meData.data || meData;
+
+      document.getElementById('profile-username').textContent = sanitize(user.username || user.name || 'Tú');
+      document.getElementById('profile-email').textContent    = sanitize(user.email || '—');
+      document.getElementById('stat-role').textContent        = sanitize(ROLE_LABELS[user.role] || user.role || '—');
+      setRoleBadge(user.role);
+
+      // Fetch song count
+      const songsRes = await fetch('/api/songs', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (songsRes.ok) {
+        const songsData = await songsRes.json();
+        const total = songsData.total ?? songsData.pagination?.total ?? (Array.isArray(songsData.songs || songsData.data) ? (songsData.songs || songsData.data).length : 0);
+        document.getElementById('stat-songs').textContent = sanitize(String(total));
+      }
+
+      // Fetch favorites count
+      const favRes = await fetch('/api/favorites', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (favRes.ok) {
+        const favData = await favRes.json();
+        const favTotal = favData.total ?? favData.pagination?.total ?? (Array.isArray(favData.favorites || favData.data) ? (favData.favorites || favData.data).length : 0);
+        document.getElementById('stat-favorites').textContent = sanitize(String(favTotal));
+      } else {
+        document.getElementById('stat-favorites').textContent = '—';
+      }
+
+      profileLoad.hidden = true;
+      profileContent.hidden = false;
+    } catch (err) {
+      profileLoad.hidden = true;
+      if (window.MusifyToast) window.MusifyToast.show('Error al cargar el perfil', 'error');
+    }
+  }
+
+  // Logout
+  document.getElementById('logout-btn').addEventListener('click', function () {
+    localStorage.removeItem('musify.token');
+    localStorage.removeItem('musify.user');
+    window.location.href = 'index.html';
+  });
+
+  window.addEventListener('load', loadProfile);
+})();
+</script>
+</body>
+</html>
