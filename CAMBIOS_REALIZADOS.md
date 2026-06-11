@@ -31,6 +31,7 @@ Resumen rápido de qué se tocó después de la entrega, para tenerlo a mano si 
 - `GUION_PRESENTACION.md` — guion hablado con tiempos y orden de la demo.
 - `README.md` — sección "Instalación y arranque" actualizada para incluir el paso de crear `.env`/`JWT_SECRET` (faltaba, ya estaba en `DOCUMENTO_ENTREGA_FINAL.md` pero no en el README).
 - `DOCUMENTO_ENTREGA_FINAL.docx` — versión formateada (títulos, tablas con color, saltos de página) del documento de entrega, lista para imprimir/encuadernar.
+- `DOCUMENTO_ENTREGA_FINAL.pdf` — **este es el que hay que fotocopiar/encuadernar**, generado a partir del .docx anterior.
 
 ## En una frase, si preguntan
 
